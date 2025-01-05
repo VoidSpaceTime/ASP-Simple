@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace CommonsInitializer
         public static DbContextOptionsBuilder<TDbContext> Create<TDbContext>()
             where TDbContext : DbContext
         {
-            var connStr = Environment.GetEnvironmentVariable("DefaultDB:ConnStr");
+            var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
             //optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=YouzackVNextDB;User ID=sa;Password=dLLikhQWy5TBz1uM;");
             optionsBuilder.UseSqlServer(connStr);
@@ -20,4 +21,17 @@ namespace CommonsInitializer
         }
     }
 
+
+    public class DbContextFactory : IDbContextFactory<DbContext>
+    {
+        public DbContext CreateDbContext()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+            var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+            optionsBuilder.UseSqlServer(connStr);
+            return new DbContext(optionsBuilder.Options);
+        }
+    }
+
 }
+

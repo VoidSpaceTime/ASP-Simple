@@ -1,12 +1,15 @@
 ﻿using IdentityServiceDomain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-//using InfrastructureCommons.EFCore;
+using Microsoft.EntityFrameworkCore.Design;
+using CommonsInitializer;
+using Microsoft.EntityFrameworkCore;
+using Infrastructure;
 
 
 namespace IdentityServiceInfrastructure
 {
-    public class IdDbContext :  IdentityDbContext<User, Role, Guid> 
+    public class IdDbContext : IdentityDbContext<User, Role, Guid>
     {
         public IdDbContext(DbContextOptions<IdDbContext> options)
     : base(options)
@@ -18,6 +21,29 @@ namespace IdentityServiceInfrastructure
             base.OnModelCreating(modelBuilder);
             //modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             //modelBuilder.EnableSoftDeletionGlobalFilter();
+
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            base.OnConfiguring(optionsBuilder);
+            var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+            optionsBuilder.UseSqlServer(connStr);
+            //optionsBuilder.UseSqlServer("Server=.;Database=Demo1;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;");
+        }
+    }
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<IdDbContext>
+    {
+
+        public IdDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = DbContextOptionsBuilderFactory.Create<IdDbContext>();
+
+
+            return new IdDbContext(optionsBuilder.Options);
         }
     }
 }
+
+// Add-Migration
+// Update-Database

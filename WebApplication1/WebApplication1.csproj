@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IdentityServiceDomain\IdentityServiceDomain.csproj" />
+    <ProjectReference Include="..\IdentityServiceInfrastructure\IdentityServiceInfrastructure.csproj" />
   </ItemGroup>
 
 </Project>
