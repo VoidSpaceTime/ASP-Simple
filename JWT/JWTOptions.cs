@@ -1,4 +1,4 @@
-﻿namespace JWTCommons
+﻿namespace JWT
 {
     public class JWTOptions
     {

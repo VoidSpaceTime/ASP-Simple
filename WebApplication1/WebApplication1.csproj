@@ -12,8 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonsInitializer\CommonsInitializer.csproj" />
     <ProjectReference Include="..\IdentityServiceDomain\IdentityServiceDomain.csproj" />
     <ProjectReference Include="..\IdentityServiceInfrastructure\IdentityServiceInfrastructure.csproj" />
+    <ProjectReference Include="..\JWT\JWT.csproj" />
   </ItemGroup>
 
 </Project>

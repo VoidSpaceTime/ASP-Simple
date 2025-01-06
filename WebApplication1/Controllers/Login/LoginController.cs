@@ -4,6 +4,7 @@ using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
 
@@ -19,6 +20,29 @@ namespace WebApplication1.Controllers.Login
             this.idService = idService;
             this.repository = repository;
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> CreateWorld()
+        {
+            if (await repository.FindByNameAsync("admin") != null)
+            {
+                return StatusCode((int)HttpStatusCode.Conflict, "已经初始化过了");
+            }
+            User user = new User("admin");
+            var r = await repository.CreateAsync(user, "123456");
+            Debug.Assert(r.Succeeded);
+            var token = await repository.GenerateChangePhoneNumberTokenAsync(user, "18918999999");
+            var cr = await repository.ChangePhoneNumAsync(user.Id, "18918999999", token);
+            Debug.Assert(cr.Succeeded);
+            r = await repository.AddToRoleAsync(user, "User");
+            Debug.Assert(r.Succeeded);
+            r = await repository.AddToRoleAsync(user, "Admin");
+            Debug.Assert(r.Succeeded);
+            return Ok();
+        }
+
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<UserResponse>> GetUserInfo()

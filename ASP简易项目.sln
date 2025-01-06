@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5150A992-CF52-4888-A173-0214C170CE79}"
 EndProject
@@ -54,6 +54,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{5150A992-CF52-4888-A173-0214C170CE79} = {BC5B00CB-3E72-432E-9F33-6082B73192E8}
 		{4D318FFF-FD47-42EB-A8C5-64D99B3F87BB} = {477D6E66-D9B5-41F9-A7A4-B1E611B60AC0}
 		{B5BDE1A5-8C04-47B8-800C-4E753FCA395E} = {BC5B00CB-3E72-432E-9F33-6082B73192E8}
 		{1B45DA7E-4A90-4540-8945-A47311CA7F3A} = {BC5B00CB-3E72-432E-9F33-6082B73192E8}

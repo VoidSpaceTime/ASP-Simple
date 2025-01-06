@@ -1,7 +1,7 @@
-﻿using JWTCommons;
+﻿using JWT;
 using System.Security.Claims;
 
-namespace JWT.Interface
+namespace JWT
 {
     public interface ITokenService
     {

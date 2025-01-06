@@ -1,11 +1,10 @@
-﻿using JWTCommons;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Zack.JWT
+namespace JWT
 {
     public static class AuthenticationExtensions
     {
@@ -22,7 +21,8 @@ namespace Zack.JWT
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtOpt.Issuer,
                     ValidAudience = jwtOpt.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOpt.Key))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOpt.Key)),
+                    ClockSkew = TimeSpan.FromSeconds(180), //过期时间容错值，解决服务器端时间不同步问题（秒）
                 };
             });
         }

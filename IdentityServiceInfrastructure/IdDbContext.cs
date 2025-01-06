@@ -1,10 +1,8 @@
-﻿using IdentityServiceDomain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using CommonsInitializer;
+using IdentityServiceDomain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using CommonsInitializer;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure;
+using Microsoft.EntityFrameworkCore.Design;
 
 
 namespace IdentityServiceInfrastructure
