@@ -3,6 +3,7 @@ using IdentityServiceDomain;
 using IdentityServiceDomain.Entities;
 using IdentityServiceDomain.Interface;
 using IdentityServiceInfrastructure;
+using JWT;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDataProtection();
-#region register Service
+
+
 builder.Services.AddScoped<IdDomainService>();
 builder.Services.AddScoped<IIdRepository, IdRepository>();
-#endregion
+builder.Services.AddScoped<ITokenService, TokenService>();
+
+
+
+
 #region Identity 验证
 //登录、注册的项目除了要启用WebApplicationBuilderExtensions中的初始化之外，还要如下的初始化
 //不要用AddIdentity，而是用AddIdentityCore
@@ -41,8 +47,8 @@ IdentityBuilder idBuilder = builder.Services.AddIdentityCore<User>(options =>
 idBuilder = new IdentityBuilder(idBuilder.UserType, typeof(Role), builder.Services);
 idBuilder.AddEntityFrameworkStores<IdDbContext>().AddDefaultTokenProviders()
     //.AddRoleValidator<RoleValidator<Role>>()
-    .AddRoleManager<RoleManager<Role>>();
-//.AddUserManager<IdUserManager>();
+    .AddRoleManager<RoleManager<Role>>()
+    .AddUserManager<IdUserManager>();
 
 //Database
 builder.Services.AddDbContext<IdDbContext>(ctx =>

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using JWT;
+using Commons;
 
 namespace CommonsInitializer
 {
@@ -34,6 +35,10 @@ namespace CommonsInitializer
         {
             IServiceCollection services = builder.Services;
             IConfiguration configuration = builder.Configuration;
+
+            #region ServiceInjection 其他项目的Service注入
+            services.AddServiceAutoDiscover();
+            #endregion
 
             #region JWT 验证
             //开始:Authentication,Authorization
