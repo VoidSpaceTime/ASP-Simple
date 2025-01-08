@@ -48,6 +48,7 @@ namespace CommonsInitializer
             builder.Services.AddAuthentication();
 
             JWTOptions jwtOpt = configuration.GetSection("JWTOptions").Get<JWTOptions>();
+            builder.Services.Configure<JWTOptions>(configuration.GetSection("JWTOptions"));
 
             //builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
             //JWTOptions jwtOpt = (JWTOptions)configuration.GetSection("JWTOptions"); //暂时用Appsettings.json中的配置

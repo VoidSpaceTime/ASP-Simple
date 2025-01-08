@@ -18,9 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDataProtection();
 
 
-builder.Services.AddScoped<IdDomainService>();
-builder.Services.AddScoped<IIdRepository, IdRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddScoped<IdDomainService>();
+//builder.Services.AddScoped<IIdRepository, IdRepository>();
+//builder.Services.AddScoped<ITokenService, TokenService>();
 
 
 
