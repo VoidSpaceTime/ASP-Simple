@@ -4,6 +4,7 @@ using IdentityServiceDomain.Interface;
 namespace PostServiceDomain.Entity
 {
     public class Post : IHasCreationTime, IHasDeletionTime, ISoftDelete, IOwnerUser
+            , IPublicationStatus
     {
         public Post(string title, string context, User ownerUser)
         {
@@ -11,11 +12,11 @@ namespace PostServiceDomain.Entity
             Context = context;
             CreationTime = DateTime.Now;
             OwnerUser = ownerUser;
+            Status = PublicationStatusEnum.Wait;
         }
         public int Id { get; set; }
         public string Title { get; set; }
         public string Context { get; set; }
-        public User OwnerUser { get; init; }
         public bool IsDeleted { get; private set; }
 
         public DateTime CreationTime { get; init; }
@@ -26,6 +27,10 @@ namespace PostServiceDomain.Entity
             this.IsDeleted = true;
             this.DeletionTime = DateTime.Now;
         }
+
+        public User OwnerUser { get; init; }
+        public List<Comment>? Comments { get; set; }
+        public PublicationStatusEnum Status { get; set; }
 
 
     }

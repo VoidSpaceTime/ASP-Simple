@@ -1,21 +1,19 @@
 ﻿using CommonsDomain.Interface;
 using IdentityServiceDomain.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PostServiceDomain.Entity
 {
     public class Comment : IHasCreationTime, IHasDeletionTime, ISoftDelete, IOwnerUser
+            , IPublicationStatus
 
     {
-        public Comment(string context, User ownerUser)
+        public Comment(Post post, string context, User ownerUser)
         {
+            OwnerPost = post;
             Context = context;
             OwnerUser = ownerUser;
             CreationTime = DateTime.Now;
+            Status = PublicationStatusEnum.Wait;
         }
         public int Id { get; set; }
         public string Context { get; set; }
@@ -30,6 +28,7 @@ namespace PostServiceDomain.Entity
             this.IsDeleted = true;
             this.DeletionTime = DateTime.Now;
         }
-
+        public Post OwnerPost { get; set; }
+        public PublicationStatusEnum Status { get; set; }
     }
 }
