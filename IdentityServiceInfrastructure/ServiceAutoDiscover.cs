@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IdentityServiceInfrastructure
 {
-    public class ServiceInjection : IServiceAutoDiscover
+    public class ServiceAutoDiscover : IServiceAutoDiscover
     {
         public void BuilderService(IServiceCollection services)
         {

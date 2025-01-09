@@ -1,4 +1,5 @@
-﻿using IdentityServiceDomain.Interface;
+﻿using CommonsDomain.Interface;
+using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Identity;
 using System;
 
@@ -6,7 +7,7 @@ public class User : IdentityUser<Guid>, IHasCreationTime, IHasDeletionTime, ISof
 {
     public DateTime CreationTime { get; init; }
 
-    public DateTime? DeletionTime { get; private set; }
+    public DateTime? DeletionTime { get; set; }
 
     public bool IsDeleted { get; private set; }
 

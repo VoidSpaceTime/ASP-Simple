@@ -21,23 +21,44 @@ namespace WebApplication1.Controllers.Login
             this.repository = repository;
         }
 
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<ActionResult> CreateWorld()
+        //{
+        //    if (await repository.FindByNameAsync("admin") != null)
+        //    {
+        //        return StatusCode((int)HttpStatusCode.Conflict, "已经初始化过了");
+        //    }
+        //    User user = new User("admin");
+        //    var r = await repository.CreateAsync(user, "123456");
+        //    Debug.Assert(r.Succeeded);
+        //    var token = await repository.GenerateChangePhoneNumberTokenAsync(user, "18918999999");
+        //    var cr = await repository.ChangePhoneNumAsync(user.Id, "18918999999", token);
+        //    Debug.Assert(cr.Succeeded);
+        //    r = await repository.AddToRoleAsync(user, "User");
+        //    Debug.Assert(r.Succeeded);
+        //    r = await repository.AddToRoleAsync(user, "Admin");
+        //    Debug.Assert(r.Succeeded);
+        //    return Ok();
+        //}
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> CreateWorld()
+        public async Task<ActionResult> RegisterUser(RegisterUserRequest registerUser)
         {
-            if (await repository.FindByNameAsync("admin") != null)
+            if (await repository.FindByNameAsync(registerUser.Name) != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, "已经初始化过了");
+                return StatusCode((int)HttpStatusCode.Conflict, "用户名已注册");
             }
-            User user = new User("admin");
-            var r = await repository.CreateAsync(user, "123456");
+            User user = new User(registerUser.Name);
+            var r = await repository.CreateAsync(user, registerUser.Password);
             Debug.Assert(r.Succeeded);
-            var token = await repository.GenerateChangePhoneNumberTokenAsync(user, "18918999999");
-            var cr = await repository.ChangePhoneNumAsync(user.Id, "18918999999", token);
+            // 直接拿到手机号Token 没弄注册服务
+            var token = await repository.GenerateChangePhoneNumberTokenAsync(user, registerUser.PhoneNumber);
+            var cr = await repository.ChangePhoneNumAsync(user.Id, registerUser.PhoneNumber, token);
             Debug.Assert(cr.Succeeded);
             r = await repository.AddToRoleAsync(user, "User");
-            Debug.Assert(r.Succeeded);
-            r = await repository.AddToRoleAsync(user, "Admin");
+            //Debug.Assert(r.Succeeded);
+            //r = await repository.AddToRoleAsync(user, "Admin");
             Debug.Assert(r.Succeeded);
             return Ok();
         }

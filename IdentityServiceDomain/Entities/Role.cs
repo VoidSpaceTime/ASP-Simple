@@ -1,4 +1,5 @@
-﻿using IdentityServiceDomain.Interface;
+﻿using CommonsDomain.Interface;
+using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -8,22 +9,11 @@ using System.Threading.Tasks;
 
 namespace IdentityServiceDomain.Entities
 {
-    public class Role : IdentityRole<Guid> ,IHasCreationTime, IHasDeletionTime, ISoftDelete
+    public class Role : IdentityRole<Guid>
     {
         public Role()
         {
             this.Id = Guid.NewGuid();
-        }
-
-        public DateTime CreationTime => throw new NotImplementedException();
-
-        public DateTime? DeletionTime => throw new NotImplementedException();
-
-        public bool IsDeleted => throw new NotImplementedException();
-
-        public void SoftDelete()
-        {
-            throw new NotImplementedException();
         }
     }
 }

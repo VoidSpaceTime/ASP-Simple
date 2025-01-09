@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IdentityServiceDomain.Interface
+namespace CommonsDomain.Interface
 {
-    internal interface IDeletionTime
+    public interface IOwnerUser
     {
-        DateTime? DeletionTime { get; set; }
+        public User OwnerUser { get; }
     }
 }
