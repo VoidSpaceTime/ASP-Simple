@@ -12,7 +12,7 @@ namespace PostServiceDomain.Entity
             Context = context;
             CreationTime = DateTime.Now;
             OwnerUser = ownerUser;
-            Status = PublicationStatusEnum.Wait;
+            Status = (int)PublicationStatusEnum.Wait;
         }
         public int Id { get; set; }
         public string Title { get; set; }
@@ -30,7 +30,7 @@ namespace PostServiceDomain.Entity
 
         public User OwnerUser { get; init; }
         public List<Comment>? Comments { get; set; }
-        public PublicationStatusEnum Status { get; set; }
+        public int Status { get; set; }
 
 
     }

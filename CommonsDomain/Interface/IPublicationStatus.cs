@@ -2,7 +2,7 @@
 {
     public interface IPublicationStatus
     {
-        public enum Status;
+        public int Status { get; set; }
     }
 
 }

@@ -13,7 +13,7 @@ namespace PostServiceDomain.Entity
             Context = context;
             OwnerUser = ownerUser;
             CreationTime = DateTime.Now;
-            Status = PublicationStatusEnum.Wait;
+            Status = (int)PublicationStatusEnum.Wait;
         }
         public int Id { get; set; }
         public string Context { get; set; }
@@ -29,6 +29,6 @@ namespace PostServiceDomain.Entity
             this.DeletionTime = DateTime.Now;
         }
         public Post OwnerPost { get; set; }
-        public PublicationStatusEnum Status { get; set; }
+        public int Status { get; set; }
     }
 }
