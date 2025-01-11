@@ -1,10 +1,10 @@
 ﻿using CommonsDomain.Interface;
+using CommonsDomain.Models;
 using IdentityServiceDomain.Interface;
 
 namespace PostServiceDomain.Entity
 {
-    public class Comment : IHasCreationTime, IHasDeletionTime, ISoftDelete, IOwnerUser
-            , IPublicationStatus
+    public record Comment : AggregateRootEntity
 
     {
         public Comment(Post post, string context, User ownerUser)
@@ -12,22 +12,10 @@ namespace PostServiceDomain.Entity
             OwnerPost = post;
             Context = context;
             OwnerUser = ownerUser;
-            CreationTime = DateTime.Now;
             Status = (int)PublicationStatusEnum.Wait;
         }
-        public int Id { get; set; }
         public string Context { get; set; }
         public User OwnerUser { get; init; }
-        public bool IsDeleted { get; private set; }
-
-        public DateTime CreationTime { get; init; }
-
-        public DateTime? DeletionTime { get; set; }
-        public void SoftDelete()
-        {
-            this.IsDeleted = true;
-            this.DeletionTime = DateTime.Now;
-        }
         public Post OwnerPost { get; set; }
         public int Status { get; set; }
     }

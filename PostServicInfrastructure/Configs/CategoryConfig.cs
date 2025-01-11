@@ -9,13 +9,11 @@ using System.Threading.Tasks;
 
 namespace PostServicInfrastructure.Configs
 {
-    public class CommentConfig : IEntityTypeConfiguration<Comment>
+    public class CategoryConfig : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<Comment> builder)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("T_Comment");
-            builder.HasKey(c => c.Id);
-            builder.Property(o=>o.Context).HasMaxLength(500).IsRequired();
+            throw new NotImplementedException();
         }
     }
 }

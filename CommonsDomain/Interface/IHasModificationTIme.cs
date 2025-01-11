@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace IdentityServiceDomain.Interface
 {
-    public interface IHasModificationTIme
+    public interface IHasModificationTime
     {
-        public DateTime? LastModificationTime { get; }
+        public DateTime? IHasModificationTime { get; }
     }
 }

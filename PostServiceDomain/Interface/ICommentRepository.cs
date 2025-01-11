@@ -9,7 +9,8 @@ using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostServiceDomain.Interface
 {
-    public interface IPostRepository : IBaseRepository<Post>
+    public interface ICommentRepository : IBaseRepository<Comment>
     {
+
     }
 }
