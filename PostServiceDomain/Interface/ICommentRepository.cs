@@ -11,6 +11,5 @@ namespace PostServiceDomain.Interface
 {
     public interface ICommentRepository : IBaseRepository<Comment>
     {
-
     }
 }

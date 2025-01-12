@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonsInitializer\CommonsInitializer.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\PostServiceDomain\PostServiceDomain.csproj" />
   </ItemGroup>
 

@@ -7,6 +7,10 @@ namespace PostServiceDomain.Entity
     public record Comment : AggregateRootEntity
 
     {
+        //public Comment()
+        //{
+ 
+        //}
         public Comment(Post post, string context, User ownerUser)
         {
             OwnerPost = post;

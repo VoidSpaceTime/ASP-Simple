@@ -10,7 +10,7 @@ namespace PostServiceDomain.Interface
     public interface IBaseRepository
     {
 
-        public interface IBaseRepository<T> where T : class
+        public interface IBaseRepository<T> where T : class //, new()
         {
             #region 异步
 
