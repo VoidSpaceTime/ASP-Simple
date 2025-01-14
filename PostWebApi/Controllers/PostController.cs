@@ -28,5 +28,13 @@ namespace PostWebApi.Controllers
             var posts = await postService.SearchPostListByUserAsync(userResponse.Id);
             return Ok(posts);
         }
+        [HttpPost]
+        public async Task<ActionResult<List<Post>>> GetPostListByTitle(string title)
+        {
+            var posts = await postService.SearchPostListByNameAsync(title);
+            return Ok(posts);
+        }
+
+
     }
 }

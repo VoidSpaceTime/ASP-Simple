@@ -61,9 +61,9 @@ namespace PostServiceDomain
         /// <param name="status"></param>
         /// <param name="isDeleted"></param>
         /// <returns></returns>
-        public async Task<List<Comment>> SearchCommentListByPostAsync(Post post, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<List<Comment>> SearchCommentListByPostAsync(Guid postId, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
-            return await repositoryComent.QueryListAsync(o => o.OwnerPost.Id == post.Id && o.IsDeleted != isDeleted && o.Status == status);
+            return await repositoryComent.QueryListAsync(o => o.OwnerPost.Id == postId && o.IsDeleted != isDeleted && o.Status == status);
         }
         /// <summary>
         /// 创建帖子
