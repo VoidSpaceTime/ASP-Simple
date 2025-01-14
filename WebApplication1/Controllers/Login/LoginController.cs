@@ -1,4 +1,5 @@
 ﻿using CommonsDomain;
+using CommonsDomain.DTO.Identity;
 using CommonsDomain.Enum;
 using IdentityService.WebAPI.Controllers.Login;
 using IdentityServiceDomain;

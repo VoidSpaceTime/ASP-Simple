@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using JWT;
 using Commons;
+using MassTransit;
 
 namespace CommonsInitializer
 {
@@ -39,7 +40,48 @@ namespace CommonsInitializer
             #region ServiceInjection 其他项目的Service注入
             services.AddServiceAutoDiscover();
             #endregion
+            #region MassTransit 启用
+            // Add services to the container.
+            builder.Services.AddMassTransit(x =>
+            {
 
+                // 通过扫描程序集注册消费者
+                x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
+
+                // 通过类型单个注册消费者
+                // x.AddConsumer<OrderEtoConsumer>(typeof(OrderEtoConsumerDefinition));
+
+                // x.SetKebabCaseEndpointNameFormatter();
+
+                // 通过泛型单个注册消费者
+                //x.AddConsumer<OrderEtoConsumer, OrderEtoConsumerDefinition>();
+
+                // 通过指定命名空间注册消费者
+                // x.AddConsumersFromNamespaceContaining<OrderEtoConsumer>();
+
+                // 使用内存队列
+                x.UsingInMemory();
+                x.UsingInMemory((context, cfg) =>
+                {
+                    cfg.ReceiveEndpoint("your-queue", e =>
+                    {
+                        cfg.ConfigureEndpoints(context);
+                    });
+                });
+                //x.UsingRabbitMq((context, config) =>
+                //{
+
+                //    config.Host("rabbitmq://localhost:5672", hostconfig =>
+                //    {
+                //        hostconfig.Username("admin");
+                //        hostconfig.Password("admin");
+                //    });
+
+                //    config.ConfigureEndpoints(context);
+
+                //});
+            });
+            #endregion
             #region JWT 验证
             //开始:Authentication,Authorization
             //只要需要校验Authentication报文头的地方（非IdentityService.WebAPI项目）也需要启用这些

@@ -5,7 +5,7 @@ namespace PostWebApi.DTO
     public class PostResponse
     {
         public string Title { get; set; }
-        public string Context { get; set; }
+        public string Content { get; set; }
         public Guid Id { get; set; }
 
         public Guid UeserId { get; init; }
