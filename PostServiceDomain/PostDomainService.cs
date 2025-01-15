@@ -1,13 +1,5 @@
-﻿using JWT;
-using Microsoft.Extensions.Options;
-using PostServiceDomain.Entity;
+﻿using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PostServiceDomain
 {
@@ -28,11 +20,11 @@ namespace PostServiceDomain
         /// <param name="status"></param>
         /// <param name="isDeleted"></param>
         /// <returns></returns>
-        public async Task<Post> SearchPostByNameAsync(string name, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<Post> GetPostByNameAsync(string name, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
             return await repositoryPost.QueryAsync(o => o.Title.Contains(name) && o.IsDeleted != isDeleted && o.Status == status);
         }
-        public async Task<Post> SearchPostByIdAsync(Guid Id, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<Post> GetPostByIdAsync(Guid Id, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
             return await repositoryPost.QueryAsync(o => o.Id == Id && o.IsDeleted != isDeleted && o.Status == status);
         }
@@ -43,7 +35,7 @@ namespace PostServiceDomain
         /// <param name="status"></param>
         /// <param name="isDeleted"></param>
         /// <returns></returns>
-        public async Task<List<Post>> SearchPostListByNameAsync(string name, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<List<Post>> GetPostListByNameAsync(string name, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
             return await repositoryPost.QueryListAsync(o => o.Title.Contains(name) && o.IsDeleted != isDeleted && o.Status == status);
         }
@@ -54,7 +46,7 @@ namespace PostServiceDomain
         /// <param name="status"></param>
         /// <param name="isDeleted"></param>
         /// <returns></returns>
-        public async Task<List<Post>> SearchPostListByUserAsync(Guid userId, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<List<Post>> GetPostListByUserAsync(Guid userId, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
             return await repositoryPost.QueryListAsync(o => o.OwnerUser.Id == userId && o.IsDeleted != isDeleted && o.Status == status);
         }
@@ -65,7 +57,7 @@ namespace PostServiceDomain
         /// <param name="status"></param>
         /// <param name="isDeleted"></param>
         /// <returns></returns>
-        public async Task<List<Comment>> SearchCommentListByPostAsync(Guid postId, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<List<Comment>> GetCommentListByPostAsync(Guid postId, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
             return await repositoryComent.QueryListAsync(o => o.OwnerPost.Id == postId && o.IsDeleted != isDeleted && o.Status == status);
         }

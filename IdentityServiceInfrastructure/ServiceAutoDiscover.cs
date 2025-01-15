@@ -1,12 +1,7 @@
 ﻿using Commons;
-using IdentityServiceDomain.Interface;
 using IdentityServiceDomain;
+using IdentityServiceDomain.Interface;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IdentityServiceInfrastructure
 {

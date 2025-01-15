@@ -1,10 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommonsInitializer
 {
@@ -22,16 +16,16 @@ namespace CommonsInitializer
     }
 
 
-    public class DbContextFactory : IDbContextFactory<DbContext>
-    {
-        public DbContext CreateDbContext()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
-            var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
-            optionsBuilder.UseSqlServer(connStr);
-            return new DbContext(optionsBuilder.Options);
-        }
-    }
+    //public class DbContextFactory : IDbContextFactory<DbContext>
+    //{
+    //    public DbContext CreateDbContext()
+    //    {
+    //        var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+    //        var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+    //        optionsBuilder.UseSqlServer(connStr);
+    //        return new DbContext(optionsBuilder.Options);
+    //    }
+    //}
 
 }
 

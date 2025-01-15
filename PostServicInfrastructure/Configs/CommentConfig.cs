@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PostServiceDomain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PostServicInfrastructure.Configs
 {
@@ -14,8 +9,8 @@ namespace PostServicInfrastructure.Configs
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.ToTable("T_Comment");
-            builder.HasKey(c => c.Id);
-            builder.Property(o=>o.Context).HasMaxLength(500).IsRequired();
+            //builder.HasKey(c => c.Id);
+            builder.Property(o => o.Context).HasMaxLength(500).IsRequired();
         }
     }
 }

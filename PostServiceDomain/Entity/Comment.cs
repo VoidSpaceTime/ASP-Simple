@@ -1,16 +1,11 @@
-﻿using CommonsDomain.Interface;
-using CommonsDomain.Models;
-using IdentityServiceDomain.Interface;
+﻿using CommonsDomain.Models;
 
 namespace PostServiceDomain.Entity
 {
     public record Comment : AggregateRootEntity
 
     {
-        //public Comment()
-        //{
- 
-        //}
+        public Comment() { } // 无参数构造函数
         public Comment(Post post, string context, User ownerUser)
         {
             OwnerPost = post;

@@ -1,18 +1,16 @@
 ﻿
-using IdentityServiceDomain.Interface;
 using IdentityServiceDomain;
+using IdentityServiceDomain.Interface;
 using MassTransit;
-using System.Text.Json;
-using CommonsDomain.DTO.Identity;
 
 namespace WebApplication1.Events
 {
-    public class UserRegister : IConsumer<string>
+    public class UserConsumer : IConsumer<string>
     {
         private readonly IIdRepository repository;
         private readonly IdDomainService idService;
 
-        public UserRegister(IIdRepository repository, IdDomainService idService)
+        public UserConsumer(IIdRepository repository, IdDomainService idService)
         {
             this.repository = repository;
             this.idService = idService;

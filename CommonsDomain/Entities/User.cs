@@ -1,7 +1,6 @@
 ﻿using CommonsDomain.Interface;
 using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Identity;
-using System;
 
 public class User : IdentityUser<Guid>, IHasCreationTime, IHasDeletionTime, ISoftDelete
 {

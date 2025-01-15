@@ -1,9 +1,7 @@
 ﻿using CommonsDomain.DTO.Identity;
 using CommonsDomain.Enum;
 using MassTransit;
-using MassTransit.Transports;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PostServiceDomain;
 using PostServiceDomain.Entity;
@@ -14,40 +12,43 @@ namespace PostWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = $"{nameof(RolesEnum.User)},{nameof(RolesEnum.Admin)}")]
+    //[Authorize(Roles = $"{nameof(RolesEnum.User)},{nameof(RolesEnum.Admin)}")]
     public class PostController : ControllerBase
     {
         private readonly PostDomainService postService;
         private readonly IPostRepository postRepository;
         private readonly IRequestClient<User> requestClient;
-        //private readonly IPublishEndpoint publishEndpoint;
 
-        public PostController(PostDomainService postService, IPostRepository postRepository)
+        public PostController(PostDomainService postService, IPostRepository postRepository, IRequestClient<User> requestClient)
         {
             this.postService = postService;
             this.postRepository = postRepository;
+            this.requestClient = requestClient;
         }
-        [HttpPost]
-        public async Task<ActionResult<List<Post>>> GetPostListByUser(UserResponse userResponse)
+
+        [HttpPost("GetPostListByUser")]
+        public async Task<ActionResult<List<Post>>> GetPostListByUser([FromBody] UserResponse userResponse)
         {
             var user = requestClient.GetResponse<User>(userResponse);
             if (user == null)
             {
                 return BadRequest("空");
             }
-            var posts = await postService.SearchPostListByUserAsync(userResponse.Id);
+            var posts = await postService.GetPostListByUserAsync(userResponse.Id);
             return Ok(posts);
         }
-        [HttpPost]
-        public async Task<ActionResult<List<Post>>> GetPostListByTitle(string title)
+
+        [HttpPost("GetPostListByTitle")]
+        public async Task<ActionResult<List<Post>>> GetPostListByTitle([FromQuery] string title)
         {
-            var posts = await postService.SearchPostListByNameAsync(title);
+            var posts = await postService.GetPostListByNameAsync(title);
             return Ok(posts);
         }
-        [HttpPost]
-        public async Task<ActionResult> CreatPostByUser(PostResponse postResponse,UserResponse userResponse)
+
+        [HttpPost("CreatePostByUser")]
+        public async Task<ActionResult> CreatePostByUser([FromBody] PostResponse postResponse)
         {
-            var response = await requestClient.GetResponse<User>(userResponse);
+            var response = await requestClient.GetResponse<User>(postResponse.UeserId);
             var user = response.Message;
 
             if (user == null)
@@ -62,7 +63,5 @@ namespace PostWebApi.Controllers
             }
             return Ok();
         }
-
-
     }
 }

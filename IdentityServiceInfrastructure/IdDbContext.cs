@@ -17,7 +17,7 @@ namespace IdentityServiceInfrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             //modelBuilder.EnableSoftDeletionGlobalFilter();
 
         }

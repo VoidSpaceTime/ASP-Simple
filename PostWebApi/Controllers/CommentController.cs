@@ -1,12 +1,9 @@
-﻿using CommonsDomain.DTO.Identity;
-using MassTransit;
-using MassTransit.Clients;
+﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using PostServiceDomain;
 using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
 using PostWebApi.DTO;
-using System.Xml.Linq;
 
 namespace PostWebApi.Controllers
 {
@@ -28,7 +25,7 @@ namespace PostWebApi.Controllers
         {
             if (Guid.TryParse(postResponse.Id, out Guid userId))
             {
-                var comments = await postService.SearchCommentListByPostAsync(userId);
+                var comments = await postService.GetCommentListByPostAsync(userId);
                 return Ok(comments);
             }
             return BadRequest("用户不存在");
@@ -40,7 +37,7 @@ namespace PostWebApi.Controllers
             var user = response.Message;
             if (Guid.TryParse(commentResponse.PostId, out Guid userId) && user != null)
             {
-                var post = await postService.SearchPostByIdAsync(userId);
+                var post = await postService.GetPostByIdAsync(userId);
                 var comment = new Comment(post, commentResponse.Content, user);
                 var result = await postService.CreateCommentAsync(comment);
                 if (result)

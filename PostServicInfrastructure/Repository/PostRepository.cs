@@ -1,6 +1,4 @@
 ﻿using PostServiceDomain.Entity;
-using System.Data;
-using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostServicInfrastructure.Repository
 {

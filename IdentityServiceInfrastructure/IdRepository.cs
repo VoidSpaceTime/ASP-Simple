@@ -1,5 +1,4 @@
-﻿using IdentityServiceDomain;
-using IdentityServiceDomain.Entities;
+﻿using IdentityServiceDomain.Entities;
 using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,7 @@ using System.Text;
 
 namespace IdentityServiceInfrastructure
 {
-   public class IdRepository : IIdRepository
+    public class IdRepository : IIdRepository
     {
         private readonly IdUserManager userManager;
         private readonly RoleManager<Role> roleManager;

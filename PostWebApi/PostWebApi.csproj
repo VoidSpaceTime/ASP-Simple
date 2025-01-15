@@ -8,10 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="8.3.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommonsInitializer\CommonsInitializer.csproj" />
     <ProjectReference Include="..\PostServiceDomain\PostServiceDomain.csproj" />
   </ItemGroup>
 

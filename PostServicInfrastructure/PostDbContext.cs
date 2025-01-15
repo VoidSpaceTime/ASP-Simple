@@ -2,6 +2,7 @@
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using PostServiceDomain.Entity;
 
 namespace PostServicInfrastructure
@@ -21,17 +22,29 @@ namespace PostServicInfrastructure
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+
+        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        //{
+      
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("Server=.;Database=ASPSimpleDB;Trusted_Connection=True;");
+        //    }
+
+        //}
+
+    }
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostDbContext>
+    {
+
+        public PostDbContext CreateDbContext(string[] args)
+        {
+            //var optionsBuilder = DbContextOptionsBuilderFactory.Create<PostDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<PostDbContext>();
+            optionsBuilder.UseSqlServer("Server=.;Database=ASPSimpleDB;Trusted_Connection=True;");
+            return new PostDbContext(optionsBuilder.Options);
         }
     }
-    //public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostDbContext>
-    //{
-
-    //    public PostDbContext CreateDbContext(string[] args)
-    //    {
-    //        var optionsBuilder = DbContextOptionsBuilderFactory.Create<PostDbContext>();
-
-
-    //        return new PostDbContext(optionsBuilder.Options);
-    //    }
-    //}
 }

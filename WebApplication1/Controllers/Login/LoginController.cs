@@ -1,5 +1,4 @@
-﻿using CommonsDomain;
-using CommonsDomain.DTO.Identity;
+﻿using CommonsDomain.DTO.Identity;
 using CommonsDomain.Enum;
 using IdentityService.WebAPI.Controllers.Login;
 using IdentityServiceDomain;
@@ -59,7 +58,7 @@ namespace WebApplication1.Controllers.Login
             var token = await repository.GenerateChangePhoneNumberTokenAsync(user, registerUser.PhoneNumber);
             var cr = await repository.ChangePhoneNumAsync(user.Id, registerUser.PhoneNumber, token);
             Debug.Assert(cr.Succeeded);
-            r = await repository.AddToRoleAsync(user, RolesEnum.User.ToString()) ;
+            r = await repository.AddToRoleAsync(user, RolesEnum.User.ToString());
             //Debug.Assert(r.Succeeded);
             //r = await repository.AddToRoleAsync(user, "Admin");
             Debug.Assert(r.Succeeded);

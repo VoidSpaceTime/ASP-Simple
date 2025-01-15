@@ -1,7 +1,9 @@
+using CommonsInitializer;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.ConfigureExtraServices();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

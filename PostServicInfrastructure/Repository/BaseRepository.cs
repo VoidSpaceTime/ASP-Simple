@@ -6,7 +6,7 @@ using static PostServiceDomain.Interface.IBaseRepository;
 namespace PostServicInfrastructure.Repository
 {
 
-    public class BaseRepository<T> : IBaseRepository<T>  where T : AggregateRootEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : AggregateRootEntity
     {
         private readonly PostDbContext dbContext;
 

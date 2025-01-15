@@ -1,9 +1,6 @@
 using CommonsInitializer;
-using IdentityServiceDomain;
 using IdentityServiceDomain.Entities;
-using IdentityServiceDomain.Interface;
 using IdentityServiceInfrastructure;
-using JWT;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Commons;
+using JWT;
+using MassTransit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using JWT;
-using Commons;
-using MassTransit;
 
 namespace CommonsInitializer
 {
@@ -46,7 +45,8 @@ namespace CommonsInitializer
             {
 
                 // 通过扫描程序集注册消费者
-                x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
+                //x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
+                x.AddConsumers(typeof(AppDomain).Assembly);
 
                 // 通过类型单个注册消费者
                 // x.AddConsumer<OrderEtoConsumer>(typeof(OrderEtoConsumerDefinition));
@@ -59,27 +59,19 @@ namespace CommonsInitializer
                 // 通过指定命名空间注册消费者
                 // x.AddConsumersFromNamespaceContaining<OrderEtoConsumer>();
 
-                // 使用内存队列
-                x.UsingInMemory();
-                x.UsingInMemory((context, cfg) =>
+
+                x.UsingRabbitMq((context, config) =>
                 {
-                    cfg.ReceiveEndpoint("your-queue", e =>
+
+                    config.Host("rabbitmq://localhost:5672", hostconfig =>
                     {
-                        cfg.ConfigureEndpoints(context);
+                        hostconfig.Username("admin");
+                        hostconfig.Password("admin");
                     });
+
+                    config.ConfigureEndpoints(context);
+
                 });
-                //x.UsingRabbitMq((context, config) =>
-                //{
-
-                //    config.Host("rabbitmq://localhost:5672", hostconfig =>
-                //    {
-                //        hostconfig.Username("admin");
-                //        hostconfig.Password("admin");
-                //    });
-
-                //    config.ConfigureEndpoints(context);
-
-                //});
             });
             #endregion
             #region JWT 验证
