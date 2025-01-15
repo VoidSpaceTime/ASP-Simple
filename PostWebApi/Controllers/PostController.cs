@@ -45,9 +45,9 @@ namespace PostWebApi.Controllers
             return Ok(posts);
         }
         [HttpPost]
-        public async Task<ActionResult> CreatPostByUser(PostResponse postResponse)
+        public async Task<ActionResult> CreatPostByUser(PostResponse postResponse,UserResponse userResponse)
         {
-            var response = await requestClient.GetResponse<User>(postResponse);
+            var response = await requestClient.GetResponse<User>(userResponse);
             var user = response.Message;
 
             if (user == null)

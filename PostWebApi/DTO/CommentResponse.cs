@@ -2,9 +2,9 @@
 {
     public class CommentResponse
     {
-        public string Context { get; set; }
-        public Guid UserId { get; init; }
-        public Guid PostId { get; set; }
+        public string Content { get; set; }
+        public string UserId { get; init; }
+        public string PostId { get; set; }
         public string Status { get; set; }
     }
 }

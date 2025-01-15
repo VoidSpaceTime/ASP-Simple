@@ -7,7 +7,7 @@ using CommonsDomain.DTO.Identity;
 
 namespace WebApplication1.Events
 {
-    public class UserRegister : IConsumer<UserResponse>
+    public class UserRegister : IConsumer<string>
     {
         private readonly IIdRepository repository;
         private readonly IdDomainService idService;
@@ -18,14 +18,16 @@ namespace WebApplication1.Events
             this.idService = idService;
         }
 
-        public Task Consume(ConsumeContext<UserResponse> context)
+        public async Task Consume(ConsumeContext<string> context)
         {
-            var user = repository.FindByIdAsync(context.Message.Id);
-            if (user != null)
+            if (Guid.TryParse(context.Message, out Guid userId))
             {
-                context.RespondAsync(user);
+                var user = await repository.FindByIdAsync(userId);
+                if (user != null)
+                {
+                    await context.RespondAsync(user);
+                }
             }
-            return Task.CompletedTask;
         }
     }
 }

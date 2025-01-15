@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CommonsDomain.DTO.Identity;
+using MassTransit;
+using MassTransit.Clients;
+using Microsoft.AspNetCore.Mvc;
 using PostServiceDomain;
+using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
 using PostWebApi.DTO;
+using System.Xml.Linq;
 
 namespace PostWebApi.Controllers
 {
@@ -11,6 +16,7 @@ namespace PostWebApi.Controllers
     {
         private readonly PostDomainService postService;
         private readonly ICommentRepository commentRepository;
+        private readonly IRequestClient<User> requestClient;
 
         public CommentController(PostDomainService postService, ICommentRepository commentRepository)
         {
@@ -20,14 +26,31 @@ namespace PostWebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<List<CommentResponse>>> GetCommentListByPost(PostResponse postResponse)
         {
-            var comments = await postService.SearchCommentListByPostAsync(postResponse.Id);
-            return Ok(comments);
+            if (Guid.TryParse(postResponse.Id, out Guid userId))
+            {
+                var comments = await postService.SearchCommentListByPostAsync(userId);
+                return Ok(comments);
+            }
+            return BadRequest("用户不存在");
         }
         [HttpPost]
-        public async Task<ActionResult> CreatCommentByPost(PostResponse postResponse)
+        public async Task<ActionResult> CreatCommentByPost(CommentResponse commentResponse)
         {
-            var comments = await postService.SearchCommentListByPostAsync(postResponse.Id);
-            return Ok();
+            var response = await requestClient.GetResponse<User>(commentResponse.UserId);
+            var user = response.Message;
+            if (Guid.TryParse(commentResponse.PostId, out Guid userId) && user != null)
+            {
+                var post = await postService.SearchPostByIdAsync(userId);
+                var comment = new Comment(post, commentResponse.Content, user);
+                var result = await postService.CreateCommentAsync(comment);
+                if (result)
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest("创建失败");
         }
+
+
     }
 }

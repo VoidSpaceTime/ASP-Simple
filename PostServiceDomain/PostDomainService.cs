@@ -32,6 +32,10 @@ namespace PostServiceDomain
         {
             return await repositoryPost.QueryAsync(o => o.Title.Contains(name) && o.IsDeleted != isDeleted && o.Status == status);
         }
+        public async Task<Post> SearchPostByIdAsync(Guid Id, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
+        {
+            return await repositoryPost.QueryAsync(o => o.Id == Id && o.IsDeleted != isDeleted && o.Status == status);
+        }
         /// <summary>
         /// 根据名称搜索帖子列表
         /// </summary>

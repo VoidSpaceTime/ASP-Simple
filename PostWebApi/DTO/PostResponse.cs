@@ -6,9 +6,9 @@ namespace PostWebApi.DTO
     {
         public string Title { get; set; }
         public string Content { get; set; }
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
-        public Guid UeserId { get; init; }
+        public string UeserId { get; init; }
         public List<CommentResponse> Comments { get; set; } = new List<CommentResponse>();
         public string Status { get; set; }
         public string Category { get; set; }
