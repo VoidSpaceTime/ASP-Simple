@@ -7,7 +7,7 @@ using PostWebApi.DTO;
 
 namespace PostWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class CommentController : ControllerBase
     {

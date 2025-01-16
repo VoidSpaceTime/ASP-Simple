@@ -10,7 +10,7 @@ using PostWebApi.DTO;
 
 namespace PostWebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     //[Authorize(Roles = $"{nameof(RolesEnum.User)},{nameof(RolesEnum.Admin)}")]
     public class PostController : ControllerBase
@@ -26,7 +26,7 @@ namespace PostWebApi.Controllers
             this.requestClient = requestClient;
         }
 
-        [HttpPost("GetPostListByUser")]
+        [HttpPost]
         public async Task<ActionResult<List<Post>>> GetPostListByUser([FromBody] UserResponse userResponse)
         {
             var user = requestClient.GetResponse<User>(userResponse);
@@ -38,14 +38,14 @@ namespace PostWebApi.Controllers
             return Ok(posts);
         }
 
-        [HttpPost("GetPostListByTitle")]
+        [HttpPost]
         public async Task<ActionResult<List<Post>>> GetPostListByTitle([FromQuery] string title)
         {
             var posts = await postService.GetPostListByNameAsync(title);
             return Ok(posts);
         }
 
-        [HttpPost("CreatePostByUser")]
+        [HttpPost]
         public async Task<ActionResult> CreatePostByUser([FromBody] PostResponse postResponse)
         {
             var response = await requestClient.GetResponse<User>(postResponse.UeserId);
