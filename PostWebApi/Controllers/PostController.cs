@@ -27,7 +27,7 @@ namespace PostWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Post>>> GetPostListByUser([FromBody] UserResponse userResponse)
+        public async Task<ActionResult<List<PostResponse>>> GetPostListByUser(UserResponse userResponse)
         {
             var user = requestClient.GetResponse<User>(userResponse);
             if (user == null)
@@ -39,14 +39,14 @@ namespace PostWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Post>>> GetPostListByTitle([FromQuery] string title)
+        public async Task<ActionResult<List<PostResponse>>> GetPostListByTitle(string title)
         {
             var posts = await postService.GetPostListByNameAsync(title);
             return Ok(posts);
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePostByUser([FromBody] PostResponse postResponse)
+        public async Task<ActionResult> CreatePostByUser(PostResponse postResponse)
         {
             var response = await requestClient.GetResponse<User>(postResponse.UeserId);
             var user = response.Message;
