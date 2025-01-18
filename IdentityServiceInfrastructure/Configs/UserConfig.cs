@@ -7,7 +7,7 @@ namespace IdentityServiceInfrastructure.Configs
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("T_Users");
+            //builder.ToTable("T_Users");
             builder.Property(x => x.UserName).HasMaxLength(50).IsRequired();
         }
     }

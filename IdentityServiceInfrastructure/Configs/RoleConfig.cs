@@ -9,7 +9,7 @@ namespace IdentityServiceInfrastructure.Configs
 
         public void Configure(EntityTypeBuilder<Role> builder)
         {
-            builder.ToTable("T_Roles");
+            //builder.ToTable("T_Roles");
         }
     }
 }
