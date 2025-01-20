@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using CommonsDomain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityServiceDomain.Interface
 {

@@ -1,4 +1,5 @@
-﻿using IdentityServiceDomain.Entities;
+﻿using CommonsDomain.Entities;
+using IdentityServiceDomain.Entities;
 using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

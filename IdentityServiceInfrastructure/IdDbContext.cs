@@ -1,4 +1,5 @@
-﻿using CommonsInitializer;
+﻿using CommonsDomain.Entities;
+using CommonsInitializer;
 using IdentityServiceDomain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

@@ -11,7 +11,7 @@ namespace PostServicInfrastructure
     {
         public DbSet<Post> Posts { get; private set; }
         public DbSet<Comment> Comments { get; private set; }
-        public DbSet<Tag> Tags { get; private set; }
+        //public DbSet<Tag> Tags { get; private set; }
         public DbSet<Category> Categories { get; private set; }
 
         public PostDbContext(DbContextOptions<PostDbContext> options) : base(options)

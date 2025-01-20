@@ -2,16 +2,20 @@
 
 namespace PostWebApi.DTO
 {
-    public class PostResponse
+    public record PostResponse
     {
+    
+        public PostResponse(string title, string content, Guid userId)
+        {
+            Title = title;
+            Content = content;
+            UserId = userId;
+        }
         public string Title { get; set; }
         public string Content { get; set; }
-        public string Id { get; set; }
-
-        public string UeserId { get; init; }
-        public List<CommentResponse> Comments { get; set; } = new List<CommentResponse>();
-        public string Status { get; set; }
-        public string Category { get; set; }
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public Guid UserId { get; init; }
+        //public List<CommentResponse>? Comments { get; set; }
+        public List<string> Categorys { get; set; } = new List<string> { };
+        //public List<string> Tags { get; set; } = new List<string> { "无" };
     }
 }

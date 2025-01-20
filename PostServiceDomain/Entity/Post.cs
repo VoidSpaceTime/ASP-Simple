@@ -1,15 +1,16 @@
-﻿using CommonsDomain.Models;
+﻿using CommonsDomain.Entities;
+using CommonsDomain.Models;
 
 namespace PostServiceDomain.Entity
 {
     public record Post : AggregateRootEntity
     {
         public Post() { } // 无参数构造函数
-        public Post(string title, string context, User ownerUser)
+        public Post(string title, string context, Guid userId)
         {
             Title = title;
             Context = context;
-            OwnerUser = ownerUser;
+            UserId = userId;
             Status = (int)PublicationStatusEnum.Wait;
         }
 
@@ -17,11 +18,11 @@ namespace PostServiceDomain.Entity
         public string Context { get; set; }
 
 
-        public User OwnerUser { get; init; }
+        public Guid UserId { get; init; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public int Status { get; set; }
-        public Category Category { get; set; }
-        public List<Tag> Tags { get; set; } = new List<Tag>();
+        public List<Category> Categorys { get; set; } = new List<Category>();
+        //public List<Tag> Tags { get; set; } = new List<Tag>();
 
     }
 }

@@ -48,7 +48,7 @@ namespace PostServiceDomain
         /// <returns></returns>
         public async Task<List<Post>> GetPostListByUserAsync(Guid userId, int status = (int)PublicationStatusEnum.Pass, bool isDeleted = false)
         {
-            return await repositoryPost.QueryListAsync(o => o.OwnerUser.Id == userId && o.IsDeleted != isDeleted && o.Status == status);
+            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != isDeleted && o.Status == status);
         }
         /// <summary>
         /// 根据用户搜索评论列表

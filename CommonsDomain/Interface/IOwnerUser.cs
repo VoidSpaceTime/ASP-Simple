@@ -1,4 +1,6 @@
-﻿namespace CommonsDomain.Interface
+﻿using CommonsDomain.Entities;
+
+namespace CommonsDomain.Interface
 {
     public interface IOwnerUser
     {

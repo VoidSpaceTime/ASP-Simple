@@ -9,8 +9,9 @@ namespace PostServicInfrastructure.Configs
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
             builder.ToTable("T_Comment");
-            //builder.HasKey(c => c.Id);
-            builder.Property(o => o.Context).HasMaxLength(500).IsRequired();
+            builder.HasKey(c => c.Id);
+            builder.Property(o => o.Content).HasMaxLength(500).IsRequired();
+
         }
     }
 }

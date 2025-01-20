@@ -8,7 +8,9 @@ namespace PostServicInfrastructure.Configs
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-          
+            builder.HasKey(o => o.Id);
+            builder.ToTable("T_Category");
+
         }
     }
 }

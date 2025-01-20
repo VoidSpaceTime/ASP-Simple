@@ -1,24 +1,27 @@
 ﻿using CommonsDomain.Interface;
 using IdentityServiceDomain.Interface;
 using Microsoft.AspNetCore.Identity;
-
-public class User : IdentityUser<Guid>, IHasCreationTime, IHasDeletionTime, ISoftDelete
+namespace CommonsDomain.Entities
 {
-    public DateTime CreationTime { get; init; }
-
-    public DateTime? DeletionTime { get; set; }
-
-    public bool IsDeleted { get; private set; }
-
-    public User(string userName) : base(userName)
+    public class User : IdentityUser<Guid>, IHasCreationTime, IHasDeletionTime, ISoftDelete
     {
-        Id = Guid.NewGuid();
-        CreationTime = DateTime.Now;
-    }
+        public User() { } // 添加默认构造函数
+        public DateTime CreationTime { get; init; }
 
-    public void SoftDelete()
-    {
-        this.IsDeleted = true;
-        this.DeletionTime = DateTime.Now;
+        public DateTime? DeletionTime { get; set; }
+
+        public bool IsDeleted { get; private set; }
+
+        public User(string userName) : base(userName)
+        {
+            Id = Guid.NewGuid();
+            CreationTime = DateTime.Now;
+        }
+
+        public void SoftDelete()
+        {
+            this.IsDeleted = true;
+            this.DeletionTime = DateTime.Now;
+        }
     }
 }

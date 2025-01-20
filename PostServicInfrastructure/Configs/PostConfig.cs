@@ -12,9 +12,9 @@ namespace PostServicInfrastructure.Configs
 
             builder.HasMany<Comment>(c => c.Comments).WithOne(o => o.OwnerPost).IsRequired()
                 .OnDelete(DeleteBehavior.Restrict); // 避免级联删除;
-            builder.HasOne<Category>(c => c.Category).WithMany(o => o.Posts).IsRequired()
+            builder.HasMany<Category>(c => c.Categorys).WithOne(o => o.OwnerPost)
                  .OnDelete(DeleteBehavior.Restrict); // 避免级联删除;
-            builder.HasMany<Tag>(c => c.Tags).WithMany(o => o.Posts);
+            //builder.HasMany<Tag>(c => c.Tags).WithMany(o => o.Posts);
 
         }
     }

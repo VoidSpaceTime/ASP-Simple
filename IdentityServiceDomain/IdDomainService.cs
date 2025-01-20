@@ -1,4 +1,5 @@
-﻿using IdentityServiceDomain.Interface;
+﻿using CommonsDomain.Entities;
+using IdentityServiceDomain.Interface;
 using JWT;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

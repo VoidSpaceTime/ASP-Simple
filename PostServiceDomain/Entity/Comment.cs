@@ -1,4 +1,5 @@
-﻿using CommonsDomain.Models;
+﻿using CommonsDomain.Entities;
+using CommonsDomain.Models;
 
 namespace PostServiceDomain.Entity
 {
@@ -9,11 +10,11 @@ namespace PostServiceDomain.Entity
         public Comment(Post post, string context, User ownerUser)
         {
             OwnerPost = post;
-            Context = context;
+            Content = context;
             OwnerUser = ownerUser;
             Status = (int)PublicationStatusEnum.Wait;
         }
-        public string Context { get; set; }
+        public string Content { get; set; }
         public User OwnerUser { get; init; }
         public Post OwnerPost { get; set; }
         public int Status { get; set; }

@@ -4,7 +4,9 @@ using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 namespace CommonsInitializer
 {
@@ -36,6 +38,7 @@ namespace CommonsInitializer
             IServiceCollection services = builder.Services;
             IConfiguration configuration = builder.Configuration;
 
+            Environment.SetEnvironmentVariable("DOTNET_SYSTEM_GLOBALIZATION_INVARIANT", "false");
             #region ServiceInjection 其他项目的Service注入
             services.AddServiceAutoDiscover();
             #endregion
@@ -45,11 +48,15 @@ namespace CommonsInitializer
             {
 
                 // 通过扫描程序集注册消费者
+                var ass = DependencyContext.Default.CompileLibraries
+                .Where(l => !l.Serviceable && l.Type != "package" && l.Type == "project")
+                .Select(l => Assembly.Load(new AssemblyName(l.Name)).GetTypes().Where(t => typeof(IConsumer).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract))
+                .SelectMany(a => a).ToArray();
                 //x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
-                x.AddConsumers(typeof(AppDomain).Assembly);
+                x.AddConsumers(ass);
 
                 // 通过类型单个注册消费者
-                // x.AddConsumer<OrderEtoConsumer>(typeof(OrderEtoConsumerDefinition));
+                //x.AddConsumer<UserConsumer>();
 
                 // x.SetKebabCaseEndpointNameFormatter();
 
@@ -58,15 +65,16 @@ namespace CommonsInitializer
 
                 // 通过指定命名空间注册消费者
                 // x.AddConsumersFromNamespaceContaining<OrderEtoConsumer>();
-
+                // 内存
+                //x.SetInMemorySagaRepositoryProvider();
 
                 x.UsingRabbitMq((context, config) =>
                 {
 
-                    config.Host("rabbitmq://localhost:5672", hostconfig =>
+                    config.Host("rabbitmq://18.183.85.117:5672", hostconfig =>
                     {
                         hostconfig.Username("admin");
-                        hostconfig.Password("admin");
+                        hostconfig.Password("ji123486.*");
                     });
 
                     config.ConfigureEndpoints(context);

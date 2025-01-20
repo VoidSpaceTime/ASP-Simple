@@ -1,3 +1,4 @@
+using CommonsDomain.Entities;
 using CommonsInitializer;
 using IdentityServiceDomain.Entities;
 using IdentityServiceInfrastructure;
