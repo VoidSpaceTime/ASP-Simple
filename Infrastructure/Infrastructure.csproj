@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonsDomain\CommonsDomain.csproj" />
+    <ProjectReference Include="..\CommonsInitializer\CommonsInitializer.csproj" />
   </ItemGroup>
 
 </Project>

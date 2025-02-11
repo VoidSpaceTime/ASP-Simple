@@ -42,9 +42,12 @@ namespace PostServicInfrastructure
         public PostDbContext CreateDbContext(string[] args)
         {
             //var optionsBuilder = DbContextOptionsBuilderFactory.Create<PostDbContext>();
-            var optionsBuilder = new DbContextOptionsBuilder<PostDbContext>();
-            optionsBuilder.UseSqlServer("Server=.;Database=ASPSimpleDB;Trusted_Connection=True;");
-            return new PostDbContext(optionsBuilder.Options);
+            // 测试是否可以连接数据库
+            var opt = DbContextOptionsBuilderFactory.Create<PostDbContext>();
+            // 原方法
+            //var optionsBuilder = new DbContextOptionsBuilder<PostDbContext>();
+            //optionsBuilder.UseSqlServer("Server=.;Database=ASPSimpleDB;Trusted_Connection=True;");
+            return new PostDbContext(opt.Options);
         }
     }
 }

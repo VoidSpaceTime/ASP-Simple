@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonsInitializer;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -11,7 +12,8 @@ namespace Infrastructure
         {
 
             base.OnConfiguring(optionsBuilder);
-            var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+            //var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+            var connStr = DbContextOptionsBuilderFactory.ConnicationString;
             optionsBuilder.UseSqlServer(connStr);
             //optionsBuilder.UseSqlServer("Server=.;Database=Demo1;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;");
         }
