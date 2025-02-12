@@ -4,7 +4,7 @@ namespace CommonsInitializer
 {
     public static class DbContextOptionsBuilderFactory
     {
-        public static string ConnicationString = "Server=10.243.222.94;Uid=SQLServer;Pwd=ji123486.*;Database=ASPSimpleDB;Trusted_Connection=True;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
+        public static string ConnicationString = "Server=10.243.222.94;Uid=sa;Pwd=ji123486.*;Database=ASPSimpleDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
         public static DbContextOptionsBuilder<TDbContext> Create<TDbContext>()
             where TDbContext : DbContext
         {
