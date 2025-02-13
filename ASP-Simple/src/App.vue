@@ -1,30 +1,36 @@
 <template>
-  <Login />
+  <!-- <Home /> -->
+  <!-- <Login /> -->
+  <div class="app">
+    <div>
+      <RouterView />
+    </div>
+  </div>
+
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import Login from './components/Login.vue';
+import Login from './views/Login.vue';
+import Home from './components/Home.vue';
 
+let search = ref('');
 
 </script>
 
 <style scoped>
-.login-container {
-  max-width: 300px;
-  margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
+app{
+    /* display: grid; */
+    /* grid-template-columns: 1fr; */
 }
+</style>
 
-h1 {
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1rem;
+<style >
+#grid-container {
+  display: grid;
+  /* grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px; */
 }
 </style>
