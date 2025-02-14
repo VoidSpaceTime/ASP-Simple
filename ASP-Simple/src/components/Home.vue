@@ -25,9 +25,16 @@
                 </div>
             </div>
             <div class="navigation ">
-                <RouterLink :to="{ path: '/' }">首页</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
             </div>
         </div>
     </body>
@@ -41,18 +48,8 @@ let search = ref('');
 
 <style scoped>
 .searchInput {
-    width: 300px;
+    width: auto;
     margin: 0 auto;
-}
-
-.header {
-    display: block;
-    unicode-bidi: isolate;
-    min-height: 64px;
-    position: relative;
-    margin: 0 auto;
-    max-width: 2560px;
-    width: 100%;
 }
 
 .headr-bar {
@@ -61,28 +58,47 @@ let search = ref('');
     display: grid;
     background-color: #ffffff;
     /* border-bottom: 1px solid #ebebeb; */
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-}
-
-.right-bar {
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-    grid-column-end: -1;   
+    grid-template-columns: auto auto auto;
+    justify-content: space-between;
 }
 
 .navigation {
-    /* position: relative; */
+    position: relative;
+    top: 1rem;
     /* align-items: center; */
     /* grid-template-columns: 1fr auto 1fr; */
-    display: flex;
+    display: grid;
+    /* grid-template-columns: repeat(auto);
+     */
+    grid-template-columns: repeat(auto-fill,1fr);
+    /* grid-template-columns: repeat(9,1fr); */
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px,10px;
+    /* width: 80%; */
+    /* justify-content:space-between; */
+    /* align-content:space-around; */
+    /* align-content: center; */
+    align-items: center;
     justify-content: center;
-    
+    justify-items: center;
+    /* column-gap: 2px; */
+    grid-auto-flow:column;
+
 }
 
-.searchBtn {
-    margin: 0 auto;
-}
 
 </style>
+<style>
+@media (max-width: 1024px) {
+    html {
+        width: 1024px;
+        overflow-x: auto;
+    }
+    body {
+        width: 100%;
+        overflow-x: auto;
+    }
+    .container {
+        width: 1024px;
+    }
+}</style>
