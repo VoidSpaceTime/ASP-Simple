@@ -14,18 +14,14 @@ import { reactive, ref } from 'vue';
 import Login from './views/Login.vue';
 import Home from './components/Home.vue';
 
+
 let search = ref('');
 
 </script>
 
-<style scoped>
-app{
-    /* display: grid; */
-    /* grid-template-columns: 1fr; */
-}
-</style>
+<style scoped></style>
 
-<style >
+<style>
 #grid-container {
   display: grid;
   /* grid-template-columns: 1fr 1fr 1fr;
