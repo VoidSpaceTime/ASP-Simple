@@ -5,58 +5,111 @@
         <title>首页</title>
     </head>
 
-    <body class="body">
 
-        <div class="headerLayout">
-            <div class="headerBar ">
-                <div class="leftBar">
-                    <RouterLink :to="{ path: '/' }">首页</RouterLink>
-                    <RouterLink :to="{ path: '/' }">导航</RouterLink>
-                    <RouterLink :to="{ path: '/' }">导航</RouterLink>
-                </div>
-                <div class="center">
-                    <el-input v-model="search" placeholder="" clearable class="searchInput" />
-                    <!-- <<el-button type="info" size="default" @click="" class="searchBtn"></el-button> -->
-                </div>
-                <div class="rightBar">
-                    <RouterLink :to="{ path: '/' }">动态</RouterLink>
-                    <RouterLink :to="{ path: '/' }">历史</RouterLink>
-                    <RouterLink :to="{ path: '/' }">收藏</RouterLink>
-                </div>
+    <div class="grid justify-center gap-4">
+        <div class="relative grid w-full grid-flow-col justify-between items-center">
+            <div class="leftBar">
+                <RouterLink :to="{ path: '/' }">首页</RouterLink>
+                <!-- <RouterLink :to="{ path: '/' }">导航</RouterLink>
+                    <RouterLink :to="{ path: '/' }">导航</RouterLink> -->
             </div>
-            <div class="navigation ">
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
-                <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <div class=" w-96">
+                <el-input v-model="search" placeholder="" clearable class=" " />
+                <!-- <<el-button type="info" size="default" @click="" class="searchBtn"></el-button> -->
             </div>
-            <div v-for="post in PostCardList" :key="post.indexOf">
-                <!-- <PostCard /> -->
-               
+            <div class="">
+                <RouterLink :to="{ path: '/' }">登录</RouterLink>
+                <RouterLink :to="{ path: '/' }">个人中心</RouterLink>
+                <RouterLink :to="{ path: '/' }">消息</RouterLink>
+                <RouterLink :to="{ path: '/' }">动态</RouterLink>
+                <RouterLink :to="{ path: '/' }">收藏</RouterLink>
+                <RouterLink :to="{ path: '/' }">历史</RouterLink>
             </div>
         </div>
-    </body>
+        <div class="grid grid-flow-col justify-center text-base gap-4 grid-rows-2">
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+            <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
+        </div>
+
+        <div class="grid justify-center grid-cols-4 gap-4 w-10/12 justify-items-center items-center">
+
+            <div v-for="post in PostCardList" :key="post.Id">
+                <PostCard :post="post" class=" w-full" />
+
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <script setup lang="ts" name="Home">
-import PostCard from '@/views/PostCard.vue';
-import { ref } from 'vue';
+import PostCard from '@/components/PostCard.vue';
+import type IPostCard from '@/interface/IPostCard.ts';
+import { ref, reactive, type Reactive } from 'vue';
 
 let search = ref('');
-let PostCardList:string[] = ["1","2"]
+let PostCardList = reactive<IPostCard[]>([
+    {
+        Id: "122131231",
+        PostName: '测试1',
+        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+        UserName: '测试用户1',
+        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
+        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+    },
+    {
+        Id: "122131232",
+        PostName: '测试2',
+        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+        UserName: '测试用户2',
+        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
+        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+    },
+    {
+        Id: "122131233",
+        PostName: '测试3',
+        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+        UserName: '测试用户3',
+        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
+        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+    },
+    {
+        Id: "122131234",
+        PostName: '测试4',
+        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+        UserName: '测试用户3',
+        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
+        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+    },
+    {
+        Id: "122131235",
+        PostName: '测试5',
+        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+        UserName: '测试用户3',
+        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
+        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+    },
+    {
+        Id: "122131236",
+        PostName: '测试6',
+        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+        UserName: '测试用户3',
+        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
+        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
+    },
+]);
+
 </script>
 
 <style scoped>
-.searchInput {
-    width: auto;
-    margin: 0 auto;
-}
 .headerLayout {
     display: grid;
     /* grid-template-columns: 1fr; */
@@ -65,17 +118,6 @@ let PostCardList:string[] = ["1","2"]
     /* grid-auto-flow: row; */
     /* gap: 5px; */
     /* border-bottom: 1px solid #ebebeb; */
-
-}
-.headerBar {
-    position: relative;
-    display: grid;
-    width: 100%;
-    background-color: #ffffff;
-    /* border-bottom: 1px solid #ebebeb; */
-    grid-template-columns: auto auto auto;
-    justify-content: space-between;
-    align-content: center;
 
 }
 
@@ -87,7 +129,7 @@ let PostCardList:string[] = ["1","2"]
     display: grid;
     /* grid-template-columns: repeat(auto);
      */
-    grid-template-columns: repeat(auto-fill,1fr);
+    grid-template-columns: repeat(auto-fill, 1fr);
     /* grid-template-columns: repeat(9,1fr); */
     grid-template-rows: repeat(2, 1fr);
     /* gap: 10px,10px; */
@@ -101,12 +143,10 @@ let PostCardList:string[] = ["1","2"]
     justify-items: center;
     align-items: center;
     /* column-gap: 2px; */
-    grid-auto-flow:column;
+    grid-auto-flow: column;
 
 
 }
-
-
 </style>
 <style>
 @media (max-width: 1024px) {
@@ -114,11 +154,14 @@ let PostCardList:string[] = ["1","2"]
         width: 1024px;
         overflow-x: auto;
     }
+
     body {
         width: 100%;
         overflow-x: auto;
     }
+
     .container {
         width: 1024px;
     }
-}</style>
+}
+</style>

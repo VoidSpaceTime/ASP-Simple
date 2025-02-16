@@ -1,10 +1,9 @@
 <template>
   <!-- <Home /> -->
   <!-- <Login /> -->
-  <div class="app">
-    <div>
-      <RouterView />
-    </div>
+  <div class="grid w-full h-full">
+    <RouterView />
+    <!-- <Login /> -->
   </div>
 
 </template>
@@ -19,14 +18,3 @@ let search = ref('');
 
 </script>
 
-<style scoped></style>
-
-<style>
-#grid-container {
-  display: grid;
-  /* grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 10px;
-  background-color: #2196F3;
-  padding: 10px; */
-}
-</style>
