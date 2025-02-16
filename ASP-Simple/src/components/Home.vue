@@ -36,8 +36,9 @@
                 <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
                 <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
             </div>
-            <div>
-                <PostCard />
+            <div v-for="post in PostCardList" :key="post.indexOf">
+                <!-- <PostCard /> -->
+               
             </div>
         </div>
     </body>
@@ -48,6 +49,7 @@ import PostCard from '@/views/PostCard.vue';
 import { ref } from 'vue';
 
 let search = ref('');
+let PostCardList:string[] = ["1","2"]
 </script>
 
 <style scoped>
