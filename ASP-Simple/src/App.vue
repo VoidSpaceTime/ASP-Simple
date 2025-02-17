@@ -2,8 +2,9 @@
   <!-- <Home /> -->
   <!-- <Login /> -->
   <div class="grid w-full h-full">
-    <RouterView />
+    <!-- <RouterView /> -->
     <!-- <Login /> -->
+    <Home />
   </div>
 
 </template>

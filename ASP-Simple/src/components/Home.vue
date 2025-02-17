@@ -6,8 +6,8 @@
     </head>
 
 
-    <div class="grid justify-center gap-4">
-        <div class="relative grid w-full grid-flow-col justify-between items-center">
+    <div class="grid justify-center gap-4 ">
+        <div class="relative grid w-full grid-flow-col justify-between">
             <div class="leftBar">
                 <RouterLink :to="{ path: '/' }">首页</RouterLink>
                 <!-- <RouterLink :to="{ path: '/' }">导航</RouterLink>
@@ -17,8 +17,9 @@
                 <el-input v-model="search" placeholder="" clearable class=" " />
                 <!-- <<el-button type="info" size="default" @click="" class="searchBtn"></el-button> -->
             </div>
-            <div class="">
-                <RouterLink :to="{ path: '/' }">登录</RouterLink>
+            <div class="grid grid-flow-col gap-x-2">
+                <RouterLink :to="{ path: '/login' }">登录</RouterLink>
+                <!-- <el-button type="primary" size="default" @click="">登录</el-button> -->
                 <RouterLink :to="{ path: '/' }">个人中心</RouterLink>
                 <RouterLink :to="{ path: '/' }">消息</RouterLink>
                 <RouterLink :to="{ path: '/' }">动态</RouterLink>
@@ -38,8 +39,8 @@
             <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
             <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
         </div>
-
-        <div class="grid justify-center grid-cols-4 gap-4 w-10/12 justify-items-center items-center">
+        <RouterView />
+        <div class="grid grid-cols-4 gap-10 w-10/12 justify-self-center">
 
             <div v-for="post in PostCardList" :key="post.Id">
                 <PostCard :post="post" class=" w-full" />
@@ -53,7 +54,8 @@
 <script setup lang="ts" name="Home">
 import PostCard from '@/components/PostCard.vue';
 import type IPostCard from '@/interface/IPostCard.ts';
-import { ref, reactive, type Reactive } from 'vue';
+import Login from '@/views/Login.vue';
+import { ref, reactive } from 'vue';
 
 let search = ref('');
 let PostCardList = reactive<IPostCard[]>([
@@ -107,6 +109,10 @@ let PostCardList = reactive<IPostCard[]>([
     },
 ]);
 
+function showLogin()
+{
+   
+}
 </script>
 
 <style scoped>
