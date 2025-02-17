@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import Login from './views/Login.vue';
+import Login from './components/Login.vue';
 import Home from './components/Home.vue';
 
 

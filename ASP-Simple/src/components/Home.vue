@@ -6,7 +6,7 @@
     </head>
 
 
-    <div class="grid justify-center gap-4 ">
+    <div class="grid gap-4">
         <div class="relative grid w-full grid-flow-col justify-between">
             <div class="leftBar">
                 <RouterLink :to="{ path: '/' }">首页</RouterLink>
@@ -18,9 +18,9 @@
                 <!-- <<el-button type="info" size="default" @click="" class="searchBtn"></el-button> -->
             </div>
             <div class="grid grid-flow-col gap-x-2">
-                <RouterLink :to="{ path: '/login' }">登录</RouterLink>
+                <div @click="loginShow" class=" select-none cursor-pointer">登录</div>
+                <!-- <router-link active-class="active" :to="{ path: '/login' }">登录</router-link> -->
                 <!-- <el-button type="primary" size="default" @click="">登录</el-button> -->
-                <RouterLink :to="{ path: '/' }">个人中心</RouterLink>
                 <RouterLink :to="{ path: '/' }">消息</RouterLink>
                 <RouterLink :to="{ path: '/' }">动态</RouterLink>
                 <RouterLink :to="{ path: '/' }">收藏</RouterLink>
@@ -39,80 +39,26 @@
             <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
             <RouterLink :to="{ path: '/' }">导航2222</RouterLink>
         </div>
-        <RouterView />
-        <div class="grid grid-cols-4 gap-10 w-10/12 justify-self-center">
-
-            <div v-for="post in PostCardList" :key="post.Id">
-                <PostCard :post="post" class=" w-full" />
-
-            </div>
+        <Login />
+        <div>
+            <RouterView />
         </div>
+
     </div>
 
 </template>
 
 <script setup lang="ts" name="Home">
-import PostCard from '@/components/PostCard.vue';
-import type IPostCard from '@/interface/IPostCard.ts';
-import Login from '@/views/Login.vue';
+
+import emitter from '@/unitls/mitters';
 import { ref, reactive } from 'vue';
+import Login from '@/components/Login.vue';
 
 let search = ref('');
-let PostCardList = reactive<IPostCard[]>([
-    {
-        Id: "122131231",
-        PostName: '测试1',
-        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-        UserName: '测试用户1',
-        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
-        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-    },
-    {
-        Id: "122131232",
-        PostName: '测试2',
-        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-        UserName: '测试用户2',
-        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
-        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-    },
-    {
-        Id: "122131233",
-        PostName: '测试3',
-        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-        UserName: '测试用户3',
-        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
-        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-    },
-    {
-        Id: "122131234",
-        PostName: '测试4',
-        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-        UserName: '测试用户3',
-        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
-        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-    },
-    {
-        Id: "122131235",
-        PostName: '测试5',
-        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-        UserName: '测试用户3',
-        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
-        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-    },
-    {
-        Id: "122131236",
-        PostName: '测试6',
-        PostUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-        UserName: '测试用户3',
-        UserUrl: 'https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg',
-        ImgUrl: "https://pic4.zhimg.com/v2-10ab4fade18c67ccd61b0ce123e45321_1440w.jpg",
-    },
-]);
-
-function showLogin()
-{
-   
+function loginShow() {
+    emitter.emit('loginShow', true)
 }
+
 </script>
 
 <style scoped>
