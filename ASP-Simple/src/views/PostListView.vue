@@ -1,6 +1,6 @@
 <template>
 
-    <div class="grid grid-cols-4 gap-10 w-10/12 justify-self-center">
+    <div class="grid grid-cols-5 gap-8 w-10/12 justify-self-center">
 
         <div v-for="post in PostCardList" :key="post.Id">
             <PostCard :post="post" class=" w-full" />

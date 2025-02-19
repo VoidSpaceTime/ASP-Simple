@@ -1,45 +1,86 @@
 <template>
     <div class="grid justify-self-center w-11/12">
-        <div class="grid grid-flow-col justify-between m-4 ">
-            <div>图标</div>
-            <div class=" w-[30rem]">
-                <el-input v-model="search" placeholder="" size="large" :suffix-icon="Search" clearable
-                    @change=""></el-input>
+        <div class="grid grid-flow-col justify-between m-4">
+            <div class="">图标</div>
+            <div class="w-[28rem]">
+                <el-input v-model="search" placeholder="" :suffix-icon="Search" clearable></el-input>
             </div>
-            <el-button type="" size="large" @click="loginShow = true" circle="true">
-                <el-dialog title="登录" width="30%" :close-on-click-modal="false" v-model="loginShow" @close="">
-                    <span slot="footer">
-                        <el-button @click="loginShow = false">Cancel</el-button>
-                        <el-button type="primary" @click="">OK</el-button>
-                    </span>
-                </el-dialog>
-            </el-button>
+            <div class="grid grid-flow-col justify-end gap-4">
+                <el-button @click="loginShow = true" :circle="true">
+                    <el-dialog title="登录" width="30%" :close-on-click-modal="false" v-model="loginShow">
+                        <span slot="footer">
+                            <el-form :model="login" label-width="auto" :status-icon="true" :rules="rules" class="demo-ruleForm">
+                                <el-form-item label="账号" prop="user">
+                                    <el-input v-model="login.user"></el-input>
+                                </el-form-item>
+                                <el-form-item label="密码" prop="password">
+                                    <el-input v-model="login.password" type="password" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button>注册</el-button>
+                                    <el-button type="primary" @click="handleLogin">登录</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </span>
+                    </el-dialog>
+                </el-button>
+                <el-link>消息</el-link>
+                <el-link>动态</el-link>
+                <el-link>收藏</el-link>
+                <el-link>历史</el-link>
+            </div>
         </div>
-        <el-tabs v-model="activeName" class=" justify-self-center w-full" @tab-click="" type="card">
-            <el-tab-pane label="User" name="1">User</el-tab-pane>
-            <el-tab-pane label="Config" name="2">Config</el-tab-pane>
-            <el-tab-pane label="Role" name="3">Role</el-tab-pane>
-            <el-tab-pane label="Task" name="4">Task</el-tab-pane>
-        </el-tabs>
-        <div class="grid grid-cols-6"></div>
+        <div class="grid grid-cols-10 gap-1 my-6 w-10/12 justify-self-center">
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+            <el-link href="" type="default" :underline="false" size="medium">测试</el-link>
+        </div>
+        <div>
+            <!-- <PostListView /> -->
+        </div>
     </div>
-
 </template>
 
 <script setup lang="ts" name="Home">
-import { Search } from '@element-plus/icons-vue'
-import emitter from '@/unitls/mitters';
+import { Search } from '@element-plus/icons-vue';
 import { ref, reactive } from 'vue';
-import Login from '@/components/Login.vue';
-let search = ref('')
-const activeName = ref('1')
-let icon = "http://www.w3.org/2000/svg"
-let loginShow = ref(false)
-function login() {
-    // 未登录 弹出登录
-    loginShow.value = true
-    // 登录 跳转个人信息
-}
+import type { FormInstance, FormRules } from 'element-plus';
+import axios from 'axios';
 
+let search = ref('');
+let loginShow = ref(false);
 
+let login = reactive({
+    user: '',
+    password: ''
+});
+
+const validatePass = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        callback(new Error('请输入密码'));
+    } else if (value.length < 6) {
+        callback(new Error('密码长度不能小于6位'));
+    } else {
+        callback();
+    }
+};
+
+const rules = reactive<FormRules<typeof login>>({
+    password: [{ validator: validatePass, trigger: 'blur' }]
+});
+
+const handleLogin = () => {
+    console.log('登录按钮被点击');
+    // axios.post('http://localhost:3000/login', login).then(res => {
+    //     console.log(res);
+    // });
+    // 在这里添加登录逻辑
+};
 </script>

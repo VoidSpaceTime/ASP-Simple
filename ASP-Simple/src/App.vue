@@ -18,4 +18,3 @@ import Home from './components/Home.vue';
 let search = ref('');
 
 </script>
-
