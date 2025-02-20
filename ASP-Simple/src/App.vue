@@ -1,11 +1,9 @@
 <template>
-  <!-- <Home /> -->
-  <!-- <Login /> -->
   <div class="grid w-full h-full">
-    <!-- <RouterView /> -->
-    <!-- <Login /> -->
-    <Home />
-     <!-- <Publish/> -->
+    <HomeHeard />
+    <!-- <Home /> -->
+    <!-- <UserCenter /> -->
+    <RouterView></RouterView>
   </div>
 
 </template>
@@ -14,7 +12,8 @@
 import { reactive, ref } from 'vue';
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
-import Publish from './components/Publish.vue';
+import HomeHeard from './components/HomeHeard.vue';
+import UserCenter from './components/UserCenter.vue';
 
 
 let search = ref('');

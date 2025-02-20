@@ -1,7 +1,10 @@
 <template>
     <div class="grid grid-flow-col justify-between m-4">
-        <div class="">图标</div>
-        <div class="w-[28rem]">
+
+        <el-link class=" w-40"><router-link active-class="active" :to="{ path: '/home' }">  <div class="">图标</div></router-link>
+          
+        </el-link>
+        <div class="w-[28rem] left-10">
             <el-input v-model="search" placeholder="" :suffix-icon="Search" clearable></el-input>
         </div>
         <div class="grid grid-flow-col justify-end gap-4">
@@ -28,6 +31,8 @@
             <el-link>动态</el-link>
             <el-link>收藏</el-link>
             <el-link>历史</el-link>
+            <el-link> <router-link active-class="active" :to="{ path: '/userCenter' }">投稿</router-link></el-link>
+
         </div>
     </div>
 </template>
@@ -36,7 +41,8 @@
 import type { FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { Search } from '@element-plus/icons-vue';
-import axios from 'axios';
+import { RequestPost } from '@/services/Repository';
+import { el } from 'element-plus/es/locales.mjs';
 
 let search = ref('');
 let loginShow = ref(false);
@@ -61,9 +67,8 @@ const rules = reactive<FormRules<typeof login>>({
 });
 
 const handleLogin = () => {
-    axios.post('http://localhost:7137/Login/LoginByUserNameAndPwd', login).then(res => {
-        console.log("成功", res);
+    RequestPost('Login/LoginByUserNameAndPwd', login).then(res => {
+        localStorage.setItem('token', res.data.token);
     }).catch((reason) => console.log("失败", reason))
-
 };
 </script>
