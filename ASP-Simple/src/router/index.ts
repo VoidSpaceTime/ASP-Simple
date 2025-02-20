@@ -3,8 +3,9 @@
 // 第一步：引入createRouter
 import Home from '@/components/Home.vue'
 import Login from '@/components/Login.vue'
-import UserCenter from '@/components/UserCenter.vue'
+import UserCenterView from '@/views/UserCenterView.vue'
 import PostListView from '@/views/PostListView.vue'
+import UserInfoView from '@/views/UserInfoView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 // 引入一个一个可能要呈现组件
 // import Home from '@/components/Home.vue'
@@ -42,7 +43,13 @@ const router = createRouter({
         // },
         {
             path: '/userCenter',
-            component: UserCenter
+            component: UserCenterView,
+            children: [
+                {
+                    path: 'userInfo',
+                    component: UserInfoView,
+                }
+            ]
         },
         {
             path: "/",

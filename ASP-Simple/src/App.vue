@@ -13,7 +13,7 @@ import { reactive, ref } from 'vue';
 import Login from './components/Login.vue';
 import Home from './components/Home.vue';
 import HomeHeard from './components/HomeHeard.vue';
-import UserCenter from './components/UserCenter.vue';
+import UserCenter from './views/UserCenterView.vue';
 
 
 let search = ref('');
