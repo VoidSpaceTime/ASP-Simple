@@ -1,8 +1,10 @@
 <template>
     <div class="grid grid-flow-col justify-between m-4">
 
-        <el-link class=" w-40"><router-link active-class="active" :to="{ path: '/home' }">  <div class="">图标</div></router-link>
-          
+        <el-link class=" w-40"><router-link active-class="active" :to="{ path: '/home' }">
+                <div class="">图标</div>
+            </router-link>
+
         </el-link>
         <div class="w-[28rem] left-10">
             <el-input v-model="search" placeholder="" :suffix-icon="Search" clearable></el-input>
@@ -67,7 +69,11 @@ const rules = reactive<FormRules<typeof login>>({
 });
 
 const handleLogin = () => {
-    RequestPost('Login/LoginByUserNameAndPwd', login).then(res => {
+    RequestPost('https://localhost:7137/', {
+        url: "Login/LoginByUserNameAndPwd",
+        data: login
+    }).then(res => {
+        loginShow.value = false;
         localStorage.setItem('token', res.data.token);
     }).catch((reason) => console.log("失败", reason))
 };

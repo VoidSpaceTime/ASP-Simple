@@ -116,7 +116,7 @@ namespace CommonsInitializer
             //    options.AddDefaultPolicy(builder => builder.WithOrigins(urls)
             //            .AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             //}
-
+  
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("any", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });

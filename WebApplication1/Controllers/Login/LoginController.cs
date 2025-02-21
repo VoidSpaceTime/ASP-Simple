@@ -14,6 +14,7 @@ using System.Security.Claims;
 namespace WebApplication1.Controllers.Login
 {
     [Route("[controller]/[action]")]
+    [ApiController]
     public class LoginController : ControllerBase
     {
         private readonly IIdRepository repository;

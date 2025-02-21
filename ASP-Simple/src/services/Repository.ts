@@ -1,8 +1,9 @@
 import axios from 'axios'
-axios.defaults.headers.common['contentType'] ='application/json';
-export function RequestPost(url: string, parameter: {}) {
+// axios.defaults.headers.common['contentType'] ='application/json';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+export function RequestPost(baseURL: string, config: { url: string, data?: {} }) {
     const instance = axios.create({
-        baseURL: url,
+        baseURL: baseURL,
         timeout: 12000,
         method: "post",
     });
@@ -20,27 +21,16 @@ export function RequestPost(url: string, parameter: {}) {
             console.log(err);
         }
     );
-    instance.interceptors.response.use(
-        res => {
-            let data = res.data;
-
-            // if (data.success === false) {
-            //     if (data.code === "000008") {
-            //         //token 无效
-            //         window.localStorage.clear();
-
-            //         //跳转到登录页面
-            //         // router.push('/login');
-            //         router.push("/");
-            //     }
-            // }
-            return res.data;
-        },
-        err => {
-            console.log(err);
-        }
-    );
-    return instance(parameter);
+    // instance.interceptors.response.use(
+    //     res => {
+    //         let data = res.data;
+    //         return res.data;
+    //     },
+    //     err => {
+    //         console.log("拦截报错",err);
+    //     }
+    // );
+    return instance(config);
 }
 
 export function RequestGet(url: string, parameter: {}) {
