@@ -1,12 +1,13 @@
 // 创建一个路由器，并暴露出去
 
 // 第一步：引入createRouter
-import Home from '@/components/Home.vue'
-import Login from '@/components/Login.vue'
+import Home from '@/views/HomeView.vue'
 import UserCenterView from '@/views/UserCenterView.vue'
 import PostListView from '@/views/PostListView.vue'
 import UserInfoView from '@/views/UserInfoView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import CreativeCenterView from '@/views/CreativeCenterView.vue'
+import ContributeView from '@/views/ContributeView.vue'
 // 引入一个一个可能要呈现组件
 // import Home from '@/components/Home.vue'
 // import News from '@/components/News.vue'
@@ -18,42 +19,38 @@ const router = createRouter({
     routes: [ //一个一个的路由规则
         {
             // name: 'Home',
-            path: '/home',
+            path: '/',
             component: Home,
             children: [
                 {
                     path: "postList",
                     component: PostListView,
                 },
-                {
-                    path: "",
-                    component: PostListView,
-                },
             ]
         },
-        {
-            // name: 'Home',
-            path: '/login',
-            component: Login
-        },
-        // {
-        //     // name: 'Home',
-        //     path: '/post',
-        //     component: PostListView
-        // },
         {
             path: '/userCenter',
             component: UserCenterView,
             children: [
                 {
-                    path: 'userInfo',
+                    path: '',
                     component: UserInfoView,
-                }
+                },
             ]
         },
         {
-            path: "/",
-            component: Home
+            path: '/creativeCenter',
+            component: CreativeCenterView,
+            children: [
+                {
+                    path: '/',
+                    component: ContributeView,
+                },
+                {
+                    path: 'contribute',
+                    component: ContributeView,
+                }
+            ]
         },
 
     ]
