@@ -1,4 +1,5 @@
 ﻿using CommonsDomain.DTO.Identity;
+using CommonsDomain.DTO;
 using CommonsDomain.Entities;
 using CommonsDomain.Enum;
 using IdentityService.WebAPI.Controllers.Login;
@@ -27,11 +28,13 @@ namespace WebApplication1.Controllers.Login
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> CreateWorld()
+        public async Task<JsonResponseL> CreateWorld()
         {
+            var res = new JsonResponseL();
+
             if (await repository.FindByNameAsync("admin") != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, "已经初始化过了");
+                return res.Fail("已经初始化过了");
             }
             User user = new User("admin");
             var r = await repository.CreateAsync(user, "123456");
@@ -43,15 +46,17 @@ namespace WebApplication1.Controllers.Login
             Debug.Assert(r.Succeeded);
             r = await repository.AddToRoleAsync(user, "Admin");
             Debug.Assert(r.Succeeded);
-            return Ok();
+            return res.Succeed();
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> RegisterUser(RegisterUserRequest registerUser)
+        public async Task<JsonResponseL> RegisterUser(RegisterUserRequest registerUser)
         {
+            var res = new JsonResponseL();
             if (await repository.FindByNameAsync(registerUser.Name) != null)
             {
-                return StatusCode((int)HttpStatusCode.Conflict, "用户名已注册");
+                return res.Fail("用户名已注册");
+                //return StatusCode((int)HttpStatusCode.Conflict, "用户名已注册");
             }
             User user = new User(registerUser.Name);
             var r = await repository.CreateAsync(user, registerUser.Password);
@@ -64,76 +69,80 @@ namespace WebApplication1.Controllers.Login
             //Debug.Assert(r.Succeeded);
             //r = await repository.AddToRoleAsync(user, "Admin");
             Debug.Assert(r.Succeeded);
-            return Ok();
+            return res.Succeed();
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [Authorize]
-        public async Task<ActionResult<UserResponse>> GetUserInfo()
+        public async Task<JsonResponseL> GetUserInfo()
         {
+            var res = new JsonResponseL();
             string? userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
-                return Unauthorized();
+                return res.LoginFail();
             }
             var user = await repository.FindByIdAsync(Guid.Parse(userId));
             if (user == null)//可能用户注销了
             {
-                return NotFound();
+                return res.Fail("用户不存在");
             }
             //出于安全考虑，不要机密信息传递到客户端
             //除非确认没问题，否则尽量不要直接把实体类对象返回给前端
-            return new UserResponse(user.Id, user.PhoneNumber ?? string.Empty, user.CreationTime);
+            return res.Succeed(new UserResponse(user.Id, user.PhoneNumber ?? string.Empty, user.CreationTime));
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<string?>> LoginByPhoneAndPwd(LoginByPhoneAndPwdRequest req)
+        public async Task<JsonResponseL> LoginByPhoneAndPwd(LoginByPhoneAndPwdRequest req)
         {
+            var res = new JsonResponseL();
             //todo：要通过行为验证码、图形验证码等形式来防止暴力破解
             (var checkResult, string? token) = await idService.LoginByPhoneAndPwdAsync(req.PhoneNum, req.Password);
             if (checkResult.Succeeded)
             {
-                return token;
+                return res.Succeed(new { token });
             }
             else if (checkResult.IsLockedOut)
             {
                 //尝试登录次数太多
-                return StatusCode((int)HttpStatusCode.Locked, "此账号已经锁定");
+                return res.Fail("此账号已经锁定");
             }
             else
             {
-                string msg = "登录失败";
-                return StatusCode((int)HttpStatusCode.BadRequest, msg);
+                return res.Fail("登录失败");
             }
         }
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<string>> LoginByUserNameAndPwd(LoginByUserNameAndPwdRequest req)
+        public async Task<JsonResponseL> LoginByUserNameAndPwd(LoginByUserNameAndPwdRequest req)
         {
+            var res = new JsonResponseL();
             (var checkResult, var token) = await idService.LoginByUserNameAndPwdAsync(req.UserName, req.Password);
-            if (checkResult.Succeeded) return token!;
+            if (checkResult.Succeeded)
+                return res.Succeed(new { token });
             else if (checkResult.IsLockedOut)//尝试登录次数太多
-                return StatusCode((int)HttpStatusCode.Locked, "用户已经被锁定");
+                return res.Fail("用户已经被锁定");
             else
             {
                 string msg = checkResult.ToString();
-                return BadRequest("登录失败" + msg);
+                return res.Fail("登录失败" + msg);
             }
         }
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> ChangeMyPassword(ChangeMyPasswordRequest req)
+        public async Task<JsonResponseL> ChangeMyPassword(ChangeMyPasswordRequest req)
         {
+            var res = new JsonResponseL();
             Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
             var resetPwdResult = await repository.ChangePasswordAsync(userId, req.Password);
             if (resetPwdResult.Succeeded)
             {
-                return Ok();
+                return res.Succeed();
             }
             else
             {
-                return BadRequest(resetPwdResult.Errors.SumErrors());
+                return res.Fail(resetPwdResult.Errors.SumErrors());
             }
         }
     }

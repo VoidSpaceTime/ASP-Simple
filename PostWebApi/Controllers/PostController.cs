@@ -1,4 +1,5 @@
-﻿using CommonsDomain.DTO.Identity;
+﻿using CommonsDomain.DTO;
+using CommonsDomain.DTO.Identity;
 using CommonsDomain.Entities;
 using CommonsDomain.Enum;
 using MassTransit;
@@ -40,48 +41,54 @@ namespace PostWebApi.Controllers
             return await Task.FromResult(result);
         }
         [HttpGet]
-        public async Task<ActionResult<List<PostResponse>>> GetPostAllList()
+        public async Task<JsonResponseL> GetPostAllList()
         {
+            var res = new JsonResponseL();
             var posts = await postRepository.QueryListAsync(o => o.IsDeleted != true);
-            return Ok(this.ConvertRespositoryPost(posts));
+            return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<ActionResult<List<PostResponse>>> GetPostAllList(int status)
+        public async Task<JsonResponseL> GetPostAllList(int status)
         {
+            var res = new JsonResponseL();
             var posts = await postRepository.QueryListAsync(o => o.IsDeleted != true && o.Status == status);
-            return Ok(this.ConvertRespositoryPost(posts));
+            return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<ActionResult<List<PostResponse>>> GetPostListByUser(UserResponse userResponse, int status)
+        public async Task<JsonResponseL> GetPostListByUser(UserResponse userResponse, int status)
         {
+            var res = new JsonResponseL();
             var posts = await postService.GetPostListByUserAsync(userResponse.Id, status);
-            return Ok(this.ConvertRespositoryPost(posts));
+            return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpGet]
-        public async Task<ActionResult<List<PostResponse>>> GetPostListByUser()
+        public async Task<JsonResponseL> GetPostListByUser()
         {
+            var res = new JsonResponseL();
             var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
             var posts = await postService.GetPostListByUserAsync(userId);
-            return Ok(this.ConvertRespositoryPost(posts));
+            return res.Succeed(this.ConvertRespositoryPost(posts));
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<PostResponse>>> GetPostListByTitle(string title)
+        public async Task<JsonResponseL> GetPostListByTitle(string title)
         {
+            var res = new JsonResponseL();
             var posts = await postService.GetPostListByNameAsync(title);
-            return Ok(this.ConvertRespositoryPost(posts));
+            return res.Succeed(this.ConvertRespositoryPost(posts));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePostByUser(PostSubmitRequest postSubmitRequest)
+        public async Task<JsonResponseL> CreatePostByUser(PostSubmitRequest postSubmitRequest)
         {
+            var res = new JsonResponseL();
             var result = Guid.TryParse(postSubmitRequest.UserId, out Guid userId);
             //var response = await requestClient.GetResponse<User>(new UserIdResponse(guid), timeout: RequestTimeout.After(s: 30));
             //var user = response.Message;
 
             if (result != true)
             {
-                return BadRequest("创建失败");
+                return res.Fail("创建失败");
             }
             var post = new Post(postSubmitRequest.Title, postSubmitRequest.Content, userId);
             if (postSubmitRequest.Categorys.Count >= 1)
@@ -93,22 +100,23 @@ namespace PostWebApi.Controllers
             var r = await postService.CreatePostAsync(post);
             if (r == false)
             {
-                return BadRequest("创建失败");
+                return res.Fail("创建失败");
             }
-            return Ok();
+            return res.Succeed();
         }
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> ModifyPostStatus(PostRequest postRequest)
+        public async Task<JsonResponseL> ModifyPostStatus(PostRequest postRequest)
         {
+            var res = new JsonResponseL();
             var post = await postRepository.FindAsync(Guid.Parse(postRequest.PostId));
             post.Status = postRequest.Status;
             var result = await postRepository.UpdateAsync(post);
             if (result)
             {
-                return Ok();
+                return res.Succeed();
             }
-            return BadRequest("处理错误");
+            return res.Fail("处理错误");
 
         }
     }

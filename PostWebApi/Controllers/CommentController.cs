@@ -1,4 +1,5 @@
-﻿using CommonsDomain.DTO.Identity;
+﻿using CommonsDomain.DTO;
+using CommonsDomain.DTO.Identity;
 using CommonsDomain.Entities;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
 using PostWebApi.DTO;
 using System;
+using static MassTransit.ValidationResultExtensions;
 
 namespace PostWebApi.Controllers
 {
@@ -35,18 +37,21 @@ namespace PostWebApi.Controllers
             return await Task.FromResult(result);
         }
         [HttpPost]
-        public async Task<ActionResult<List<CommentResponse>>> GetCommentListByPost(PostRequest postRequest)
+        public async Task<JsonResponseL> GetCommentListByPost(PostRequest postRequest)
         {
+            var res = new JsonResponseL();
             if (Guid.TryParse(postRequest.PostId, out Guid postId))
             {
                 var comments = await postService.GetCommentListByPostAsync(postId);
-                return Ok(this.ConvertRespositoryComment(comments));
+                return res.Succeed(await Task.FromResult(this.ConvertRespositoryComment(comments)));
+
             }
-            return BadRequest("帖子不存在");
+            return res.Fail("帖子不存在");
         }
         [HttpPost]
-        public async Task<ActionResult> CreatCommentByPost(CommentResponse commentResponse)
+        public async Task<JsonResponseL> CreatCommentByPost(CommentResponse commentResponse)
         {
+            var res = new JsonResponseL();
             var response = await requestClient.GetResponse<User>(new UserIdResponse(Guid.Parse(commentResponse.UserId)));
             var user = response.Message;
             Guid.TryParse(commentResponse.PostId, out Guid postId);
@@ -57,10 +62,10 @@ namespace PostWebApi.Controllers
                 var result = await postService.CreateCommentAsync(comment);
                 if (result)
                 {
-                    return Ok();
+                    return res.Succeed();
                 }
             }
-            return BadRequest("创建失败");
+            return res.Fail("创建失败");
         }
 
 
