@@ -3,8 +3,7 @@
     <el-tabs v-model="activeName" @tab-click="" class="w-full">
         <el-tab-pane label="上传图文" name="first">
             <div class="grid gap-2 ml-2">
-                <el-upload v-model:file-list="fileList"
-                    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" list-type="picture-card"
+                <el-upload v-model:file-list="fileList" :http-request="handleRequest" list-type="picture-card" multiple
                     :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
                     <el-icon>
                         <Plus />
@@ -37,11 +36,12 @@ import { MdEditor } from 'md-editor-v3';
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import 'md-editor-v3/lib/style.css';
-import type { UploadProps, UploadUserFile } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadUserFile, UploadRequestOptions } from 'element-plus'
+import axios from 'axios';
 
 
 let activeName = ref('first');
-let fileList = reactive([]);
+let fileList = reactive<UploadInstance[]>([]);
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 let article = reactive({
@@ -59,6 +59,25 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
     dialogImageUrl.value = uploadFile.url!
     dialogVisible.value = true
+}
+
+const handleRequest: UploadUserFile = (data: UploadRequestOptions) => {
+    const file = data.file
+    let fileData = new FormData()
+    fileData.append('file', file)
+    axios({
+        url: 'http://localhost:5000/api/upload',
+        method: 'post',
+        data: fileData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }).then(res => {
+        console.log(res)
+    }).catch(err => {
+        console.log(err)
+    })
+
 }
 /* const onUploadImg = (file: UploadUserFile) => {
     console.log(file)

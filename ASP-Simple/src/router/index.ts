@@ -43,11 +43,7 @@ const router = createRouter({
             component: CreativeCenterView,
             children: [
                 {
-                    path: '/',
-                    component: ContributeView,
-                },
-                {
-                    path: 'contribute',
+                    path: '',
                     component: ContributeView,
                 }
             ]
