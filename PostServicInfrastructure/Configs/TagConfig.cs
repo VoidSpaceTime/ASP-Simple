@@ -8,7 +8,7 @@ namespace PostServicInfrastructure.Configs
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-
+            builder.HasKey(o => o.Id).IsClustered(false);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace PostServicInfrastructure.Configs
     {
         public void Configure(EntityTypeBuilder<Post> builder)
         {
-            builder.HasKey(o => o.Id);
+            builder.HasKey(o => o.Id).IsClustered(false);
 
             builder.HasMany<Comment>(c => c.Comments).WithOne(o => o.OwnerPost).IsRequired()
                 .OnDelete(DeleteBehavior.Restrict); // 避免级联删除;
