@@ -23,7 +23,7 @@ namespace FileServiceDomain
         /// </summary>
         /// <param name="flieAttrList"></param>
         /// <returns></returns>
-        Task<List<UploadedItem?>> FindFileListAsync(List<Dictionary<long, string>> flieAttrList);
+        Task<List<UploadedItem?>> FindFileListAsync(List<(long fileSize, string sha256Hash)> flieAttrList);
         Task<List<UploadedItem?>> FindFileListAsync(List<Guid> flieIdList);
 
     }

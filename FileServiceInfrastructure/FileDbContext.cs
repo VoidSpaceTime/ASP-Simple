@@ -10,7 +10,7 @@ namespace FileServiceInfrastructure
 {
     public class FileDbContext : BaseDbContext
     {
-        public DbSet<UploadedItem> Posts { get; private set; }
+        public DbSet<UploadedItem> UploadItems { get; private set; }
 
         public FileDbContext(DbContextOptions options) : base(options)
         {
@@ -19,7 +19,6 @@ namespace FileServiceInfrastructure
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using FileServiceDomain;
 using FileServiceDomain.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,24 +11,45 @@ namespace FileServiceInfrastructure
 {
     public class FileRepository : IFileRepository
     {
+        private readonly FileDbContext dbContext;
         public Task<UploadedItem?> FindFileAsync(long fileSize, string sha256Hash)
         {
-            throw new NotImplementedException();
+            return dbContext.UploadItems.FirstOrDefaultAsync(u => u.FileSizeInBytes == fileSize
+    && u.FileSHA256Hash == sha256Hash);
         }
 
         public Task<UploadedItem?> FindFileAsync(Guid guid)
         {
-            throw new NotImplementedException();
+            return dbContext.UploadItems.FirstOrDefaultAsync(u => u.Id == guid);
         }
 
-        public Task<List<UploadedItem?>> FindFileListAsync(List<Dictionary<long, string>> flieAttrList)
+        public async Task<List<UploadedItem?>> FindFileListAsync(List<(long fileSize, string sha256Hash)> flieAttrList)
         {
-            throw new NotImplementedException();
+            var list = new List<UploadedItem?>();
+            foreach (var item in flieAttrList)
+            {
+                var result = await dbContext.UploadItems.FirstOrDefaultAsync(u => u.FileSizeInBytes == item.fileSize
+           && u.FileSHA256Hash == item.sha256Hash);
+                if (result != null)
+                {
+                    list.Add(result);
+                }
+            }
+            return list;
         }
 
-        public Task<List<UploadedItem?>> FindFileListAsync(List<Guid> flieIdList)
+        public async Task<List<UploadedItem?>> FindFileListAsync(List<Guid> flieIdList)
         {
-            throw new NotImplementedException();
+            var list = new List<UploadedItem?>();
+            foreach (var item in flieIdList)
+            {
+                var result = await dbContext.UploadItems.FirstOrDefaultAsync(u => u.Id == item);
+                if (result != null)
+                {
+                    list.Add(result);
+                }
+            }
+            return list;
         }
     }
 }
