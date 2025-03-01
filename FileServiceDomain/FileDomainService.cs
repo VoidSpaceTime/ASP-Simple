@@ -42,9 +42,10 @@ namespace FileServiceDomain
             string savePath = $"{today.Year}/{today.Month}/{today.Day}/{sha256Hash + extension}";
             stream.Position = 0;
             //backupStorage实现很稳定、速度很快，一般都使用本地存储（文件共享或者NAS）
-            Uri backupUrl = await backupStorage.SaveAsync(stream, savePath, cancellationToken, fileCategory);//保存到本地备份
+            //Uri backupUrl = await backupStorage.SaveAsync(stream, savePath, cancellationToken, fileCategory);//保存到本地备份 // 懒不写 本地储存了, 反正都是需要存储服务
             stream.Position = 0;
             Uri remoteUrl = await remoteStorage.SaveAsync(stream, savePath, cancellationToken, fileCategory);//保存到生产的存储系统
+            var backupUrl = remoteUrl;
             stream.Position = 0;
             //领域服务并不会真正的执行数据库插入，只是把实体对象生成，然后由应用服务和基础设施配合来真正的插入数据库！
             //DDD中尽量避免直接在领域服务中执行数据库的修改（包含删除、新增）操作。

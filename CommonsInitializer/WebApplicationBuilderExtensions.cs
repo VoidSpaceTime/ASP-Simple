@@ -1,10 +1,15 @@
 ﻿using Commons;
+using DbConfigurationProvider;
 using JWT;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -12,22 +17,27 @@ namespace CommonsInitializer
 {
     public static class WebApplicationBuilderExtensions
     {
-        //    /// <summary>
-        //    /// 配置数据库连接字符串可热更
-        //    /// </summary>
-        //    /// <param name="builder"></param>
-        //    public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
-        //    {
-        //        builder.Host.ConfigureAppConfiguration((hostCtx, configBuilder) =>
-        //        {
-        //            //不能使用ConfigureAppConfiguration中的configBuilder去读取配置，否则就循环调用了，因此这里直接自己去读取配置文件
-        //            //var configRoot = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        //            //string connStr = configRoot.GetValue<string>("DefaultDB:ConnStr");
-        //            string connStr = builder.Configuration.GetValue<string>("DefaultDB:ConnStr");
-        //            configBuilder.AddConfiguration(new SqlConnection(connStr));
-        //        });
-        //    }
-        //}
+        /// <summary>
+        /// 链接配置数据库 , 从数据库中获取配置
+        /// </summary>
+        /// <param name="builder">Web 应用程序构建器</param>
+        public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
+        {
+            //builder.Host.ConfigureAppConfiguration((hostCtx, configBuilder) =>
+            //{
+
+            //    // 不能使用 ConfigureAppConfiguration 中的 configBuilder 去读取配置，否则会导致循环调用
+            //    // 因此这里直接使用 builder.Configuration 读取配置文件
+            //    string connStr = builder.Configuration.GetValue<string>("DefaultDB:ConnStr");
+
+            //    // 帮我实现定期从数据库中获取配置
+
+            //});
+
+            builder.Configuration.AddEntityConfiguration();
+
+
+        }
 
         /// <summary>
         /// 通用初始化builder
@@ -37,7 +47,7 @@ namespace CommonsInitializer
         {
             IServiceCollection services = builder.Services;
             IConfiguration configuration = builder.Configuration;
-
+            //确保 .NET 运行时启用完整的全局化功能。
             Environment.SetEnvironmentVariable("DOTNET_SYSTEM_GLOBALIZATION_INVARIANT", "false");
             #region ServiceInjection 其他项目的Service注入
             services.AddServiceAutoDiscover();
@@ -52,21 +62,7 @@ namespace CommonsInitializer
                 .Where(l => !l.Serviceable && l.Type != "package" && l.Type == "project")
                 .Select(l => Assembly.Load(new AssemblyName(l.Name)).GetTypes().Where(t => typeof(IConsumer).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract))
                 .SelectMany(a => a).ToArray();
-                //x.AddConsumers(AppDomain.CurrentDomain.GetAssemblies());
                 x.AddConsumers(ass);
-
-                // 通过类型单个注册消费者
-                //x.AddConsumer<UserConsumer>();
-
-                // x.SetKebabCaseEndpointNameFormatter();
-
-                // 通过泛型单个注册消费者
-                //x.AddConsumer<OrderEtoConsumer, OrderEtoConsumerDefinition>();
-
-                // 通过指定命名空间注册消费者
-                // x.AddConsumersFromNamespaceContaining<OrderEtoConsumer>();
-                // 内存
-                //x.SetInMemorySagaRepositoryProvider();
 
                 x.UsingRabbitMq((context, config) =>
                 {
@@ -89,20 +85,24 @@ namespace CommonsInitializer
             builder.Services.AddAuthorization();
             builder.Services.AddAuthentication();
 
-            JWTOptions jwtOpt = configuration.GetSection("JWTOptions").Get<JWTOptions>();
-            builder.Services.Configure<JWTOptions>(configuration.GetSection("JWTOptions"));
+            //builder.Services.Configure<JWTOptions>(configuration.GetSection("JWTOptions"));
+            builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
+            JWTOptions jwtOpt = configuration.GetSection("JWTOptions").Get<JWTOptions>()!;
 
-            //builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
+
+
+            //using IHost host = builder.Build();
+            //JWTOptions options = host.Services.GetRequiredService<IOptions<JWTOptions>>().Value;
+            //Console.WriteLine($"DisplayLabel={options.DisplayLabel}");
+            //Console.WriteLine($"EndpointId={options.EndpointId}");
+            //Console.WriteLine($"WidgetRoute={options.WidgetRoute}");
+
+
+
             //JWTOptions jwtOpt = (JWTOptions)configuration.GetSection("JWTOptions"); //暂时用Appsettings.json中的配置
             builder.Services.AddJWTAuthentication(jwtOpt);
 
             #endregion
-            //启用Swagger中的【Authorize】按钮。这样就不用每个项目的AddSwaggerGen中单独配置了
-            builder.Services.Configure<SwaggerGenOptions>(c =>
-            {
-                c.AddAuthenticationHeader();
-            });
-            //结束:Authentication,Authorization
 
 
             #region 跨域
@@ -116,13 +116,26 @@ namespace CommonsInitializer
             //    options.AddDefaultPolicy(builder => builder.WithOrigins(urls)
             //            .AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             //}
-  
+
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("any", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
             });
             #endregion
+
+            #region Swagger
+            //启用Swagger中的【Authorize】按钮。这样就不用每个项目的AddSwaggerGen中单独配置了
+
+            builder.Services.Configure<SwaggerGenOptions>(c =>
+            {
+                c.AddAuthenticationHeader();
+            });
+            //结束:Authentication,Authorization
+
+
+            #endregion
         }
+
 
     }
 }
