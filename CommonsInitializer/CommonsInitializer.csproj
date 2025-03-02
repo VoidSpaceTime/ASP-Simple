@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DbConfigurationProvider\DbConfigurationProvider.csproj" />
     <ProjectReference Include="..\JWT\JWT.csproj" />
   </ItemGroup>
 

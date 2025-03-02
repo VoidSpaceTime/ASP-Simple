@@ -23,19 +23,19 @@ namespace CommonsInitializer
         /// <param name="builder">Web 应用程序构建器</param>
         public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
         {
-            //builder.Host.ConfigureAppConfiguration((hostCtx, configBuilder) =>
-            //{
+            builder.Host.ConfigureAppConfiguration((hostCtx, configBuilder) =>
+            {
+                // 清除原有的配置提供程序
+                configBuilder.Sources.Clear();
 
-            //    // 不能使用 ConfigureAppConfiguration 中的 configBuilder 去读取配置，否则会导致循环调用
-            //    // 因此这里直接使用 builder.Configuration 读取配置文件
-            //    string connStr = builder.Configuration.GetValue<string>("DefaultDB:ConnStr");
+                configBuilder.AddEntityConfiguration(builder =>
+                {
+                    builder.UseInMemoryDatabase("DataDictionary");
+                });
 
-            //    // 帮我实现定期从数据库中获取配置
 
-            //});
 
-            builder.Configuration.AddEntityConfiguration();
-
+            });
 
         }
 
@@ -58,7 +58,7 @@ namespace CommonsInitializer
             {
 
                 // 通过扫描程序集注册消费者
-                var ass = DependencyContext.Default.CompileLibraries
+                var ass = DependencyContext.Default!.CompileLibraries
                 .Where(l => !l.Serviceable && l.Type != "package" && l.Type == "project")
                 .Select(l => Assembly.Load(new AssemblyName(l.Name)).GetTypes().Where(t => typeof(IConsumer).IsAssignableFrom(t) && t.IsClass && !t.IsAbstract))
                 .SelectMany(a => a).ToArray();

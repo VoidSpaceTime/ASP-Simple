@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5150A992-CF52-4888-A173-0214C170CE79}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServiceWebAPI", "WebApplication1\IdentityServiceWebAPI.csproj", "{5150A992-CF52-4888-A173-0214C170CE79}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Commons", "Commons", "{477D6E66-D9B5-41F9-A7A4-B1E611B60AC0}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServiceInfrastructure", "FileServiceInfrastructure\FileServiceInfrastructure.csproj", "{2E39A48C-B2E0-459F-AC51-8A814A9AF9DC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServiceWebAPI", "FileServiceWebAPI\FileServiceWebAPI.csproj", "{6AAA461E-80FF-4C54-AB18-097ADEBD720E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurationProvider", "DbConfigurationProvider\DbConfigurationProvider.csproj", "{227A326F-4075-B79A-F2B0-EAC0D0FD3164}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,10 @@ Global
 		{6AAA461E-80FF-4C54-AB18-097ADEBD720E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AAA461E-80FF-4C54-AB18-097ADEBD720E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AAA461E-80FF-4C54-AB18-097ADEBD720E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,5 +133,9 @@ Global
 		{FE7F6B79-5235-4CDA-8D40-9B97BE5B720A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{2E39A48C-B2E0-459F-AC51-8A814A9AF9DC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6AAA461E-80FF-4C54-AB18-097ADEBD720E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{227A326F-4075-B79A-F2B0-EAC0D0FD3164} = {477D6E66-D9B5-41F9-A7A4-B1E611B60AC0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DE992693-74E8-44FC-9B7A-83B32B98C56D}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +12,18 @@ namespace DbConfigurationProvider
     public static class ConfigurationManagerExtensions
     {
         // 扩展方法 AddEntityConfiguration，扩展 ConfigurationManager 类
-        public static ConfigurationManager AddEntityConfiguration(this ConfigurationManager manager) // 使用 this 关键字使其成为扩展方法
+        public static IConfigurationBuilder AddEntityConfiguration(this IConfigurationBuilder builder, Action<DbContextOptionsBuilder> optionAction) // 使用 this 关键字使其成为扩展方法
         {
             // 从配置管理器中获取连接字符串
-            var connectionString = manager.GetConnectionString("DefaultDB:ConnStr");
+            //var connectionString = manager.GetConnectionString("DefaultDB:ConnStr");
+            var connectionString = "Server=10.60.71.213;Uid=sa;Pwd=ji123486.*;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
 
             // 将 ConfigurationManager 转换为 IConfigurationBuilder 接口
-            IConfigurationBuilder configBuilder = manager;
             // 使用连接字符串添加一个新的 EntityConfigurationSource 配置源
-            configBuilder.Add(new EntityConfigurationSource(connectionString));
 
             // 返回修改后的 ConfigurationManager 实例
-            return manager;
+            builder.Add(new EntityConfigurationSource(optionAction));
+            return builder;
         }
     }
 }
