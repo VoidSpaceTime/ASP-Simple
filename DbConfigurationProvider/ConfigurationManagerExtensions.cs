@@ -12,7 +12,7 @@ namespace DbConfigurationProvider
     public static class ConfigurationManagerExtensions
     {
         // 扩展方法 AddEntityConfiguration，扩展 ConfigurationManager 类
-        public static IConfigurationBuilder AddEntityConfiguration(this IConfigurationBuilder builder, Action<DbContextOptionsBuilder> optionAction) // 使用 this 关键字使其成为扩展方法
+   /*     public static IConfigurationBuilder AddEntityConfiguration(this IConfigurationBuilder builder, Action<DbContextOptionsBuilder> optionAction) // 使用 this 关键字使其成为扩展方法
         {
             // 从配置管理器中获取连接字符串
             //var connectionString = manager.GetConnectionString("DefaultDB:ConnStr");
@@ -24,6 +24,20 @@ namespace DbConfigurationProvider
             // 返回修改后的 ConfigurationManager 实例
             builder.Add(new EntityConfigurationSource(optionAction));
             return builder;
+        }*/
+        // 微软方案
+        public static ConfigurationManager AddEntityConfiguration(this ConfigurationManager manager)
+        {
+            //var connectionString = manager.GetConnectionString("WidgetConnectionString");
+            var connectionString = Environment.GetEnvironmentVariable("DefaultDB:ConnStr");
+
+            IConfigurationBuilder configBuilder = manager;
+            configBuilder.Add(new EntityConfigurationSource(connectionString));
+
+            return manager;
         }
     }
+
+
+
 }

@@ -11,20 +11,28 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DbConfigurationProvider
 {
     // IConfigurationSource 负责创建 IConfigurationProvider 实现的实例。它的定义很简单，就一个Build方法
-    public sealed class EntityConfigurationSource : IConfigurationSource
+    /*    public sealed class EntityConfigurationSource : IConfigurationSource
+        {
+            private readonly Action<DbContextOptionsBuilder> action;
+
+            public EntityConfigurationSource(Action<DbContextOptionsBuilder> action)
+            {
+                this.action = action;
+            }
+
+            // 构建配置提供程序
+            public IConfigurationProvider Build(IConfigurationBuilder builder)
+            {
+                return new EntityConfigurationProvider(this.action);
+            }
+        }*/
+
+
+    // 微软方案
+    public sealed class EntityConfigurationSource(string? connectionString) : IConfigurationSource
     {
-        private readonly Action<DbContextOptionsBuilder> action;
-
-        public EntityConfigurationSource(Action<DbContextOptionsBuilder> action)
-        {
-            this.action = action;
-        }
-
-        // 构建配置提供程序
-        public IConfigurationProvider Build(IConfigurationBuilder builder)
-        {
-            return new EntityConfigurationProvider(this.action);
-        }
+        public IConfigurationProvider Build(IConfigurationBuilder builder) =>
+            new EntityConfigurationProvider(connectionString);
     }
 
 }

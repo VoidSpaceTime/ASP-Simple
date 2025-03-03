@@ -11,7 +11,7 @@ namespace DbConfigurationProvider
 
     // 定义一个密封类 EntityConfigurationContext，继承自 DbContext
     // 使用 C# 12.0 的记录类语法，接收一个可空的连接字符串参数
-    public sealed class EntityConfigurationContext : DbContext
+/*    public sealed class EntityConfigurationContext : DbContext
     {
         public DbSet<Config> Settings => Set<Config>();
 
@@ -20,6 +20,27 @@ namespace DbConfigurationProvider
         }
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Config>().HasKey(e => e.Key);
+            modelBuilder.Entity<Config>().Property(e => e.Value).IsRequired(false);
+        }
+    }*/
+
+    //微软方案
+    public sealed class EntityConfigurationContext(string? connectionString) : DbContext
+    {
+        public DbSet<Config> Settings => Set<Config>();
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            _ = connectionString switch
+            {
+                { Length: > 0 } => optionsBuilder.UseSqlServer(connectionString),
+                _ => optionsBuilder.UseInMemoryDatabase("InMemoryDatabase")
+            };
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -20,14 +20,20 @@ namespace CommonsInitializer
         /// <param name="builder">Web 应用程序构建器</param>
         public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
         {
-            // 清除原有的配置提供程序
-            builder.Configuration.Sources.Clear();
+            /*          // 清除原有的配置提供程序
+                      builder.Configuration.Sources.Clear();
 
-            builder.Configuration.AddEntityConfiguration(options =>
-            {
-                //options.UseSqlServer("Server=10.60.71.213;Uid=sa;Pwd=mssql_wpxJsp;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;");
-                options.UseInMemoryDatabase("DataDictionary");
-            });
+                      builder.Configuration.AddEntityConfiguration(options =>
+                      {
+                          //options.UseSqlServer("Server=10.60.71.213;Uid=sa;Pwd=mssql_wpxJsp;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;");
+                          options.UseInMemoryDatabase("DataDictionary");
+                      });*/
+
+
+            // 微软方案
+            builder.Configuration.Sources.Clear();
+            builder.Configuration.AddEntityConfiguration();
+
         }
 
         /// <summary>
