@@ -11,7 +11,7 @@ namespace DbConfigurationProvider
 
     // 定义一个密封类 EntityConfigurationContext，继承自 DbContext
     // 使用 C# 12.0 的记录类语法，接收一个可空的连接字符串参数
-    public sealed class EntityConfigurationContext(string? connectionString) : DbContext
+    public sealed class EntityConfigurationContext : DbContext
     {
         public DbSet<Config> Settings => Set<Config>();
 

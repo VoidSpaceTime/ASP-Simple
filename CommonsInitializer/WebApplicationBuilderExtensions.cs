@@ -23,19 +23,10 @@ namespace CommonsInitializer
         /// <param name="builder">Web 应用程序构建器</param>
         public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
         {
-            builder.Host.ConfigureAppConfiguration((hostCtx, configBuilder) =>
-            {
-                // 清除原有的配置提供程序
-                configBuilder.Sources.Clear();
-
-                configBuilder.AddEntityConfiguration(builder =>
+            builder.Configuration.Clear().AddEntityConfiguration(builder =>
                 {
                     builder.UseInMemoryDatabase("DataDictionary");
                 });
-
-
-
-            });
 
         }
 
