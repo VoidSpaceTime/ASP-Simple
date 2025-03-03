@@ -3,13 +3,10 @@ using DbConfigurationProvider;
 using JWT;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -23,11 +20,14 @@ namespace CommonsInitializer
         /// <param name="builder">Web 应用程序构建器</param>
         public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
         {
-            builder.Configuration.Clear().AddEntityConfiguration(builder =>
-                {
-                    builder.UseInMemoryDatabase("DataDictionary");
-                });
+            // 清除原有的配置提供程序
+            builder.Configuration.Sources.Clear();
 
+            builder.Configuration.AddEntityConfiguration(options =>
+            {
+                //options.UseSqlServer("Server=10.60.71.213;Uid=sa;Pwd=mssql_wpxJsp;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;");
+                options.UseInMemoryDatabase("DataDictionary");
+            });
         }
 
         /// <summary>

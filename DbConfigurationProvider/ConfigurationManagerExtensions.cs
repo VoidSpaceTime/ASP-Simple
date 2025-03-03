@@ -16,7 +16,7 @@ namespace DbConfigurationProvider
         {
             // 从配置管理器中获取连接字符串
             //var connectionString = manager.GetConnectionString("DefaultDB:ConnStr");
-            var connectionString = "Server=10.60.71.213;Uid=sa;Pwd=ji123486.*;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
+            var connectionString = "Server=10.60.71.213;Uid=sa;Pwd=mssql_wpxJsp;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
 
             // 将 ConfigurationManager 转换为 IConfigurationBuilder 接口
             // 使用连接字符串添加一个新的 EntityConfigurationSource 配置源

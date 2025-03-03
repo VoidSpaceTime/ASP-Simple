@@ -50,7 +50,9 @@ namespace DbConfigurationProvider
             {
                 ["WidgetOptions:EndpointId"] = "b3da3c4c-9c4e-4411-bc4d-609e2dcc5c67",
                 ["WidgetOptions:DisplayLabel"] = "Widgets Incorporated, LLC.",
-                ["WidgetOptions:WidgetRoute"] = "api/widgets"
+                ["WidgetOptions:WidgetRoute"] = "api/widgets",
+                ["WidgetOptions:JWTOptions"] = "11111111111111111111",
+                ["JWTOptions"] = "222222222222222222",
             };
 
             // 将默认配置值添加到数据库
