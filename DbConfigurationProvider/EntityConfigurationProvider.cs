@@ -67,8 +67,7 @@ namespace DbConfigurationProvider
         }*/
 
     // 微软方案
-    public sealed class EntityConfigurationProvider(string? connectionString)
-    : ConfigurationProvider
+    public sealed class EntityConfigurationProvider(string? connectionString) : ConfigurationProvider
     {
         public override void Load()
         {
@@ -93,7 +92,7 @@ namespace DbConfigurationProvider
                 ["WidgetOptions:WidgetRoute"] = "api/widgets"
             };
 
-            context.Settings.AddRange([.. settings.Select(static kvp => new Config(kvp.Key, kvp.Value))]);
+            context.Settings.AddRange([.. settings.Select(static kvp => new EntityConfigurationSettings(kvp.Key, kvp.Value))]);
 
             context.SaveChanges();
 

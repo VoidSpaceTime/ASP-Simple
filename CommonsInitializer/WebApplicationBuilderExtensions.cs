@@ -31,7 +31,7 @@ namespace CommonsInitializer
 
 
             // 微软方案
-            builder.Configuration.Sources.Clear();
+            //builder.Configuration.Sources.Clear();
             builder.Configuration.AddEntityConfiguration();
 
         }

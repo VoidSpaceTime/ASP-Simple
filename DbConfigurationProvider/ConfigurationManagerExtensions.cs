@@ -29,7 +29,9 @@ namespace DbConfigurationProvider
         public static ConfigurationManager AddEntityConfiguration(this ConfigurationManager manager)
         {
             //var connectionString = manager.GetConnectionString("WidgetConnectionString");
-            var connectionString = Environment.GetEnvironmentVariable("DefaultDB:ConnStr");
+            var connectionString = Environment.GetEnvironmentVariable("ConfigDB:ConnStr");
+            //var connectionString = "Server=10.60.71.213;Uid=sa;Pwd=mssql_wpxJsp;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
+
 
             IConfigurationBuilder configBuilder = manager;
             configBuilder.Add(new EntityConfigurationSource(connectionString));

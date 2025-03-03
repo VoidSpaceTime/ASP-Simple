@@ -55,29 +55,23 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>().AddDefaultTokenProviders()
 //Database
 builder.Services.AddDbContext<IdDbContext>(ctx =>
 {
-    string connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
-    ctx.UseSqlServer(connStr);
+    var connStr = builder.Services.Configure<EntityConfigurationSettings>(
+        builder.Configuration.GetSection("ASPSimpleDB:ConnStr"));
+
+    //string connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+    ctx.UseSqlServer(connStr.);
 });
 #endregion
 
 var app = builder.Build();
 
-//Config options = app.Services.GetRequiredService<IOptions<Config>>().Value;
+EntityConfigurationSettings options = app.Services.GetRequiredService<IOptions<EntityConfigurationSettings>>().Value;
 
-//Config options = app.Services.GetRequiredService<IOptions<Config>>().Value;
-//Console.WriteLine($"DisplayLabel={options.DisplayLabel}");
-//Console.WriteLine($"EndpointId={options.EndpointId}");
-
-Console.WriteLine($"-----------------------------------------");
+Console.WriteLine($"DisplayLabel={options.DisplayLabel}");
+Console.WriteLine($"EndpointId={options.EndpointId}");
 
 
-var configuration = app.Services.GetService<IConfiguration>();
-var ts1 = configuration.GetValue<string>("WidgetOptions:EndpointId");
-var ts2 = configuration.GetValue<string>("WidgetOptions:DisplayLabel");
-var ts3 = configuration.GetValue<string>("WidgetOptions:JWTOptions");
-var ts4 = configuration.GetValue<string>("JWTOptions");
-Console.WriteLine($"idgetOptions:EndpointId: {configuration.GetValue<string>("idgetOptions:EndpointId")}");
-Console.WriteLine($"WidgetOptions:DisplayLabel: {configuration.GetValue<string>("WidgetOptions:DisplayLabel")}");
+
 
 //["WidgetOptions:EndpointId"] = "b3da3c4c-9c4e-4411-bc4d-609e2dcc5c67",
 //                ["WidgetOptions:DisplayLabel"] = "Widgets Incorporated, LLC.",

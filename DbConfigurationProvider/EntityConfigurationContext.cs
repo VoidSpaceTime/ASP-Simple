@@ -31,7 +31,7 @@ namespace DbConfigurationProvider
     //微软方案
     public sealed class EntityConfigurationContext(string? connectionString) : DbContext
     {
-        public DbSet<Config> Settings => Set<Config>();
+        public DbSet<EntityConfigurationSettings> Settings => Set<EntityConfigurationSettings>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,8 +44,8 @@ namespace DbConfigurationProvider
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Config>().HasKey(e => e.Key);
-            modelBuilder.Entity<Config>().Property(e => e.Value).IsRequired(false);
+            modelBuilder.Entity<EntityConfigurationSettings>().HasKey(e => e.Key);
+            modelBuilder.Entity<EntityConfigurationSettings>().Property(e => e.Value).IsRequired(false);
         }
     }
 }
