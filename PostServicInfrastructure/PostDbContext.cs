@@ -1,5 +1,5 @@
 ﻿using CommonsInitializer;
-using Infrastructure;
+using Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;

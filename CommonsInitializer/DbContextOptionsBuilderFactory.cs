@@ -5,14 +5,16 @@ namespace CommonsInitializer
 {
     public static class DbContextOptionsBuilderFactory
     {
-     
 
-        //public static string ConnicationString = "Server=10.243.222.94;Uid=sa;Pwd=ji123486.*;Database=ASPSimpleDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;";
+        /// <summary>
+        /// 设计时 使用数据库链接
+        /// 从环境变量中获取数据库链接 更新数据配置
+        /// <returns></returns>
+
         public static DbContextOptionsBuilder<TDbContext> Create<TDbContext>() where TDbContext : DbContext
         {
-            // 数据库
-            //var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
-            var connStr = "ConnicationString";
+            var connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
+            //var connStr = "ConnicationString";
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
             optionsBuilder.UseSqlServer(connStr);
             return optionsBuilder;

@@ -29,7 +29,7 @@ namespace Commons
             //}
 
 
-            var dpls2 = DependencyContext.Default.CompileLibraries
+            var dpls2 = DependencyContext.Default!.CompileLibraries
                 .Where(l => !l.Serviceable && l.Type != "package" && l.Type == "project")
                 .Select(l => Assembly.Load(new AssemblyName(l.Name)).GetTypes().Where(t => typeof(IServiceAutoDiscover).IsAssignableFrom(t) && t.IsClass))
                 .SelectMany(a=>a);

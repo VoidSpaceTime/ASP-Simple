@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DbConfigurationProvider\DbConfigurationProvider.csproj" />
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\JWT\JWT.csproj" />
   </ItemGroup>
 

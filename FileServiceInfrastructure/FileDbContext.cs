@@ -1,9 +1,8 @@
 ﻿using CommonsInitializer;
 using FileServiceDomain.Entity;
-using Infrastructure;
+using Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 
 namespace FileServiceInfrastructure

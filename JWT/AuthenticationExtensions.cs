@@ -21,7 +21,7 @@ namespace JWT
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtOpt.Issuer,
                     ValidAudience = jwtOpt.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOpt.Key)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOpt.Key??"")),
                     ClockSkew = TimeSpan.FromSeconds(180), //过期时间容错值，解决服务器端时间不同步问题（秒）
                 };
             });

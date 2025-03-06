@@ -26,7 +26,7 @@ namespace PostServicInfrastructure
 
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
-            services.AddDbContext<PostDbContext>();
+            //services.AddDbContext<PostDbContext>();
             services.AddScoped<PostDomainService>();
         }
     }

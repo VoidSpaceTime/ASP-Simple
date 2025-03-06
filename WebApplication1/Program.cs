@@ -53,32 +53,20 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>().AddDefaultTokenProviders()
     .AddUserManager<IdUserManager>();
 
 //Database
-builder.Services.AddDbContext<IdDbContext>(ctx =>
+/*builder.Services.AddDbContext<IdDbContext>(ctx =>
 {
     var connStr = builder.Services.Configure<EntityConfigurationSettings>(
         builder.Configuration.GetSection("ASPSimpleDB:ConnStr"));
 
     //string connStr = Environment.GetEnvironmentVariable("ASPSimpleDB:ConnStr");
     ctx.UseSqlServer(connStr.);
-});
+});*/
 #endregion
 
 var app = builder.Build();
 
-EntityConfigurationSettings options = app.Services.GetRequiredService<IOptions<EntityConfigurationSettings>>().Value;
-
-Console.WriteLine($"DisplayLabel={options.DisplayLabel}");
-Console.WriteLine($"EndpointId={options.EndpointId}");
 
 
-
-
-//["WidgetOptions:EndpointId"] = "b3da3c4c-9c4e-4411-bc4d-609e2dcc5c67",
-//                ["WidgetOptions:DisplayLabel"] = "Widgets Incorporated, LLC.",
-//                ["WidgetOptions:WidgetRoute"] = "api/widgets"
-
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

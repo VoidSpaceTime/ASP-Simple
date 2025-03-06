@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using Infrastructure;
+using Infrastructure.EFCore;
 
 namespace CommonsInitializer
 {
@@ -46,6 +48,21 @@ namespace CommonsInitializer
             IConfiguration configuration = builder.Configuration;
             //确保 .NET 运行时启用完整的全局化功能。
             Environment.SetEnvironmentVariable("DOTNET_SYSTEM_GLOBALIZATION_INVARIANT", "false");
+            var assemblies = ReflectionHelper.GetAllcompiledAssemblies();
+            #region 注入全部数据库
+            services.AddAllDbContexts(ctx =>
+            {
+                // 从配置数据库中获取 链接数据库字符串
+                string? connStr = configuration.GetValue<string>("ASPSimpleDB:ConnStr");
+                if (connStr != null)
+                    ctx.UseSqlServer(connStr);
+                else
+                {
+                    throw new Exception($"未配置数据库链接字符串:{nameof(ctx)}");
+                }
+            }, assemblies);
+
+            #endregion
             #region ServiceInjection 其他项目的Service注入
             services.AddServiceAutoDiscover();
             #endregion
@@ -100,8 +117,6 @@ namespace CommonsInitializer
             builder.Services.AddJWTAuthentication(jwtOpt);
 
             #endregion
-
-
             #region 跨域
             // 跨域
             //services.AddCors(options =>
@@ -119,7 +134,6 @@ namespace CommonsInitializer
                 options.AddPolicy("any", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
             });
             #endregion
-
             #region Swagger
             //启用Swagger中的【Authorize】按钮。这样就不用每个项目的AddSwaggerGen中单独配置了
 
