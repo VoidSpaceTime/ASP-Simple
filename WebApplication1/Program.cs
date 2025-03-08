@@ -10,21 +10,15 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+//配置数据库
 builder.ConfigureDbConfiguration();
-//builder.ConfigureExtraServices();
+//各类扩展配置
+builder.ConfigureExtraServices();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDataProtection();
-
-
-//builder.Services.AddScoped<IdDomainService>();
-//builder.Services.AddScoped<IIdRepository, IdRepository>();
-//builder.Services.AddScoped<ITokenService, TokenService>();
-
-
-
 
 
 #region Identity 验证

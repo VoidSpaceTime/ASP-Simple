@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace DbConfigurationProvider
 {
@@ -91,7 +84,7 @@ namespace DbConfigurationProvider
                 ["WidgetOptions:DisplayLabel"] = "Widgets Incorporated, LLC.",
                 ["WidgetOptions:WidgetRoute"] = "api/widgets"
             };
-
+            
             context.Settings.AddRange([.. settings.Select(static kvp => new EntityConfigurationSettings(kvp.Key, kvp.Value))]);
 
             context.SaveChanges();

@@ -11,6 +11,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using Infrastructure;
 using Infrastructure.EFCore;
+using DbConfigurationProvider.EntityConfigurations;
 
 namespace CommonsInitializer
 {
@@ -22,6 +23,8 @@ namespace CommonsInitializer
         /// <param name="builder">Web 应用程序构建器</param>
         public static void ConfigureDbConfiguration(this WebApplicationBuilder builder)
         {
+            IServiceCollection services = builder.Services;
+
             /*          // 清除原有的配置提供程序
                       builder.Configuration.Sources.Clear();
 
@@ -30,12 +33,12 @@ namespace CommonsInitializer
                           //options.UseSqlServer("Server=10.60.71.213;Uid=sa;Pwd=mssql_wpxJsp;Database=DefaultConfigDB;Trusted_Connection=False;MultipleActiveResultSets=True;Encrypt=true;TrustServerCertificate=true;");
                           options.UseInMemoryDatabase("DataDictionary");
                       });*/
-
-
             // 微软方案
             //builder.Configuration.Sources.Clear();
             builder.Configuration.AddEntityConfiguration();
-
+            // 注入到服务中
+            services.Configure<EntityConfigurationOptions>(
+                   builder.Configuration.GetSection(nameof(EntityConfigurationOptions)));
         }
 
         /// <summary>
@@ -48,12 +51,24 @@ namespace CommonsInitializer
             IConfiguration configuration = builder.Configuration;
             //确保 .NET 运行时启用完整的全局化功能。
             Environment.SetEnvironmentVariable("DOTNET_SYSTEM_GLOBALIZATION_INVARIANT", "false");
-            var assemblies = ReflectionHelper.GetAllcompiledAssemblies();
+            #region 获取配置数据库配置
+            // 绑定到对象 在当前代码中使用
+            EntityConfigurationOptions configOpt = new();
+            builder.Configuration.GetSection(nameof(EntityConfigurationOptions))
+                .Bind(configOpt);
+
+
+            #endregion
             #region 注入全部数据库
+            var assemblies = ReflectionHelper.GetAllcompiledAssemblies();
+
             services.AddAllDbContexts(ctx =>
             {
                 // 从配置数据库中获取 链接数据库字符串
-                string? connStr = configuration.GetValue<string>("ASPSimpleDB:ConnStr");
+                //string? connStr = configuration.GetValue<string>("ASPSimpleDB:ConnStr");
+                services.Configure<EntityConfigurationOptions>(
+                    builder.Configuration.GetSection(nameof(EntityConfigurationOptions)));
+                string? connStr = configOpt.ASPSimpleDB;
                 if (connStr != null)
                     ctx.UseSqlServer(connStr);
                 else
@@ -99,21 +114,7 @@ namespace CommonsInitializer
             builder.Services.AddAuthorization();
             builder.Services.AddAuthentication();
 
-            //builder.Services.Configure<JWTOptions>(configuration.GetSection("JWTOptions"));
-            builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("JWTOptions"));
-            JWTOptions jwtOpt = configuration.GetSection("JWTOptions").Get<JWTOptions>()!;
-
-
-
-            //using IHost host = builder.Build();
-            //JWTOptions options = host.Services.GetRequiredService<IOptions<JWTOptions>>().Value;
-            //Console.WriteLine($"DisplayLabel={options.DisplayLabel}");
-            //Console.WriteLine($"EndpointId={options.EndpointId}");
-            //Console.WriteLine($"WidgetRoute={options.WidgetRoute}");
-
-
-
-            //JWTOptions jwtOpt = (JWTOptions)configuration.GetSection("JWTOptions"); //暂时用Appsettings.json中的配置
+            JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
             builder.Services.AddJWTAuthentication(jwtOpt);
 
             #endregion
