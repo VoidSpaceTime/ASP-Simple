@@ -32,12 +32,12 @@ namespace PostWebApi.Controllers
         }
         private async Task<List<PostResponse>> ConvertRespositoryPost(List<Post> posts)
         {
-            var result = posts.Select(o => new PostResponse(o.Title, o.Context, o.UserId)).ToList();
+            var result = posts.Select(o => new PostResponse(o.Title, o.Content, o.UserId)).ToList();
             return await Task.FromResult(result);
         }
         private async Task<PostResponse> ConvertRespositoryPost(Post post)
         {
-            var result = new PostResponse(post.Title, post.Context, post.UserId);
+            var result = new PostResponse(post.Title, post.Content, post.UserId);
             return await Task.FromResult(result);
         }
         [HttpGet]

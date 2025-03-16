@@ -7,10 +7,10 @@ namespace PostServiceDomain.Entity
 
     {
         public Comment() { } // 无参数构造函数
-        public Comment(Post post, string context, User ownerUser)
+        public Comment(Post post, string content, User ownerUser)
         {
             OwnerPost = post;
-            Content = context;
+            Content = content;
             OwnerUser = ownerUser;
             Status = (int)PublicationStatusEnum.Wait;
         }
