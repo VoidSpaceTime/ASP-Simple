@@ -14,16 +14,19 @@ namespace PostServiceDomain.Entity
             Status = (int)PublicationStatusEnum.Wait;
         }
 
-        public string Title { get; set; }
-        public string Content { get; set; }
+        public string Title { get; set; } // 标题
+        public string Content { get; set; } // 文本内容
         
-        public Guid UserId { get; init; }
+        public Guid UserId { get; init; } // 用户ID
+        public Guid CommentsId { get; set; } // 评论ID
         public List<Comment> Comments { get; set; } = new List<Comment>();
-        public int Status { get; set; }
+        public int Status { get; set; } // 状态码
         public List<Category> Categories { get; set; } = new List<Category>();
+        public List<Tag> Tags { get; set; } = new List<Tag>(); // 标签列表
 
-        public string CoverImageUrl { get; set; }
-        
+        public string CoverImageUrl { get; set; } // 封面链接
+        public List<string> files { get; set; } // 文件列表
+
         //public List<Tag> Tags { get; set; } = new List<Tag>();
         /*
          基础信息
