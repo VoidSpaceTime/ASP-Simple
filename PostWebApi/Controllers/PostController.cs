@@ -93,7 +93,7 @@ namespace PostWebApi.Controllers
             var post = new Post(postSubmitRequest.Title, postSubmitRequest.Content, userId);
             if (postSubmitRequest.Categorys.Count >= 1)
             {
-                post.Categorys.AddRange(postSubmitRequest.Categorys.Select(o => new Category() { Name = o, OwnerPost = post }).ToList());
+                post.Categories.AddRange(postSubmitRequest.Categorys.Select(o => new Category() { Name = o, OwnerPost = post }).ToList());
             }
             //var tags = postResponse.Tags;
 

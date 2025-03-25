@@ -17,11 +17,13 @@ namespace PostServiceDomain.Entity
         public string Title { get; set; }
         public string Content { get; set; }
         
-
         public Guid UserId { get; init; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
         public int Status { get; set; }
-        public List<Category> Categorys { get; set; } = new List<Category>();
+        public List<Category> Categories { get; set; } = new List<Category>();
+
+        public string CoverImageUrl { get; set; }
+        
         //public List<Tag> Tags { get; set; } = new List<Tag>();
         /*
          基础信息
@@ -32,7 +34,6 @@ namespace PostServiceDomain.Entity
         MetaDescription (string) - SEO描述
         Keywords (string/List<string>) - 关键词列表
         内容呈现
-        CoverImage (string) - 封面图片URL
         ReadTime (int) - 阅读时间（分钟）
         ContentType (enum) - 内容类型（Markdown/HTML/富文本等）
         Format (enum) - 文章形式（标准/画廊/视频/音频等）
@@ -47,7 +48,6 @@ namespace PostServiceDomain.Entity
         AuthorInfo (Author) - 作者信息（扩展UserID）
         Tags (List<Tag>) - 标签列表（与Categories区分）
         系统与维护
-        IsDeleted (bool) - 软删除标记
         RevisionHistory (List<Revision>) - 修订历史
         StatusMessage (string) - 状态说明（如被拒原因）
          */
