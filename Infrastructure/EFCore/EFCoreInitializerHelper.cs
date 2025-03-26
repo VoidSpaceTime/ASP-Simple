@@ -30,19 +30,19 @@ namespace Infrastructure.EFCore
             var methodAddDbContext = typeof(EntityFrameworkServiceCollectionExtensions)
              .GetMethod(nameof(EntityFrameworkServiceCollectionExtensions.AddDbContext), 1, types);
 
-            // 创建一个新的构建器，支持懒加载
-            Action<DbContextOptionsBuilder> builderWithLazyLoading = options =>
+            // 尝试启用懒加载
+            // 如果启用懒加载，创建一个新的builder来包装原来的builder
+            Action<DbContextOptionsBuilder> dbContextBuilder = builder;
+            if (enableLazyLoading)
             {
-                // 应用原始配置
-                builder(options);
-
-                // 如果启用懒加载，添加相应配置
-                if (enableLazyLoading)
+                dbContextBuilder = options =>
                 {
+                    // 先调用原始builder
+                    builder(options);
+                    // 启用懒加载代理
                     options.UseLazyLoadingProxies();
-                }
-            };
-
+                };
+            }
             foreach (var asmToLoad in assemblies)
             {
                 // 获取程序集中所有类型

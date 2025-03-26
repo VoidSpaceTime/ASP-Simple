@@ -75,7 +75,7 @@ namespace CommonsInitializer
                 {
                     throw new Exception($"未配置数据库链接字符串:{nameof(ctx)}");
                 }
-            }, assemblies);
+            }, assemblies, true);
 
             #endregion
             #region ServiceInjection 其他项目的Service注入
