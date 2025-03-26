@@ -36,7 +36,6 @@ namespace PostServiceDomain.Entity
         public string CoverImageUrl { get; set; } // 封面链接
         public List<string> files { get; set; } // 文件列表
 
-        //public List<Tag> Tags { get; set; } = new List<Tag>();
         /*
          基础信息
         Summary/Excerpt (string) - 文章摘要/简介

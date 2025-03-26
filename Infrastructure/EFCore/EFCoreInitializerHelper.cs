@@ -21,7 +21,7 @@ namespace Infrastructure.EFCore
         /// <param name="builder">DbContext配置构建器</param>
         /// <param name="assemblies">要搜索的程序集集合</param>
         /// <returns>服务集合</returns>
-        public static IServiceCollection AddAllDbContexts(this IServiceCollection services, Action<DbContextOptionsBuilder> builder, IEnumerable<Assembly> assemblies)
+        public static IServiceCollection AddAllDbContexts(this IServiceCollection services, Action<DbContextOptionsBuilder> builder, IEnumerable<Assembly> assemblies, bool enableLazyLoading = false)
         {
             // AddDbContextPool不支持DbContext注入其他对象，而且使用不当有内存暴涨的问题，因此不用AddDbContextPool
             // 定义AddDbContext方法的参数类型
@@ -29,6 +29,19 @@ namespace Infrastructure.EFCore
             // 通过反射获取AddDbContext方法
             var methodAddDbContext = typeof(EntityFrameworkServiceCollectionExtensions)
              .GetMethod(nameof(EntityFrameworkServiceCollectionExtensions.AddDbContext), 1, types);
+
+            // 创建一个新的构建器，支持懒加载
+            Action<DbContextOptionsBuilder> builderWithLazyLoading = options =>
+            {
+                // 应用原始配置
+                builder(options);
+
+                // 如果启用懒加载，添加相应配置
+                if (enableLazyLoading)
+                {
+                    options.UseLazyLoadingProxies();
+                }
+            };
 
             foreach (var asmToLoad in assemblies)
             {
