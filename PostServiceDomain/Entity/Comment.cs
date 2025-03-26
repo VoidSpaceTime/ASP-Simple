@@ -7,22 +7,21 @@ namespace PostServiceDomain.Entity
     {
         public Comment()
         {
-            Content = string.Empty;
-            OwnerUser = new User();
-            OwnerPost = new Post();
+            Content = string.Empty; // 初始化 Content
         } // 无参数构造函数
 
-        public Comment(Post post, string content, User ownerUser)
+        public Comment(Guid postId, string content, Guid ownerUserId)
         {
-            OwnerPost = post;
+            OwnerPostId = postId;
             Content = content;
-            OwnerUser = ownerUser;
+            OwnerUserId = ownerUserId;
             Status = (int)PublicationStatusEnum.Wait;
         }
 
         public string Content { get; set; }
-        public User OwnerUser { get; init; }
-        public Post OwnerPost { get; set; }
+        public Guid OwnerUserId { get; init; }
+
+        public Guid OwnerPostId { get; set; }
         public int Status { get; set; }
     }
 }
