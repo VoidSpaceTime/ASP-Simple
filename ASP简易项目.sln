@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileServiceWebAPI", "FileSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConfigurationProvider", "DbConfigurationProvider\DbConfigurationProvider.csproj", "{227A326F-4075-B79A-F2B0-EAC0D0FD3164}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCore", "ASPNETCore\ASPNETCore.csproj", "{CBF72B2E-76AE-4E5E-8A9A-002856FF8F6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{227A326F-4075-B79A-F2B0-EAC0D0FD3164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBF72B2E-76AE-4E5E-8A9A-002856FF8F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF72B2E-76AE-4E5E-8A9A-002856FF8F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF72B2E-76AE-4E5E-8A9A-002856FF8F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF72B2E-76AE-4E5E-8A9A-002856FF8F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +140,7 @@ Global
 		{2E39A48C-B2E0-459F-AC51-8A814A9AF9DC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{6AAA461E-80FF-4C54-AB18-097ADEBD720E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{227A326F-4075-B79A-F2B0-EAC0D0FD3164} = {477D6E66-D9B5-41F9-A7A4-B1E611B60AC0}
+		{CBF72B2E-76AE-4E5E-8A9A-002856FF8F6D} = {477D6E66-D9B5-41F9-A7A4-B1E611B60AC0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DE992693-74E8-44FC-9B7A-83B32B98C56D}

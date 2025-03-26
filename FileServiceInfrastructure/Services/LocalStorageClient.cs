@@ -36,7 +36,7 @@ namespace FileServiceInfrastructure.Services
             // 获取文件所在目录
             string? fullDir = Path.GetDirectoryName(fullPath);
             // 如果目录不存在，则自动创建
-            if (!Directory.Exists(fullDir))
+            if (!Directory.Exists(fullDir) && fullDir!=null)
             {
                 Directory.CreateDirectory(fullDir);
             }
@@ -48,7 +48,7 @@ namespace FileServiceInfrastructure.Services
             // 将内容复制到文件中
             await content.CopyToAsync(content, cancellationToken);
             // 获取当前请求
-            var req = httpContextAccessor.HttpContext.Request;
+            var req = httpContextAccessor.HttpContext!.Request;
             // 构建文件访问的URL
             string url = req.Scheme + "://" + req.Host + "/FileService/" + path;
             // 返回文件访问的URL

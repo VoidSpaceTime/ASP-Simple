@@ -50,6 +50,10 @@ namespace IdentityServiceDomain
             if (checkResult.Succeeded)
             {
                 var user = await repository.FindByPhoneNumberAsync(phoneNum);
+                if (user == null)
+                {
+                    return (SignInResult.Failed, null);
+                }
                 string token = await BuildTokenAsync(user);
                 return (SignInResult.Success, token);
             }
@@ -65,6 +69,10 @@ namespace IdentityServiceDomain
             if (checkResult.Succeeded)
             {
                 var user = await repository.FindByNameAsync(userName);
+                if (user == null)
+                {
+                    return (SignInResult.Failed, null);
+                }
                 string token = await BuildTokenAsync(user);
                 return (SignInResult.Success, token);
             }

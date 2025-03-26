@@ -5,25 +5,34 @@ namespace PostServiceDomain.Entity
 {
     public record Post : AggregateRootEntity
     {
-        public Post() { } // 无参数构造函数
+        public Post()
+        {
+            Title = string.Empty;
+            Content = string.Empty;
+            CommentsId = new List<Guid>();
+            CoverImageUrl = string.Empty;
+            files = new List<string>();
+        } // 无参数构造函数
+
         public Post(string title, string content, Guid userId)
         {
             Title = title;
             Content = content;
             UserId = userId;
             Status = (int)PublicationStatusEnum.Wait;
+            CommentsId = new List<Guid>();
+            CoverImageUrl = string.Empty;
+            files = new List<string>();
         }
 
         public string Title { get; set; } // 标题
         public string Content { get; set; } // 文本内容
-        
         public Guid UserId { get; init; } // 用户ID
-        public Guid CommentsId { get; set; } // 评论ID
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<Guid> CommentsId { get; set; } // 评论ID
+        public List<Comment> Comments { get; set; } = new List<Comment>(); //评论级联 需要懒加载
         public int Status { get; set; } // 状态码
         public List<Category> Categories { get; set; } = new List<Category>();
         public List<Tag> Tags { get; set; } = new List<Tag>(); // 标签列表
-
         public string CoverImageUrl { get; set; } // 封面链接
         public List<string> files { get; set; } // 文件列表
 

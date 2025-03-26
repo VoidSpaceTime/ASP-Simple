@@ -77,6 +77,10 @@ namespace IdentityServiceInfrastructure
                 return IdentityResult.Failed(err);
             }
             var user = await userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
+            {
+                return IdentityResult.Failed();
+            }
             var token = await userManager.GeneratePasswordResetTokenAsync(user);
             var resetPwdResult = await userManager.ResetPasswordAsync(user, token, password);
             return resetPwdResult;
@@ -169,6 +173,10 @@ namespace IdentityServiceInfrastructure
             var user = await FindByIdAsync(id);
             var userLoginStore = userManager.UserLoginStore;
             var noneCT = default(CancellationToken);
+            if (user == null)
+            {
+                return ErrorResult("用户没找到");
+            }
             //一定要删除aspnetuserlogins表中的数据，否则再次用这个外部登录登录的话
             //就会报错：The instance of entity type 'IdentityUserLogin<Guid>' cannot be tracked because another instance with the same key value for {'LoginProvider', 'ProviderKey'} is already being tracked.
             //而且要先删除aspnetuserlogins数据，再软删除User

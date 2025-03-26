@@ -12,12 +12,12 @@ namespace CommonsDomain.DTO
         /// <summary>
         /// code 000000 成功 000009 系统异常 000008 token异常  000007 用户无效，需要授权登录 000001 普通异常 其他待定
         /// </summary>
-        public string Code { get; set; }
+        public string? Code { get; set; }
 
         /// <summary>
         /// 备注信息
         /// </summary>
-        public string Msg { get; set; }
+        public string? Msg { get; set; }
 
         /// <summary>
         /// 是否成功
@@ -27,7 +27,7 @@ namespace CommonsDomain.DTO
         /// <summary>
         /// obj
         /// </summary>
-        public object Data { get; set; }
+        public object? Data { get; set; }
 
         /// <summary>
         /// 响应成功

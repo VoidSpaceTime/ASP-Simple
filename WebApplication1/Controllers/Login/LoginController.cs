@@ -14,18 +14,30 @@ using System.Security.Claims;
 
 namespace WebApplication1.Controllers.Login
 {
+    /// <summary>
+    /// 控制器用于处理登录相关的操作
+    /// </summary>
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class LoginController : ControllerBase
     {
         private readonly IIdRepository repository;
         private readonly IdDomainService idService;
+
+        /// <summary>
+        /// 初始化 LoginController 类的新实例
+        /// </summary>
+        /// <param name="idService">身份服务</param>
+        /// <param name="repository">身份存储库</param>
         public LoginController(IdDomainService idService, IIdRepository repository)
         {
             this.idService = idService;
             this.repository = repository;
         }
-
+        /// <summary>
+        /// 初始化管理员用户
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResponseL> CreateWorld()
@@ -48,6 +60,11 @@ namespace WebApplication1.Controllers.Login
             Debug.Assert(r.Succeeded);
             return res.Succeed();
         }
+        /// <summary>
+        /// 注册用户
+        /// </summary>
+        /// <param name="registerUser"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<JsonResponseL> RegisterUser(RegisterUserRequest registerUser)
@@ -72,7 +89,10 @@ namespace WebApplication1.Controllers.Login
             return res.Succeed();
         }
 
-
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <returns>包含用户信息的JsonResponseL对象</returns>
         [HttpGet]
         [Authorize]
         public async Task<JsonResponseL> GetUserInfo()
@@ -92,6 +112,11 @@ namespace WebApplication1.Controllers.Login
             //除非确认没问题，否则尽量不要直接把实体类对象返回给前端
             return res.Succeed(new UserResponse(user.Id, user.PhoneNumber ?? string.Empty, user.CreationTime));
         }
+        /// <summary>
+        /// 通过手机号和密码登录
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResponseL> LoginByPhoneAndPwd(LoginByPhoneAndPwdRequest req)
@@ -113,6 +138,11 @@ namespace WebApplication1.Controllers.Login
                 return res.Fail("登录失败");
             }
         }
+        /// <summary>
+        /// 通过用户名和密码登录
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResponseL> LoginByUserNameAndPwd(LoginByUserNameAndPwdRequest req)
@@ -129,12 +159,17 @@ namespace WebApplication1.Controllers.Login
                 return res.Fail("登录失败" + msg);
             }
         }
+        /// <summary>
+        /// 通过手机号和验证码登录
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public async Task<JsonResponseL> ChangeMyPassword(ChangeMyPasswordRequest req)
         {
             var res = new JsonResponseL();
-            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            Guid userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var resetPwdResult = await repository.ChangePasswordAsync(userId, req.Password);
             if (resetPwdResult.Succeeded)
             {

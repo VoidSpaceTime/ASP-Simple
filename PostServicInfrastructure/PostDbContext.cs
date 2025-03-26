@@ -27,16 +27,17 @@ namespace PostServicInfrastructure
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 
         //{
-      
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Server=.;Database=ASPSimpleDB;Trusted_Connection=True;");
-        //    }
+        //    //optionsBuilder.UseLazyLoadingProxies();
+
+        //    //if (!optionsBuilder.IsConfigured)
+        //    //{
+        //    //    optionsBuilder.UseSqlServer("Server=.;Database=ASPSimpleDB;Trusted_Connection=True;");
+        //    //}
 
         //}
 
     }
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostDbContext>
+        public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<PostDbContext>
     {
 
         public PostDbContext CreateDbContext(string[] args)

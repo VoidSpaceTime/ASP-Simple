@@ -12,6 +12,12 @@ namespace FileServiceInfrastructure
     public class FileRepository : IFileRepository
     {
         private readonly FileDbContext dbContext;
+
+        public FileRepository(FileDbContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         public Task<UploadedItem?> FindFileAsync(long fileSize, string sha256Hash)
         {
             return dbContext.UploadItems.FirstOrDefaultAsync(u => u.FileSizeInBytes == fileSize
