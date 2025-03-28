@@ -6,5 +6,13 @@
         public long Id { get; set; }
         public required string Name { get; set; }
         public Guid OwnerPostId { get; set; }
+        public static Tag Create(string name, Guid ownerPostId)
+        {
+            return new Tag()
+            {
+                Name = name,
+                OwnerPostId = ownerPostId,
+            };
+        }
     }
 }

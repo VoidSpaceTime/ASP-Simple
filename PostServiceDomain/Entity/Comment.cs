@@ -10,18 +10,23 @@ namespace PostServiceDomain.Entity
             Content = string.Empty; // 初始化 Content
         } // 无参数构造函数
 
-        public Comment(Guid postId, string content, Guid ownerUserId)
-        {
-            OwnerPostId = postId;
-            Content = content;
-            OwnerUserId = ownerUserId;
-            Status = (int)PublicationStatusEnum.Wait;
-        }
+
 
         public string Content { get; set; }
         public Guid OwnerUserId { get; init; }
 
         public Guid OwnerPostId { get; set; }
-        public int Status { get; set; }
+        public PublicationStatusEnum Status { get; set; }
+
+        public static Comment Create(string content, Guid ownerUserId, Guid ownerPostId)
+        {
+            return new Comment()
+            {
+                Content = content,
+                OwnerUserId = ownerUserId,
+                OwnerPostId = ownerPostId,
+                Status = PublicationStatusEnum.Wait,
+            };
+        }
     }
 }
