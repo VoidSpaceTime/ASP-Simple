@@ -28,5 +28,11 @@ namespace PostServiceDomain.Entity
                 Status = PublicationStatusEnum.Wait,
             };
         }
+        //public bool DeleteComment()
+        //{
+        //    this.SoftDelete();
+        //    return this.IsDeleted;
+        //}
+
     }
 }

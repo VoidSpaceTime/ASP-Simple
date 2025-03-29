@@ -46,13 +46,14 @@ namespace PostServiceDomain.Entity
         public Post AddComment(Comment comment)
         {
             this.Comments.Add(comment);
+            CommentsId.Add(comment.Id);
             return this;
         }
-        public Post DeleteComment(Comment comment)
-        {
-            this.Comments.Remove(comment);
-            return this;
-        }
+        //public Post DeleteComment(Comment comment)
+        //{
+        //    this.Comments.Remove(comment);
+        //    return this;
+        //}
         public Post UpdateContent(string content)
         {
             this.Content = content;
