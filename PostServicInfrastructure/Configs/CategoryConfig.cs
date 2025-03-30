@@ -10,6 +10,7 @@ namespace PostServicInfrastructure.Configs
         {
             builder.HasKey(o => o.Id);
             builder.ToTable("T_Category");
+            builder.Property(o => o.Name).IsRequired().HasMaxLength(100);
 
         }
     }

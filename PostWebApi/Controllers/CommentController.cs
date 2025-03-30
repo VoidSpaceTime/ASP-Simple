@@ -28,12 +28,12 @@ namespace PostWebApi.Controllers
         }
         private async Task<List<CommentResponse>> ConvertRespositoryComment(List<Comment> comments)
         {
-            var result = comments.Select(o => new CommentResponse(o.OwnerPost.Id.ToString(), o.OwnerUser.Id.ToString(), o.Content, o.CreationTime)).ToList();
+            var result = comments.Select(o => new CommentResponse(o.OwnerPostId.ToString(), o.OwnerUserId.ToString(), o.Content, null, null, o.CreationTime)).ToList();
             return await Task.FromResult(result);
         }
         private async Task<CommentResponse> ConvertRespositoryComment(Comment comment)
         {
-            var result = new CommentResponse(comment.OwnerPost.Id.ToString(), comment.OwnerUser.Id.ToString(), comment.Content, comment.CreationTime);
+            var result = new CommentResponse(comment.OwnerPostId.ToString(), comment.OwnerUserId.ToString(), comment.Content, null, null, comment.CreationTime);
             return await Task.FromResult(result);
         }
         [HttpPost]
@@ -52,13 +52,18 @@ namespace PostWebApi.Controllers
         public async Task<JsonResponseL> CreatCommentByPost(CommentResponse commentResponse)
         {
             var res = new JsonResponseL();
-            var response = await requestClient.GetResponse<User>(new UserIdResponse(Guid.Parse(commentResponse.UserId)));
-            var user = response.Message;
+            // 通过MassTransit 获取用户实体
+            //var response = await requestClient.GetResponse<User>(new UserIdResponse(Guid.Parse(commentResponse.UserId)));
+            //var user = response.Message;
+
+            Guid.TryParse(commentResponse.UserId, out Guid userId);
+            Guid.TryParse(commentResponse.ReplyUserId, out Guid replyUserId);
+            Guid.TryParse(commentResponse.ReplyCommentId, out Guid replyCommentId);
             Guid.TryParse(commentResponse.PostId, out Guid postId);
-            if (user != null)
+            if (userId != Guid.Empty)
             {
                 var post = await postService.GetPostByIdAsync(postId);
-                var comment = new Comment(post, commentResponse.Content, user);
+                var comment = Comment.Create(commentResponse.Content, userId, postId, replyUserId, replyCommentId);
                 var result = await postService.CreateCommentAsync(comment);
                 if (result)
                 {

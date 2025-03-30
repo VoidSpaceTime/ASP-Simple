@@ -14,11 +14,12 @@ namespace PostServiceDomain.Entity
 
         public string Content { get; set; }
         public Guid OwnerUserId { get; init; }
-
+        public Guid? ReplyToCommentId { get; set; }
+        public Guid? ReplyToUserId { get; set; }
         public Guid OwnerPostId { get; set; }
         public PublicationStatusEnum Status { get; set; }
 
-        public static Comment Create(string content, Guid ownerUserId, Guid ownerPostId)
+        public static Comment Create(string content, Guid ownerUserId, Guid ownerPostId, Guid? replyUserId = null, Guid? replyCommentId = null)
         {
             return new Comment()
             {
@@ -26,6 +27,8 @@ namespace PostServiceDomain.Entity
                 OwnerUserId = ownerUserId,
                 OwnerPostId = ownerPostId,
                 Status = PublicationStatusEnum.Wait,
+                ReplyToCommentId = replyCommentId,
+                ReplyToUserId = replyUserId,
             };
         }
         //public bool DeleteComment()
