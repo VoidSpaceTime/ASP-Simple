@@ -82,69 +82,53 @@ namespace PostServicInfrastructure.Repository
 
             return (list, count);
         }
+        /* // 因使用事务一致性,不应该在这里进行增删改操作,直接在业务层进行操作
+                /// <summary>
+                /// 新增
+                /// </summary>
+                /// <param name="entity"></param>
+                /// <returns></returns>
+                public async Task<bool> AddAsync(T entity)
+                {
+                    await dbContext.AddAsync(entity);
+                    var result = await dbContext.SaveChangesAsync();
+                    return result > 0;
+                }
+                /// <summary>
+                /// 修改
+                /// </summary>
+                /// <param name="entity"></param>
+                /// <returns></returns>
+                public async Task<bool> UpdateAsync(T entity)
+                {
+                    dbContext.Update(entity);
+                    var result = await dbContext.SaveChangesAsync();
+                    return result > 0;
+                }
+                /// <summary>
+                /// 实体删除 (数据库删除)
+                /// </summary>
+                /// <param name="entity"></param>
+                /// <returns></returns>
+                public async Task<bool> DeleteAsync(T entity)
+                {
+                    dbContext.Remove(entity);
+                    var result = await dbContext.SaveChangesAsync();
+                    return result > 0;
+                }
 
-        /// <summary>
-        /// 新增
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <param name="writeOrRead"></param>
-        /// <returns></returns>
-        public async Task<T> AddBackEntityAsync(T entity)
-        {
-            await dbContext.AddAsync<T>(entity);
-            var result = await dbContext.SaveChangesAsync();
-            if (result > 0)
-            {
-                return entity;
-            }
-            return entity;
-        }
-        /// <summary>
-        /// 新增
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public async Task<bool> AddAsync(T entity)
-        {
-            await dbContext.AddAsync(entity);
-            var result = await dbContext.SaveChangesAsync();
-            return result > 0;
-        }
-        /// <summary>
-        /// 修改
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public async Task<bool> UpdateAsync(T entity)
-        {
-            dbContext.Update(entity);
-            var result = await dbContext.SaveChangesAsync();
-            return result > 0;
-        }
-        /// <summary>
-        /// 实体删除 (数据库删除)
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public async Task<bool> DeleteAsync(T entity)
-        {
-            dbContext.Remove(entity);
-            var result = await dbContext.SaveChangesAsync();
-            return result > 0;
-        }
-
-        /// <summary>
-        /// 条件删除 (数据库删除)
-        /// </summary>
-        /// <param name="whereLambda"></param>
-        /// <returns></returns>
-        public async Task<bool> DeleteByWhereAsync(Expression<Func<T, bool>> whereLambda)
-        {
-            List<T> list = await dbContext.Set<T>().Where(whereLambda).ToListAsync();
-            dbContext.RemoveRange(list);
-            var result = await dbContext.SaveChangesAsync();
-            return result > 0;
-        }
+                /// <summary>
+                /// 条件删除 (数据库删除)
+                /// </summary>
+                /// <param name="whereLambda"></param>
+                /// <returns></returns>
+                public async Task<bool> DeleteByWhereAsync(Expression<Func<T, bool>> whereLambda)
+                {
+                    List<T> list = await dbContext.Set<T>().Where(whereLambda).ToListAsync();
+                    dbContext.RemoveRange(list);
+                    var result = await dbContext.SaveChangesAsync();
+                    return result > 0;
+                }*/
         #endregion
 
     }

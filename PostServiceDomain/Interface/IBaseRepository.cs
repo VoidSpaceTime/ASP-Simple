@@ -47,40 +47,41 @@ namespace PostServiceDomain.Interface
             /// <returns></returns>
             Task<(List<T>, int)> QueryListAsync(Expression<Func<T, bool>> whereLambda, int pageIndex, int pageSize, Expression<Func<T, object>> orderbyWhere);
 
-            /// <summary>
-            /// 增加
-            /// </summary>
-            /// <param name="entity"></param>
-            /// <returns></returns>
-            Task<T> AddBackEntityAsync(T entity);
-            /// <summary>
-            /// 新增
-            /// </summary>
-            /// <param name="entity"></param>
-            /// <param name="writeOrRead"></param>
-            /// <returns></returns>
-            Task<bool> AddAsync(T entity);
+            /*           
+                        /// <summary>
+                        /// 增加
+                        /// </summary>
+                        /// <param name="entity"></param>
+                        /// <returns></returns>
+                        Task<T> AddBackEntityAsync(T entity);
+                        /// <summary>
+                        /// 新增
+                        /// </summary>
+                        /// <param name="entity"></param>
+                        /// <param name="writeOrRead"></param>
+                        /// <returns></returns>
+                        Task<bool> AddAsync(T entity);
 
-            /// <summary>
-            /// 更新
-            /// </summary>
-            /// <param name="entity"></param>
-            /// <returns></returns>
-            Task<bool> UpdateAsync(T entitye);
+                        /// <summary>
+                        /// 更新
+                        /// </summary>
+                        /// <param name="entity"></param>
+                        /// <returns></returns>
+                        Task<bool> UpdateAsync(T entitye);
 
-            /// <summary>
-            /// 删除
-            /// </summary>
-            /// <param name="entity"></param>
-            /// <returns></returns>
-            Task<bool> DeleteAsync(T entitye);
+                        /// <summary>
+                        /// 删除
+                        /// </summary>
+                        /// <param name="entity"></param>
+                        /// <returns></returns>
+                        Task<bool> DeleteAsync(T entitye);
 
-            /// <summary>
-            /// 根据条件删除
-            /// </summary>
-            /// <param name="whereLambda"></param>
-            /// <returns></returns>
-            Task<bool> DeleteByWhereAsync(Expression<Func<T, bool>> whereLambda);
+                        /// <summary>
+                        /// 根据条件删除
+                        /// </summary>
+                        /// <param name="whereLambda"></param>
+                        /// <returns></returns>
+                        Task<bool> DeleteByWhereAsync(Expression<Func<T, bool>> whereLambda);*/
 
 
             #endregion
