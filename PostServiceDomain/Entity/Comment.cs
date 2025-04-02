@@ -17,7 +17,6 @@ namespace PostServiceDomain.Entity
         public Guid? ReplyToCommentId { get; set; }
         public Guid? ReplyToUserId { get; set; }
         public Guid OwnerPostId { get; set; }
-        public PublicationStatusEnum Status { get; set; }
 
         public static Comment Create(string content, Guid ownerUserId, Guid ownerPostId, Guid? replyUserId = null, Guid? replyCommentId = null)
         {
@@ -26,7 +25,6 @@ namespace PostServiceDomain.Entity
                 Content = content,
                 OwnerUserId = ownerUserId,
                 OwnerPostId = ownerPostId,
-                Status = PublicationStatusEnum.Wait,
                 ReplyToCommentId = replyCommentId,
                 ReplyToUserId = replyUserId,
             };
