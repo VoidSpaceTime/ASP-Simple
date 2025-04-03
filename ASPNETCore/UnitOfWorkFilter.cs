@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Abstractions;
+﻿using CommonsDomain.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +75,12 @@ namespace ASPNETCore
                 // 提交事务
                 txScope.Complete();
             }
+            else
+            {
+                // 如果操作执行发生异常 向浏览器响应失败
+                context.Result = (IActionResult)new JsonResponseL().Fail("存储失败");
+            }
+
         }
     }
 }

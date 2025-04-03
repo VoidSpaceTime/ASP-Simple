@@ -64,11 +64,8 @@ namespace PostWebApi.Controllers
             {
                 var post = await postService.GetPostByIdAsync(postId);
                 var comment = Comment.Create(commentResponse.Content, userId, postId, replyUserId, replyCommentId);
-                var result = await postService.CreateCommentAsync(comment);
-                if (result)
-                {
-                    return res.Succeed();
-                }
+                await postService.CreateCommentAsync(comment);
+         
             }
             return res.Fail("创建失败");
         }

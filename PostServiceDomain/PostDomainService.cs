@@ -15,7 +15,7 @@ namespace PostServiceDomain
             this.repositoryComent = repositoryComent;
         }
         /// 根据ID搜索帖子
-        public async Task<Post> GetAllPostByIdAsync(Guid Id)
+        public async Task<Post> GetPostByIdAsync(Guid Id)
         {
             return await repositoryPost.QueryAsync(o => o.Id == Id);
         }
@@ -50,9 +50,9 @@ namespace PostServiceDomain
 
         /// <summary>
         /// 根据帖子搜索评论列表
-        public async Task<List<Comment>> GetCommentListByPostAsync(Guid postId, PublicationStatusEnum status = PublicationStatusEnum.Pass, bool isDeleted = false)
+        public async Task<List<Comment>> GetCommentListByPostAsync(Guid postId, bool isDeleted = false)
         {
-            return await repositoryComent.QueryListAsync(o => o.OwnerPostId == postId && o.IsDeleted != isDeleted && o.Status == status);
+            return await repositoryComent.QueryListAsync(o => o.OwnerPostId == postId && o.IsDeleted != isDeleted);
         }
         /// <summary>
         /// 创建帖子
