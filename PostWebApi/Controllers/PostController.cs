@@ -48,17 +48,17 @@ namespace PostWebApi.Controllers
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<JsonResponseL> GetPostAllList(int status)
+        public async Task<JsonResponseL> GetPostAllList(PublicationStatusEnum status)
         {
             var res = new JsonResponseL();
             var posts = await postRepository.QueryListAsync(o => o.IsDeleted != true && o.Status == status);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<JsonResponseL> GetPostListByUser(UserResponse userResponse, int status)
+        public async Task<JsonResponseL> GetPostListByUser(UserResponse userResponse, List<PublicationStatusEnum> status)
         {
             var res = new JsonResponseL();
-            var posts = await postService.GetPostListByUserAsync(userResponse.Id, status);
+            var posts = await postService.QueryPostListByUserAsync(userResponse.Id, status);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpGet]
@@ -66,7 +66,7 @@ namespace PostWebApi.Controllers
         {
             var res = new JsonResponseL();
             var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
-            var posts = await postService.GetPostListByUserAsync(userId);
+            var posts = await postService.QueryPostListByUserAsync(userId);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
 
@@ -74,7 +74,7 @@ namespace PostWebApi.Controllers
         public async Task<JsonResponseL> GetPostListByTitle(string title)
         {
             var res = new JsonResponseL();
-            var posts = await postService.GetPostListByNameAsync(title);
+            var posts = await postService.QueryPostListByNameAsync(title);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
 
@@ -83,26 +83,20 @@ namespace PostWebApi.Controllers
         {
             var res = new JsonResponseL();
             var result = Guid.TryParse(postSubmitRequest.UserId, out Guid userId);
-            //var response = await requestClient.GetResponse<User>(new UserIdResponse(guid), timeout: RequestTimeout.After(s: 30));
-            //var user = response.Message;
 
-            if (result != true)
+            if (result != true) 
             {
                 return res.Fail("创建失败");
             }
-            var post = new Post(postSubmitRequest.Title, postSubmitRequest.Content, userId);
+            var post = Post.Create(postSubmitRequest.Title,postSubmitRequest.Content,userId,postSubmitRequest.Categorys,postSubmitRequest.Tags, postSubmitRequest.ConvertUri, postSubmitRequest.Files);
             if (postSubmitRequest.Categorys.Count >= 1)
             {
-                post.Categories.AddRange(postSubmitRequest.Categorys.Select(o => new Category() { Name = o, OwnerPost = post }).ToList());
+                post.CategoriesId.AddRange(postSubmitRequest.Categorys.Select(o => Guid.Parse(o)).ToList());
             }
             //var tags = postResponse.Tags;
 
-            var r = await postService.CreatePostAsync(post);
-            if (r == false)
-            {
-                return res.Fail("创建失败");
-            }
-            return res.Succeed();
+          await postService.CreatePostAsync(post);
+
         }
         [HttpPost]
         [Authorize(Roles = "Admin")]

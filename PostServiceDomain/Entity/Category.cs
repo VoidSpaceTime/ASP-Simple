@@ -7,16 +7,33 @@
         }
         public long Id { get; set; }
         public required string Name { get; set; }
-        public Guid OwnerPostId { get; set; }
-
-        public static Category Create(string name, Guid ownerPostId)
+        public List<Guid> OwnerPostId { get; set; } = new List<Guid>();
+        public static Category Create(string name)
         {
             return new Category()
             {
                 Name = name,
-                OwnerPostId = ownerPostId,
             };
         }
+        public void ChangeName(string name)
+        {
+            Name = name;
+        }
+        public Category AddPost(Guid postId)
+        {
+            if (!OwnerPostId.Contains(postId))
+            {
+                OwnerPostId.Add(postId);
+            }
+            return this;
+        }
+        public Category RemovePost(Guid postId)
+        {
+            if (OwnerPostId.Contains(postId))
+            {
+                OwnerPostId.Remove(postId);
+            }
+            return this;
+        }
     }
-
 }
