@@ -8,6 +8,7 @@ namespace ASPNETCore
     {
         // 用于存储DbContext类型的数组
         public Type[] DbContextTypes { get; init; }
+        public bool SkipGlobalFilter { get; set; } // 是否跳过全局过滤器
 
         // 构造函数，接受多个DbContext类型作为参数
         public UnitOfWorkAttribute(params Type[] dbContextTypes)

@@ -84,18 +84,20 @@ namespace PostWebApi.Controllers
             var res = new JsonResponseL();
             var result = Guid.TryParse(postSubmitRequest.UserId, out Guid userId);
 
-            if (result != true) 
+            if (result != true)
             {
                 return res.Fail("创建失败");
             }
-            var post = Post.Create(postSubmitRequest.Title,postSubmitRequest.Content,userId,postSubmitRequest.Categorys,postSubmitRequest.Tags, postSubmitRequest.ConvertUri, postSubmitRequest.Files);
-            if (postSubmitRequest.Categorys.Count >= 1)
+            var post = Post.Create(postSubmitRequest.Title, postSubmitRequest.Content, userId, postSubmitRequest.Categories, postSubmitRequest.Tags, postSubmitRequest.ConvertUri, postSubmitRequest.Files);
+            if (postSubmitRequest.Categories.Count >= 1)
             {
-                post.CategoriesId.AddRange(postSubmitRequest.Categorys.Select(o => Guid.Parse(o)).ToList());
+                post.Categories.AddRange(postSubmitRequest.Categories);
+                post.Tags.AddRange(postSubmitRequest.Tags);
             }
             //var tags = postResponse.Tags;
 
-          await postService.CreatePostAsync(post);
+            await postService.CreatePostAsync(post);
+            return res.Succeed(post.Id);
 
         }
         [HttpPost]
@@ -105,13 +107,8 @@ namespace PostWebApi.Controllers
             var res = new JsonResponseL();
             var post = await postRepository.FindAsync(Guid.Parse(postRequest.PostId));
             post.Status = postRequest.Status;
-            var result = await postRepository.UpdateAsync(post);
-            if (result)
-            {
-                return res.Succeed();
-            }
-            return res.Fail("处理错误");
-
+            await postRepository.UpdateAsync(post);
+            return res.Succeed();
         }
     }
 }

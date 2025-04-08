@@ -16,13 +16,13 @@ namespace PostWebApi.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        private readonly PostDomainService postService;
+        private readonly CommentDomainService commentService;
         private readonly ICommentRepository commentRepository;
         private readonly IRequestClient<UserIdResponse> requestClient;
 
-        public CommentController(PostDomainService postService, ICommentRepository commentRepository, IRequestClient<UserIdResponse> requestClient)
+        public CommentController(CommentDomainService commentService, ICommentRepository commentRepository, IRequestClient<UserIdResponse> requestClient)
         {
-            this.postService = postService;
+            this.commentService = commentService;
             this.commentRepository = commentRepository;
             this.requestClient = requestClient;
         }
@@ -42,7 +42,7 @@ namespace PostWebApi.Controllers
             var res = new JsonResponseL();
             if (Guid.TryParse(postRequest.PostId, out Guid postId))
             {
-                var comments = await postService.GetCommentListByPostAsync(postId);
+                var comments = await commentService.QueryCommentListByPostAsync(postId);
                 return res.Succeed(await Task.FromResult(this.ConvertRespositoryComment(comments)));
 
             }
@@ -60,12 +60,10 @@ namespace PostWebApi.Controllers
             Guid.TryParse(commentResponse.ReplyUserId, out Guid replyUserId);
             Guid.TryParse(commentResponse.ReplyCommentId, out Guid replyCommentId);
             Guid.TryParse(commentResponse.PostId, out Guid postId);
-            if (userId != Guid.Empty)
+            if (userId != Guid.Empty && postId != Guid.Empty)
             {
-                var post = await postService.GetPostByIdAsync(postId);
                 var comment = Comment.Create(commentResponse.Content, userId, postId, replyUserId, replyCommentId);
-                await postService.CreateCommentAsync(comment);
-         
+                await commentService.CreateCommentAsync(comment);
             }
             return res.Fail("创建失败");
         }

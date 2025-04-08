@@ -17,29 +17,33 @@ namespace PostServiceDomain
         {
             this.repositoryCategory = repositoryCategory;
         }
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await repositoryCategory.QueryListAsync(o => true);
+        }
+        public async Task<Category> QueryCategoryByIdAsync(long Id)
+        {
+            return await repositoryCategory.QueryAsync(o => o.Id == Id);
+        }
+        public async Task<Category> QueryCategoryNameAsync(string name)
+        {
+            return await repositoryCategory.QueryAsync(o => o.Name == name);
+        }
+        public async Task HardDeleteCategoriesAsync(Category category)
+        {
+            await repositoryCategory.HardDeleteAsync(category);
+        }
 
-        public static Category Create(string name, Guid ownerPostId)
+        public async Task<Category> CreateCategoryAsync(string name)
         {
-            return new Category()
+            var category = await repositoryCategory.QueryAsync(o => o.Name == name);
+            if (category != null)
             {
-                Name = name,
-                OwnerPostId = ownerPostId,
-            };
-        }
-        public async Task<List<Guid>> QueryPostListByCategoryId(long categoryId)
-        {
-            var category = await repositoryCategory.QueryListAsync(o => o.Id == categoryId);
-            return category.Select(o => o.OwnerPostId).ToList();
-        }
-        public async Task<List<Guid>> QueryPostListByCategoryId(long categoryId, int pageIndex, int pageSize, Expression<Func<Category, object>> orderbyWhere)
-        {
-            var (category, idx) = await repositoryCategory.QueryListAsync(o => o.Id == categoryId, pageIndex, pageSize, orderbyWhere);
-            return category.Select(o => o.OwnerPostId).ToList();
-        }
-        public async Task<List<Guid>> QueryPostListByCategoryName(string name)
-        {
-            var category = await repositoryCategory.QueryListAsync(o => o.Name == name);
-            return category.Select(o => o.OwnerPostId).ToList();
+                return category;
+            }
+            category = Category.Create(name);
+            await repositoryCategory.AddAsync(category);
+            return category;
         }
     }
 }

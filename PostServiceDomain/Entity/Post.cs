@@ -20,14 +20,14 @@ namespace PostServiceDomain.Entity
         public List<Guid> CommentsId { get; set; } = new List<Guid>();// 评论ID
         public virtual ICollection<Comment> Comments { get; set; } //评论级联 需要懒加载 ** 聚合根之间 使用ID进行关联 , 不应该直接引用对象
         public PublicationStatusEnum Status { get; set; } // 状态码
-        public List<Guid> CategoriesId { get; set; } = new List<Guid>();
-        public List<Guid> TagsId { get; set; } = new List<Guid>(); // 标签列表
+        public List<string> Categories { get; set; } = new List<string>();
+        public List<string> Tags { get; set; } = new List<string>(); // 标签列表
         public Uri CoverImageUrl { get; set; } // 封面链接
         public List<Uri> Files { get; set; } // 文件列表
 
         public bool IsVideo = false; // 是否为视频
 
-        public static Post Create(string title, string content, Guid userId, List<Guid> categoriesId, List<Guid> tagsId, Uri coverImageUrl, List<Uri> files, bool isVideo = false)
+        public static Post Create(string title, string content, Guid userId, List<string> categories, List<string> tags, Uri coverImageUrl, List<Uri> files, bool isVideo = false)
         {
             return new Post()
             {
@@ -35,8 +35,8 @@ namespace PostServiceDomain.Entity
                 Content = content,
                 UserId = userId,
                 Status = PublicationStatusEnum.Wait,
-                CategoriesId = categoriesId,
-                TagsId = tagsId,
+                Categories = categories,
+                Tags = tags,
                 CoverImageUrl = coverImageUrl,
                 Files = files,
                 IsVideo = isVideo,

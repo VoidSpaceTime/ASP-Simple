@@ -1,5 +1,7 @@
-﻿namespace PostWebApi.DTO
+﻿using PostServiceDomain;
+
+namespace PostWebApi.DTO
 {
-    public record PostRequest(string PostId, int Status);
+    public record PostRequest(string PostId, PublicationStatusEnum Status);
 
 }

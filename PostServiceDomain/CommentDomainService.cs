@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PostServiceDomain
 {
-    class CommentDomainService
+    public class CommentDomainService
     {
         private readonly ICommentRepository repositoryComent;
 
@@ -19,7 +19,7 @@ namespace PostServiceDomain
 
         /// <summary>
         /// 根据帖子搜索评论列表
-        public async Task<List<Comment>> GetCommentListByPostAsync(Guid postId, bool isDeleted = false)
+        public async Task<List<Comment>> QueryCommentListByPostAsync(Guid postId, bool isDeleted = false)
         {
             return await repositoryComent.QueryListAsync(o => o.OwnerPostId == postId && o.IsDeleted != isDeleted);
         }

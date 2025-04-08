@@ -105,6 +105,7 @@ namespace PostServicInfrastructure.Repository
             dbContext.Update(entity);
             //var result = await dbContext.SaveChangesAsync();
             //return result > 0;
+            await Task.CompletedTask;
             return;
         }
         /// <summary>
@@ -117,6 +118,7 @@ namespace PostServicInfrastructure.Repository
             dbContext.Remove(entity);
             //var result = await dbContext.SaveChangesAsync();
             //return result > 0;
+            await Task.CompletedTask;
             return;
         }
 
