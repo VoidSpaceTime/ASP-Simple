@@ -60,11 +60,11 @@ namespace DbConfigurationProvider
         }*/
 
     // 微软方案
-    public sealed class EntityConfigurationProvider(string? connectionString) : ConfigurationProvider
+    public sealed class EntityConfigurationProvider() : ConfigurationProvider
     {
         public override void Load()
         {
-            using var dbContext = new EntityConfigurationContext(connectionString);
+            using var dbContext = new EntityConfigurationContext();
 
             dbContext.Database.EnsureCreated();
 

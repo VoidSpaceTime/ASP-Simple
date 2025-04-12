@@ -12,6 +12,7 @@ using System.Reflection;
 using Infrastructure;
 using Infrastructure.EFCore;
 using DbConfigurationProvider.EntityConfigurations;
+using Microsoft.Extensions.Options;
 
 namespace CommonsInitializer
 {
@@ -75,7 +76,7 @@ namespace CommonsInitializer
                 {
                     throw new Exception($"未配置数据库链接字符串:{nameof(ctx)}");
                 }
-            }, assemblies, true);
+            }, assemblies);
 
             #endregion
             #region ServiceInjection 其他项目的Service注入
@@ -114,8 +115,11 @@ namespace CommonsInitializer
             builder.Services.AddAuthorization();
             builder.Services.AddAuthentication();
 
-            JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
-            builder.Services.AddJWTAuthentication(jwtOpt);
+            //JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
+            //JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
+            //JWTOptions jwtOpt = builder.Configuration.GetSection(nameof(JWTOptions));
+
+            builder.Services.AddJWTAuthentication(configOpt.JWTOptions);
 
             #endregion
             #region 跨域

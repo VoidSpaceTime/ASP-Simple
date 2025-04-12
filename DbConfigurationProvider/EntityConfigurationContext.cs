@@ -29,18 +29,19 @@ namespace DbConfigurationProvider
         }*/
 
     //微软方案
-    public sealed class EntityConfigurationContext(string? connectionString) : DbContext
+    public sealed class EntityConfigurationContext() : DbContext
     {
         public DbSet<EntityConfigurationSettings> Settings => Set<EntityConfigurationSettings>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var connectionString = Environment.GetEnvironmentVariable("ConfigDB:ConnStr");
             _ = connectionString switch
             {
                 { Length: > 0 } => optionsBuilder.UseSqlServer(connectionString),
                 _ => optionsBuilder.UseInMemoryDatabase("InMemoryDatabase")
             };
-        }
+         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

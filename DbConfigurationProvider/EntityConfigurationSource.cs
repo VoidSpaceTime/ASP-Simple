@@ -29,10 +29,10 @@ namespace DbConfigurationProvider
 
 
     // 微软方案
-    public sealed class EntityConfigurationSource(string? connectionString) : IConfigurationSource
+    public sealed class EntityConfigurationSource() : IConfigurationSource
     {
         public IConfigurationProvider Build(IConfigurationBuilder builder) =>
-            new EntityConfigurationProvider(connectionString);
+            new EntityConfigurationProvider();
     }
 
 }

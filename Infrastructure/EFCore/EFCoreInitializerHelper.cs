@@ -51,8 +51,13 @@ namespace Infrastructure.EFCore
                 // GetTypes()包含public和protected类型
                 // GetExportedTypes只包含public类型
                 // 这样聚合根中的XXDbContext可以是internal的以保持隔离
-                foreach (var dbCtxType in typesInAsm
-                    .Where(t => !t.IsAbstract && typeof(DbContext).IsAssignableFrom(t)))
+                //var ass = typesInAsm.Where(t => !t.IsAbstract && typeof(DbContext).IsAssignableFrom(t));
+                var ass = typesInAsm.Where(t => !t.IsAbstract && typeof(DbContext).IsAssignableFrom(t) &&
+                    t.GetConstructors().Any(c => c.GetParameters().Length == 1 && c.GetParameters()[0].ParameterType.IsGenericType &&
+                        c.GetParameters()[0].ParameterType.GetGenericTypeDefinition() == typeof(DbContextOptions<>)
+                    )
+                );
+                foreach (var dbCtxType in ass)
                 {
                     // 类似于serviceCollection.AddDbContext<SomeDbContext>(opt=>...)的操作
                     var methodGenericAddDbContext = methodAddDbContext!.MakeGenericMethod(dbCtxType);
