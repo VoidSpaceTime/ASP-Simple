@@ -59,9 +59,9 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>().AddDefaultTokenProviders()
 
 var app = builder.Build();
 
-MinioConfigurationOptions configOpt = new();
-app.Configuration.GetSection(nameof(MinioConfigurationOptions))
-    .Bind(configOpt);
+//MinioConfigurationOptions configOpt = new("");
+//app.Configuration.GetSection(nameof(MinioConfigurationOptions))
+//    .Bind(configOpt);
 
 if (app.Environment.IsDevelopment())
 {

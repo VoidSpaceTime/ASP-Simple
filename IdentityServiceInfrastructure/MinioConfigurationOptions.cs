@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace IdentityServiceInfrastructure
 {
-    public record MinioConfigurationOptions
-    {
-        public string? Uri { get; set; }
-    }
+    public record MinioConfigurationOptions(string Uri);
+
 }
