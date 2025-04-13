@@ -12,7 +12,7 @@ namespace DbConfigurationProvider
         public JWTOptions? JWTOptions { get; set; }
         public string? RedisConnection { get; set; }
         public string? MinioEndpoint { get; set; }
-        public RabbitMQOptions? RabbitMqConnection { get; set; }
+        public RabbitMQOptions? RabbitMQConnection { get; set; }
         public string? ElasticSearchConnection { get; set; }
         public string? CorsConifg { get; set; }
     }

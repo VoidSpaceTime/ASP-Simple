@@ -97,7 +97,7 @@ namespace CommonsInitializer
                 x.UsingRabbitMq((context, config) =>
                 {
 
-                    config.Host("rabbitmq://18.183.85.117:5672", hostconfig =>
+                    config.Host($"rabbitmq://{configOpt.RabbitMQConnection.HostName}", hostconfig =>
                     {
                         hostconfig.Username("admin");
                         hostconfig.Password("ji123486.*");
@@ -119,7 +119,7 @@ namespace CommonsInitializer
             //JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
             //JWTOptions jwtOpt = builder.Configuration.GetSection(nameof(JWTOptions));
 
-            builder.Services.AddJWTAuthentication(configOpt.JWTOptions);
+            //builder.Services.AddJWTAuthentication(configOpt.JWTOptions);
 
             #endregion
             #region 跨域
