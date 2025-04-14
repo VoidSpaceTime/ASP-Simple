@@ -15,6 +15,7 @@ namespace IdentityServiceInfrastructure
         private readonly ILogger<IdRepository> logger;
 
 
+
         public IdRepository(IdUserManager userManager, RoleManager<Role> roleManager, ILogger<IdRepository> logger)
         {
             this.userManager = userManager;

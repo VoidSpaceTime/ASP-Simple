@@ -10,15 +10,18 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+#region 自定义初始化
 //配置数据库
 builder.ConfigureDbConfiguration();
 //各类扩展配置
 builder.ConfigureExtraServices();
+#endregion
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDataProtection();
+
 
 
 #region Identity 验证
@@ -59,9 +62,6 @@ idBuilder.AddEntityFrameworkStores<IdDbContext>().AddDefaultTokenProviders()
 
 var app = builder.Build();
 
-//MinioConfigurationOptions configOpt = new("");
-//app.Configuration.GetSection(nameof(MinioConfigurationOptions))
-//    .Bind(configOpt);
 
 if (app.Environment.IsDevelopment())
 {

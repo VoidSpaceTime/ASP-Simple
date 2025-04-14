@@ -17,11 +17,14 @@ namespace FileServiceInfrastructure.Services
     class MinioStorageClient : IStorageClient
     {
         public StorageType StorageType => StorageType.Public;
-        private IOptionsSnapshot<MinioStorageOptions> options;
+        private IOptionsSnapshot<MinioStorageOptions> options; // 测试 是否正确获取配置
+        //private IOptions<MinioStorageOptions> minioOptions; // 测试 是否正确获取配置
+        //private MinioStorageOptions minioStorage; // 测试 是否正确获取配置
 
         public MinioStorageClient(IOptionsSnapshot<MinioStorageOptions> options)
         {
             this.options = options;
+
         }
 
 

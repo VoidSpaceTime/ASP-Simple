@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileServiceInfrastructure.Services
 {
-    class MinioStorageOptions
+    public record MinioStorageOptions
     {
         required public string Endpoint { get; set; }
         required public string AccessKey { get; set; }
