@@ -11,7 +11,7 @@ namespace FileServiceWebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize(Roles = "User,Admin")]
+    //[Authorize(Roles = "User,Admin")]
     public class UploadController : ControllerBase
     {
         private readonly FileDbContext dbContext;

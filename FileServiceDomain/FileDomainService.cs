@@ -14,7 +14,7 @@ namespace FileServiceDomain
         private readonly IFileRepository fileRepository;
         private readonly IStorageClient backupStorage;//备份服务器
         private readonly IStorageClient remoteStorage;//文件存储服务器
-        FileDomainService(IFileRepository fileRepository, IEnumerable<IStorageClient> storageClients)
+        public FileDomainService(IFileRepository fileRepository, IEnumerable<IStorageClient> storageClients)
         {
             this.fileRepository = fileRepository;
             //用这种方式可以解决内置DI不能使用名字注入不同实例的问题，而且从原则上来讲更加优美

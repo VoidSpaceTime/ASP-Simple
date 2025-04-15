@@ -24,7 +24,6 @@ namespace FileServiceInfrastructure.Services
         public MinioStorageClient(IOptionsSnapshot<MinioStorageOptions> options)
         {
             this.options = options;
-
         }
 
 

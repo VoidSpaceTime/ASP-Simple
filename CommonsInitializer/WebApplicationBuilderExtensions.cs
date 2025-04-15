@@ -65,10 +65,6 @@ namespace CommonsInitializer
 
             services.AddAllDbContexts(ctx =>
             {
-                // 从配置数据库中获取 链接数据库字符串
-                //string? connStr = configuration.GetValue<string>("ASPSimpleDB:ConnStr");
-                services.Configure<EntityConfigurationOptions>(
-                    builder.Configuration.GetSection(nameof(EntityConfigurationOptions)));
                 string? connStr = configOpt.ASPSimpleDB;
                 if (connStr != null)
                     ctx.UseSqlServer(connStr);

@@ -11,6 +11,7 @@ builder.ConfigureDbConfiguration();
 //各类扩展配置
 builder.ConfigureExtraServices();
 
+
 // 配置注入
 // 可通过依赖注入 private readonly MinioConfigurationOptions minioOptions; 获取配置
 builder.Services.Configure<MinioStorageOptions>(builder.Configuration.GetSection("MinioStorageOptions"));

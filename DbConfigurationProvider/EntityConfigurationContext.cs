@@ -29,7 +29,7 @@ namespace DbConfigurationProvider
         }*/
 
     //微软方案
-    public sealed class EntityConfigurationContext() : DbContext
+    public sealed class EntityConfigurationContext() : DbContext , DbContextIgnore
     {
         public DbSet<EntityConfigurationSettings> Settings => Set<EntityConfigurationSettings>();
 
@@ -41,7 +41,7 @@ namespace DbConfigurationProvider
                 { Length: > 0 } => optionsBuilder.UseSqlServer(connectionString),
                 _ => optionsBuilder.UseInMemoryDatabase("InMemoryDatabase")
             };
-         }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
