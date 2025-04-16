@@ -18,7 +18,7 @@ namespace FileServiceDomain
         {
             this.fileRepository = fileRepository;
             //用这种方式可以解决内置DI不能使用名字注入不同实例的问题，而且从原则上来讲更加优美
-            backupStorage = storageClients.First(c => c.StorageType == StorageType.Backup);
+            //backupStorage = storageClients.First(c => c.StorageType == StorageType.Backup); // 无备份服务赞数注释
             remoteStorage = storageClients.First(c => c.StorageType == StorageType.Public);
         }
         public async Task<UploadedItem> UploadAsync(Stream stream, string fileName, CancellationToken cancellationToken, FileCategory? fileCategory)

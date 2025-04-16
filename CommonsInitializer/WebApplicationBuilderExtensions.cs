@@ -95,8 +95,8 @@ namespace CommonsInitializer
 
                     config.Host($"rabbitmq://{configOpt.RabbitMQConnection.HostName}", hostconfig =>
                     {
-                        hostconfig.Username("admin");
-                        hostconfig.Password("ji123486.*");
+                        hostconfig.Username(configOpt.RabbitMQConnection.UserName);
+                        hostconfig.Password(configOpt.RabbitMQConnection.Password);
                     });
 
                     config.ConfigureEndpoints(context);
