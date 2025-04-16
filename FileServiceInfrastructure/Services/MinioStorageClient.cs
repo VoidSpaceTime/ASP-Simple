@@ -44,24 +44,32 @@ namespace FileServiceInfrastructure.Services
             var minioClient = new MinioClient()
                 .WithEndpoint(options.Value.Endpoint)
                 .WithCredentials(options.Value.AccessKey, options.Value.SecretKey)
+                //.WithEndpoint("10.60.10.3:9000")
+                //.WithCredentials("space", "ji123486")
+                .WithRegion("us-east-1")
+               
                 .Build();
-            // 检查 bucket 是否存在
-            bool found = await minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(category.ToString()));
+
+            string bucketName = category.ToString().ToLower(); // 强制小写
+            bool found = await minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(bucketName));
             if (!found)
             {
-                // 创建 bucket
-                await minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(category.ToString()));
+                await minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(bucketName));
             }
+
             // 上传文件
             var res = await minioClient.PutObjectAsync(new PutObjectArgs()
-             .WithBucket(category.ToString())
-             .WithObject(path)
-             .WithStreamData(content));
+                .WithBucket(bucketName)
+                .WithObject(path)
+                .WithStreamData(new MemoryStream(bytes)) // 使用内存流
+                .WithObjectSize(bytes.Length)); // 设置对象大小
+
             if (res.ResponseStatusCode != System.Net.HttpStatusCode.OK)
             {
-                throw new Exception("upload file failed");
+                throw new Exception($"Upload failed with status code: {res.ResponseStatusCode}");
             }
-            return new Uri($"{options.Value.Endpoint}/{category}/{path}");
+            var url = new Uri($"http://{options.Value.Endpoint}/{bucketName}/{path}");
+            return url;
         }
     }
 }
