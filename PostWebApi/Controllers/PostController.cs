@@ -55,10 +55,10 @@ namespace PostWebApi.Controllers
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<JsonResponseL> GetPostListByUser(UserResponse userResponse, List<PublicationStatusEnum> status)
+        public async Task<JsonResponseL> GetPostListByUser(UserResponse userResponse)
         {
             var res = new JsonResponseL();
-            var posts = await postService.QueryPostListByUserAsync(userResponse.Id, status);
+            var posts = await postService.QueryPostListByUserAsync(userResponse.Id);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpGet]
