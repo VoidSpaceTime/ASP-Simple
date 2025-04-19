@@ -3,7 +3,7 @@ using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostServiceDomain.Interface
 {
-    interface ICategoryRepository : IBaseRepository<Category>
+    public interface ICategoryRepository : IBaseRepository<Category>
     {
     }
 }

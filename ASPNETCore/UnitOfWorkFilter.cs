@@ -10,7 +10,7 @@ using System.Transactions;
 
 namespace ASPNETCore
 {
-    class UnitOfWorkFilter : IAsyncActionFilter
+   public class UnitOfWorkFilter : IAsyncActionFilter
     {
         private static UnitOfWorkAttribute? GetUoWAttr(ActionDescriptor actionDesc)
         {

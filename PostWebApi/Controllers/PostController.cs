@@ -1,4 +1,5 @@
-﻿using CommonsDomain.DTO;
+﻿using ASPNETCore;
+using CommonsDomain.DTO;
 using CommonsDomain.DTO.Identity;
 using CommonsDomain.Entities;
 using CommonsDomain.Enum;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostServiceDomain;
 using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
+using PostServicInfrastructure;
 using PostWebApi.DTO;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -17,6 +19,7 @@ namespace PostWebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [UnitOfWork(typeof(PostDbContext))]
     //[Authorize(Roles = $"{nameof(RolesEnum.User)},{nameof(RolesEnum.Admin)}")]
     public class PostController : ControllerBase
     {
@@ -89,11 +92,11 @@ namespace PostWebApi.Controllers
                 return res.Fail("创建失败");
             }
             var post = Post.Create(postSubmitRequest.Title, postSubmitRequest.Content, userId, postSubmitRequest.Categories, postSubmitRequest.Tags, postSubmitRequest.ConvertUri, postSubmitRequest.Files);
-            if (postSubmitRequest.Categories.Count >= 1)
-            {
-                post.Categories.AddRange(postSubmitRequest.Categories);
-                post.Tags.AddRange(postSubmitRequest.Tags);
-            }
+            //if (postSubmitRequest.Categories.Count >= 1)
+            //{
+            //    post.Categories.AddRange(postSubmitRequest.Categories);
+            //    post.Tags.AddRange(postSubmitRequest.Tags);
+            //}
             //var tags = postResponse.Tags;
 
             await postService.CreatePostAsync(post);

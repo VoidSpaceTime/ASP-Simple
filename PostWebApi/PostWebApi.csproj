@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ASPNETCore\ASPNETCore.csproj" />
     <ProjectReference Include="..\CommonsInitializer\CommonsInitializer.csproj" />
     <ProjectReference Include="..\PostServiceDomain\PostServiceDomain.csproj" />
     <ProjectReference Include="..\PostServicInfrastructure\PostServicInfrastructure.csproj" />

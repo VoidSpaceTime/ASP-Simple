@@ -1,4 +1,5 @@
-﻿using CommonsDomain.DTO;
+﻿using ASPNETCore;
+using CommonsDomain.DTO;
 using FileServiceDomain;
 using FileServiceInfrastructure;
 using FileServiceWebAPI.DTO;
@@ -12,6 +13,7 @@ namespace FileServiceWebAPI.Controllers
     [Route("api/[controller]/[action]")]
     [ApiController]
     //[Authorize(Roles = "User,Admin")]
+    [UnitOfWork(typeof(FileDbContext))]
     public class UploadController : ControllerBase
     {
         private readonly FileDbContext dbContext;

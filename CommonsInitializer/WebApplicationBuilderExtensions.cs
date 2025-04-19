@@ -13,6 +13,8 @@ using Infrastructure;
 using Infrastructure.EFCore;
 using DbConfigurationProvider.EntityConfigurations;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
+using ASPNETCore;
 
 namespace CommonsInitializer
 {
@@ -114,8 +116,8 @@ namespace CommonsInitializer
             //JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
             //JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
             //JWTOptions jwtOpt = builder.Configuration.GetSection(nameof(JWTOptions));
-
-            //builder.Services.AddJWTAuthentication(configOpt.JWTOptions);
+            builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("EntityConfigurationOptions:JWTOptions"));
+            builder.Services.AddJWTAuthentication(configOpt.JWTOptions);
 
             #endregion
             #region 跨域
@@ -133,6 +135,13 @@ namespace CommonsInitializer
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("any", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+            });
+            #endregion
+            #region UnitOfWork
+            //现在不用手动AddMVC了，因此把文档中的services.AddMvc(options =>{})改写成Configure<MvcOptions>(options=> {})这个问题很多都类似
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add<UnitOfWorkFilter>();
             });
             #endregion
             #region Swagger

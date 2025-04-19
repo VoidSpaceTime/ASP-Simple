@@ -1,4 +1,5 @@
-﻿using CommonsDomain.DTO;
+﻿using ASPNETCore;
+using CommonsDomain.DTO;
 using CommonsDomain.DTO.Identity;
 using CommonsDomain.Entities;
 using MassTransit;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using PostServiceDomain;
 using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
+using PostServicInfrastructure;
 using PostWebApi.DTO;
 using System;
 using static MassTransit.ValidationResultExtensions;
@@ -14,6 +16,7 @@ namespace PostWebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [UnitOfWork(typeof(PostDbContext))]
     public class CommentController : ControllerBase
     {
         private readonly CommentDomainService commentService;

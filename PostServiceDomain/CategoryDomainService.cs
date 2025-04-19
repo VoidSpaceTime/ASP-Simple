@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PostServiceDomain
 {
-    class CategoryDomainService
+    public class CategoryDomainService
     {
         private readonly ICategoryRepository repositoryCategory;
 
@@ -17,18 +17,19 @@ namespace PostServiceDomain
         {
             this.repositoryCategory = repositoryCategory;
         }
-        public async Task<List<Category>> GetAllCategoriesAsync()
+        public async Task<List<Category>> QueryAllCategoriesAsync()
         {
             return await repositoryCategory.QueryListAsync(o => true);
         }
-        public async Task<Category> QueryCategoryByIdAsync(long Id)
+        public async Task<Category> GetCategoryByIdAsync(long Id)
         {
             return await repositoryCategory.QueryAsync(o => o.Id == Id);
         }
-        public async Task<Category> QueryCategoryNameAsync(string name)
+        public async Task<Category> GetCategoryNameAsync(string name)
         {
             return await repositoryCategory.QueryAsync(o => o.Name == name);
         }
+        
         public async Task HardDeleteCategoriesAsync(Category category)
         {
             await repositoryCategory.HardDeleteAsync(category);

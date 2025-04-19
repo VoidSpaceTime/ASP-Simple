@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PostServiceDomain
 {
-    class TagDomainService
+    public class TagDomainService
     {
     }
 }

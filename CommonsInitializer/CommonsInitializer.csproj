@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ASPNETCore\ASPNETCore.csproj" />
     <ProjectReference Include="..\DbConfigurationProvider\DbConfigurationProvider.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\JWT\JWT.csproj" />
