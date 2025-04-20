@@ -103,7 +103,7 @@ namespace PostWebApi.Controllers
             //var tags = postResponse.Tags;
 
             await postService.CreatePostAsync(post);
-            await pubushBus.Publish(new CreatePostEto(post.Id, post.Title));
+            await pubushBus.Publish(new CreatePostEto(post.Id, post.Title, post.Tags, post.Categories));
             return res.Succeed(post.Id);
 
         }
@@ -115,6 +115,15 @@ namespace PostWebApi.Controllers
             var post = await postRepository.FindAsync(Guid.Parse(postRequest.PostId));
             post.Status = postRequest.Status;
             await postRepository.UpdateAsync(post);
+            return res.Succeed();
+        }
+        [HttpDelete]
+        public async Task<JsonResponseL> DeletePost(string postId)
+        {
+            var res = new JsonResponseL();
+            var post = await postRepository.FindAsync(Guid.Parse(postId));
+            await postRepository.HardDeleteAsync(post);
+            await pubushBus.Publish(new HardDeletePostEto(post.Id, post.Title, post.Categories));
             return res.Succeed();
         }
     }

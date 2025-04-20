@@ -47,6 +47,7 @@ namespace PostServiceDomain
             await repositoryCategory.HardDeleteAsync(category);
         }
 
+
         public async Task<Category> CreateCategoryAsync(string name)
         {
             var category = await repositoryCategory.QueryAsync(o => o.Name == name);
@@ -77,6 +78,41 @@ namespace PostServiceDomain
                 category.OwnerPostId.Add(PostId);
             }
             return categories;
+        }
+        public async Task DeletePostAsync(List<string> names, Guid postId)
+        {
+            foreach (var name in names)
+            {
+                var category = await repositoryCategory.QueryAsync(o => o.Name == name);
+                if (category != null)
+                {
+                    category.RemovePost(postId);
+                    if (category.OwnerPostId.Count == 0)
+                    {
+                        await repositoryCategory.HardDeleteAsync(category);
+                    }
+                    else
+                    {
+                        await repositoryCategory.UpdateAsync(category);
+                    }
+                }
+            }
+        }
+        public async Task DeletePostAsync(Guid postId)
+        {
+            var categories = await repositoryCategory.QueryListIncludeDeleteAsync(o => o.OwnerPostId.Contains(postId));
+            foreach (var category in categories)
+            {
+                category.RemovePost(postId);
+                if (category.OwnerPostId.Count == 0)
+                {
+                    await repositoryCategory.HardDeleteAsync(category);
+                }
+                else
+                {
+                    await repositoryCategory.UpdateAsync(category);
+                }
+            }
         }
     }
 }

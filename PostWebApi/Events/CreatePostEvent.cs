@@ -1,11 +1,12 @@
-﻿using MassTransit;
+﻿using CommonsDomain.ETO;
+using MassTransit;
 using PostServiceDomain;
 using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
 
 namespace PostWebApi.Events
 {
-    public class CreatePostEvent : IConsumer<Post>
+    public class CreatePostEvent : IConsumer<CreatePostEto>
     {
         private readonly TagDomainService tagDomainService;
         private readonly CategoryDomainService categoryDomainService;
@@ -16,7 +17,7 @@ namespace PostWebApi.Events
             this.categoryDomainService = categoryDomainService;
         }
 
-        public async Task Consume(ConsumeContext<Post> context)
+        public async Task Consume(ConsumeContext<CreatePostEto> context)
         {
             await tagDomainService.AddTag(context.Message.Tags, context.Message.Id);
             await categoryDomainService.AddCategoryAsync(context.Message.Categories, context.Message.Id);

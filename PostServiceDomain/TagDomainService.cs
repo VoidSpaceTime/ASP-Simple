@@ -46,23 +46,12 @@ namespace PostServiceDomain
                 await repositoryTag.HardDeleteAsync(tag);
             }
         }
-        public async Task HardDeleteAsync(string name, Guid ownerPostId)
+        public async Task HardDeleteAsync(Guid ownerPostId)
         {
-            var tag = await repositoryTag.QueryAsync(o => o.Name == name && o.OwnerPostId == ownerPostId);
+            var tag = await repositoryTag.QueryAsync(o => o.OwnerPostId == ownerPostId);
             if (tag != null)
             {
                 await repositoryTag.HardDeleteAsync(tag);
-            }
-        }
-        public async Task HardDeleteAsync(List<string> names, Guid ownerPostId)
-        {
-            foreach (var name in names)
-            {
-                var tag = await repositoryTag.QueryAsync(o => o.Name == name && o.OwnerPostId == ownerPostId);
-                if (tag != null)
-                {
-                    await repositoryTag.HardDeleteAsync(tag);
-                }
             }
         }
     }

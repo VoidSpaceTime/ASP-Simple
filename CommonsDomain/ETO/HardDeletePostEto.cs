@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace CommonsDomain.ETO
 {
-    public record HardDeletePostEto(Guid Id, string Title);
+    public record HardDeletePostEto(Guid Id, string Title ,List<string> Categories);
 
 }
