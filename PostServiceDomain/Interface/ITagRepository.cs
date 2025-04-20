@@ -8,7 +8,7 @@ using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostServiceDomain.Interface
 {
-    interface ITagRepository : IBaseRepository<Tag>
+  public  interface ITagRepository : IBaseRepository<Tag>
     {
     }
 }

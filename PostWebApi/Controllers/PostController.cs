@@ -3,6 +3,7 @@ using CommonsDomain.DTO;
 using CommonsDomain.DTO.Identity;
 using CommonsDomain.Entities;
 using CommonsDomain.Enum;
+using CommonsDomain.ETO;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,15 +24,17 @@ namespace PostWebApi.Controllers
     //[Authorize(Roles = $"{nameof(RolesEnum.User)},{nameof(RolesEnum.Admin)}")]
     public class PostController : ControllerBase
     {
+        private readonly IBus pubushBus;
         private readonly PostDomainService postService;
         private readonly IPostRepository postRepository;
         private readonly IRequestClient<UserIdResponse> requestClient;
 
-        public PostController(PostDomainService postService, IPostRepository postRepository, IRequestClient<UserIdResponse> requestClient)
+        public PostController(PostDomainService postService, IPostRepository postRepository, IRequestClient<UserIdResponse> requestClient, IBus pubushBus)
         {
             this.postService = postService;
             this.postRepository = postRepository;
             this.requestClient = requestClient;
+            this.pubushBus = pubushBus;
         }
         private async Task<List<PostResponse>> ConvertRespositoryPost(List<Post> posts)
         {
@@ -100,6 +103,7 @@ namespace PostWebApi.Controllers
             //var tags = postResponse.Tags;
 
             await postService.CreatePostAsync(post);
+            await pubushBus.Publish(new CreatePostEto(post.Id, post.Title));
             return res.Succeed(post.Id);
 
         }

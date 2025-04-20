@@ -25,11 +25,23 @@ namespace PostServiceDomain
         {
             return await repositoryCategory.QueryAsync(o => o.Id == Id);
         }
-        public async Task<Category> GetCategoryNameAsync(string name)
+        public async Task<Category> GetCategoryByNameAsync(string name)
         {
             return await repositoryCategory.QueryAsync(o => o.Name == name);
         }
-        
+        public async Task<List<Category>> QueryPostByNameAsync(List<string> names)
+        {
+            var categories = new List<Category>();
+            foreach (var name in names)
+            {
+                var category = await repositoryCategory.QueryAsync(o => o.Name == name);
+                if (category != null)
+                {
+                    categories.Add(category);
+                }
+            }
+            return categories;
+        }
         public async Task HardDeleteCategoriesAsync(Category category)
         {
             await repositoryCategory.HardDeleteAsync(category);
@@ -45,6 +57,26 @@ namespace PostServiceDomain
             category = Category.Create(name);
             await repositoryCategory.AddAsync(category);
             return category;
+        }
+        public async Task<List<Category>> AddCategoryAsync(List<string> names, Guid PostId)
+        {
+            var categories = new List<Category>();
+            foreach (var name in names)
+            {
+                var category = await repositoryCategory.QueryAsync(o => o.Name == name);
+                if (category == null)
+                {
+                    category = Category.Create(name);
+                    await repositoryCategory.AddAsync(category);
+                    categories.Add(category);
+                }
+                else
+                {
+                    category.OwnerPostId.Add(PostId);
+                }
+                category.OwnerPostId.Add(PostId);
+            }
+            return categories;
         }
     }
 }

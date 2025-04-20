@@ -12,7 +12,7 @@ namespace PostServiceDomain.Entity
             Comments = new List<Comment>();
             CoverImageUrl = new Uri("about:blank");
             Files = new List<Uri>();
-        } // 无参数构造函数
+        } // 无参数构造函数  
 
         public string Title { get; set; } // 标题
         public string Content { get; set; } // 文本内容

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using PostServiceDomain.Entity;
+using PostServiceDomain.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,5 +11,59 @@ namespace PostServiceDomain
 {
     public class TagDomainService
     {
+        private readonly ITagRepository repositoryTag;
+
+        public TagDomainService(ITagRepository repositoryTag)
+        {
+            this.repositoryTag = repositoryTag;
+        }
+        public async Task<List<Tag>> QueryTagListByNameAsync(string name)
+        {
+            return await repositoryTag.QueryListAsync(o => o.Name.Contains(name));
+        }
+        public async Task<(List<Tag>, int)> QueryTagListByNameAsync(string name, int pageIndex, int pageSize, Expression<Func<Tag, object>> orderbyWhere)
+        {
+            return await repositoryTag.QueryListAsync(o => o.Name.Contains(name), pageIndex, pageSize, orderbyWhere);
+        }
+        public async Task CareteTag(string name, Guid ownerPostId)
+        {
+            var tag = Tag.Create(name, ownerPostId);
+            await repositoryTag.AddAsync(tag);
+        }
+        public async Task AddTag(List<string> names, Guid ownerPostId)
+        {
+            foreach (var name in names)
+            {
+                var tag = Tag.Create(name, ownerPostId);
+                await repositoryTag.AddAsync(tag);
+            }
+        }
+        public async Task HardDeleteAsync(long id)
+        {
+            var tag = await repositoryTag.QueryAsync(o => o.Id == id);
+            if (tag != null)
+            {
+                await repositoryTag.HardDeleteAsync(tag);
+            }
+        }
+        public async Task HardDeleteAsync(string name, Guid ownerPostId)
+        {
+            var tag = await repositoryTag.QueryAsync(o => o.Name == name && o.OwnerPostId == ownerPostId);
+            if (tag != null)
+            {
+                await repositoryTag.HardDeleteAsync(tag);
+            }
+        }
+        public async Task HardDeleteAsync(List<string> names, Guid ownerPostId)
+        {
+            foreach (var name in names)
+            {
+                var tag = await repositoryTag.QueryAsync(o => o.Name == name && o.OwnerPostId == ownerPostId);
+                if (tag != null)
+                {
+                    await repositoryTag.HardDeleteAsync(tag);
+                }
+            }
+        }
     }
 }
