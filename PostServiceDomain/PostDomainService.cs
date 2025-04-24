@@ -8,7 +8,6 @@ namespace PostServiceDomain
     public class PostDomainService
     {
         private readonly IPostRepository repositoryPost;
-        private readonly IBaseRepository<Post> repositoryBase;
 
         public PostDomainService(IPostRepository repositoryPost)
         {
@@ -20,14 +19,15 @@ namespace PostServiceDomain
         {
             return await repositoryPost.QueryAsync(o => o.Id == Id);
         }
-
-        public async Task<(List<Post>, int)> QueryPostListByUserAsync(Guid userId, List<PublicationStatusEnum> status, int pageIndex, int pageSize, Expression<Func<Post, object>> orderbyWhere, bool isAscending = true)
+        public async Task<List<Post>> QueryPostListByUserAsync(Guid userId, List<PublicationStatusEnum> status, bool IsSoftDelete = false)
         {
-            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != true && (status.Count == 0 || status.Contains(o.Status)), pageIndex, pageSize, orderbyWhere, isAscending);
+            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != true && (status.Count == 0 || status.Contains(o.Status)) && o.IsDeleted == IsSoftDelete);
         }
-        public async Task<(List<Post>, int)> QueryPostListByIncludeSoftDeletedUserAsync(Guid userId, List<PublicationStatusEnum> status, int pageIndex, int pageSize, Expression<Func<Post, object>> orderbyWhere)
+        public async Task<(List<Post>, int)> QueryPostListByUserAsync(Guid userId, List<PublicationStatusEnum> status, int pageIndex, int pageSize,
+            Expression<Func<Post, object>> orderbyWhere, bool isAscending = true, bool IsSoftDelete = false)
         {
-            return await repositoryPost.QueryListAsync(o => o.UserId == userId && (status.Count == 0 || status.Contains(o.Status)), pageIndex, pageSize, orderbyWhere, true);
+            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != true && (status.Count == 0 || status.Contains(o.Status)) && o.IsDeleted == IsSoftDelete,
+                pageIndex, pageSize, orderbyWhere, isAscending);
         }
 
 

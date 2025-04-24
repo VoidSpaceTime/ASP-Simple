@@ -67,10 +67,27 @@ namespace PostWebApi.Controllers
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<JsonResponseL> GetPostListByUser(UserResponse userResponse)
+        public async Task<JsonResponseL> QueryPostListByUser(PostQueryRequest postQueryRequest)
         {
             var res = new JsonResponseL();
-            var posts = await postService.QueryPostListByUserAsync(userResponse.Id);
+            Guid.TryParse(postQueryRequest.UserId, out var userId);
+            if (postQueryRequest == null || postQueryRequest.UserId == null)
+            {
+                return res.Fail("参数错误");
+            }
+            // 从当前用户的 Claims 中提取角色信息
+            //var roles = this.User.FindAll(ClaimTypes.Role).Select(claim => claim.Value).ToList();
+            string? queryUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var status = new List<PublicationStatusEnum>();
+            if (queryUserId == postQueryRequest.UserId)
+            {
+                status.Add(PublicationStatusEnum.Wait);
+                status.Add(PublicationStatusEnum.Fail);
+            }
+            status.Add(PublicationStatusEnum.Pass);
+
+
+            var posts = await postService.QueryPostListByUserAsync(userId, status, false);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpGet]
@@ -78,40 +95,33 @@ namespace PostWebApi.Controllers
         {
             var res = new JsonResponseL();
             var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
-            var posts = await postService.QueryPostListByUserAsync(userId);
-            return res.Succeed(this.ConvertRespositoryPost(posts));
-        }
-        public async Task<JsonResponseL> GetPostListByUser(PostQueryRequest postQueryRequest)
-        {
-            var res = new JsonResponseL();
-            Enum.TryParse<PostQueryOrderByEnum>(postQueryRequest.OrderBy, out PostQueryOrderByEnum queryType);
-
-            switch (queryType)
-            {
-                case PostQueryOrderByEnum.ByCreateTime:
-                    break;
-                case PostQueryOrderByEnum.ByUser:
-                    break;
-                case PostQueryOrderByEnum.ByTitle:
-                    break;
-                case PostQueryOrderByEnum.ByTags:
-                    break;
-                default:
-                    break;
-            }
-            var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
-            var posts = await postService.QueryPostListByUserAsync(userId);
+            var status = new List<PublicationStatusEnum>() { PublicationStatusEnum.Pass, PublicationStatusEnum.Wait, PublicationStatusEnum.Fail };
+            var posts = await postService.QueryPostListByUserAsync(userId, status, false);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
 
         [HttpPost]
-        public async Task<JsonResponseL> GetPostListByTitle(string title)
+        public async Task<JsonResponseL> QueryPostListByCategory(PostQueryRequest postQueryRequest)
         {
             var res = new JsonResponseL();
-            var posts = await postService.QueryPostListByNameAsync(title);
+            if (postQueryRequest.Category == null)
+            {
+                return res.Fail("Category is null");
+            }
+            var posts = await postRepository.QueryListAsync(o => o.IsDeleted != true && o.Categories.Contains(postQueryRequest.Category) && o.Status == PublicationStatusEnum.Pass);
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
-
+        [HttpPost]
+        public async Task<JsonResponseL> QueryPostListByTag(PostQueryRequest postQueryRequest)
+        {
+            var res = new JsonResponseL();
+            if (postQueryRequest.Tag == null)
+            {
+                return res.Fail("Tag is null");
+            }
+            var posts = await postRepository.QueryListAsync(o => o.IsDeleted != true && o.Categories.Contains(postQueryRequest.Tag) && o.Status == PublicationStatusEnum.Pass);
+            return res.Succeed(this.ConvertRespositoryPost(posts));
+        }
         [HttpPost]
         public async Task<JsonResponseL> CreatePostByUser(PostSubmitRequest postSubmitRequest)
         {
@@ -123,12 +133,6 @@ namespace PostWebApi.Controllers
                 return res.Fail("创建失败");
             }
             var post = Post.Create(postSubmitRequest.Title, postSubmitRequest.Content, userId, postSubmitRequest.Categories, postSubmitRequest.Tags, postSubmitRequest.ConvertUri, postSubmitRequest.Files);
-            //if (postSubmitRequest.Categories.Count >= 1)
-            //{
-            //    post.Categories.AddRange(postSubmitRequest.Categories);
-            //    post.Tags.AddRange(postSubmitRequest.Tags);
-            //}
-            //var tags = postResponse.Tags;
 
             await postService.CreatePostAsync(post);
             await pubushBus.Publish(new CreatePostEto(post.Id, post.Title, post.Tags, post.Categories));
