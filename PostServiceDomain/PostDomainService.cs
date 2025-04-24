@@ -1,12 +1,14 @@
 ﻿using PostServiceDomain.Entity;
 using PostServiceDomain.Interface;
 using System.Linq.Expressions;
+using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostServiceDomain
 {
     public class PostDomainService
     {
         private readonly IPostRepository repositoryPost;
+        private readonly IBaseRepository<Post> repositoryBase;
 
         public PostDomainService(IPostRepository repositoryPost)
         {
@@ -19,48 +21,16 @@ namespace PostServiceDomain
             return await repositoryPost.QueryAsync(o => o.Id == Id);
         }
 
-        /// <summary>
-        /// 根据名称搜索帖子列表
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="status"></param>
-        /// <param name="isDeleted"></param>
-        /// <returns></returns>
-        public async Task<List<Post>> QueryPostListByNameAsync(string name, List<PublicationStatusEnum> status, bool isDeleted = false)
+        public async Task<(List<Post>, int)> QueryPostListByUserAsync(Guid userId, List<PublicationStatusEnum> status, int pageIndex, int pageSize, Expression<Func<Post, object>> orderbyWhere, bool isAscending = true)
         {
-            return await repositoryPost.QueryListAsync(o => o.Title.Contains(name) && o.IsDeleted != isDeleted && (status.Count == 0 || status.Contains(o.Status)));
+            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != true && (status.Count == 0 || status.Contains(o.Status)), pageIndex, pageSize, orderbyWhere, isAscending);
+        }
+        public async Task<(List<Post>, int)> QueryPostListByIncludeSoftDeletedUserAsync(Guid userId, List<PublicationStatusEnum> status, int pageIndex, int pageSize, Expression<Func<Post, object>> orderbyWhere)
+        {
+            return await repositoryPost.QueryListAsync(o => o.UserId == userId && (status.Count == 0 || status.Contains(o.Status)), pageIndex, pageSize, orderbyWhere, true);
         }
 
-        public async Task<List<Post>> QueryPostListByNameAsync(string name, bool isDeleted = false)
-        {
-            return await repositoryPost.QueryListAsync(o => o.Title.Contains(name) && o.IsDeleted != isDeleted);
-        }
 
-        public async Task<(List<Post>, int)> QueryPostListByNameAsync(string name, List<PublicationStatusEnum> status, int pageIndex, int pageSize, Expression<Func<Post, object>> orderbyWhere, bool isDeleted = false)
-        {
-            return await repositoryPost.QueryListAsync(o => o.Title.Contains(name) && o.IsDeleted != isDeleted && (status.Count == 0 || status.Contains(o.Status)), pageIndex, pageSize, orderbyWhere);
-        }
-
-        /// <summary>
-        /// 根据用户搜索帖子列表
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="isDeleted"></param>
-        /// <returns></returns>
-        public async Task<List<Post>> QueryPostListByUserAsync(Guid userId, bool isDeleted = false)
-        {
-            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != isDeleted);
-        }
-
-        public async Task<(List<Post>, int)> QueryPostListByUserAsync(Guid userId, List<PublicationStatusEnum> status, int pageIndex, int pageSize, Expression<Func<Post, object>> orderbyWhere, bool isDeleted = false)
-        {
-            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != isDeleted && (status.Count == 0 || status.Contains(o.Status)), pageIndex, pageSize, orderbyWhere);
-        }
-
-        public async Task<List<Post>> QueryPostListByUserAsync(Guid userId, List<PublicationStatusEnum> status, bool isDeleted = false)
-        {
-            return await repositoryPost.QueryListAsync(o => o.UserId == userId && o.IsDeleted != isDeleted && (status.Count == 0 || status.Contains(o.Status)));
-        }
 
         /// <summary>
         /// 创建帖子

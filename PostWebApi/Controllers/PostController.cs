@@ -13,6 +13,7 @@ using PostServiceDomain.Interface;
 using PostServicInfrastructure;
 using PostWebApi.DTO;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading;
 
@@ -38,12 +39,12 @@ namespace PostWebApi.Controllers
         }
         private async Task<List<PostResponse>> ConvertRespositoryPost(List<Post> posts)
         {
-            var result = posts.Select(o => new PostResponse(o.Title, o.Content, o.UserId)).ToList();
+            var result = posts.Select(o => new PostResponse(o.Id, o.Title, o.Content, o.UserId, o.Categories, o.Tags)).ToList();
             return await Task.FromResult(result);
         }
         private async Task<PostResponse> ConvertRespositoryPost(Post post)
         {
-            var result = new PostResponse(post.Title, post.Content, post.UserId);
+            var result = new PostResponse(post.Id, post.Title, post.Content, post.UserId, post.Categories, post.Tags);
             return await Task.FromResult(result);
         }
         [HttpGet]
@@ -54,10 +55,15 @@ namespace PostWebApi.Controllers
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
-        public async Task<JsonResponseL> GetPostAllList(PublicationStatusEnum status)
+        public async Task<JsonResponseL> GetPostAllList(List<PublicationStatusEnum> status)
         {
             var res = new JsonResponseL();
-            var posts = await postRepository.QueryListAsync(o => o.IsDeleted != true && o.Status == status);
+            var posts = new List<Post>();
+            foreach (var item in status)
+            {
+                var post = await postRepository.QueryListAsync(o => o.IsDeleted != true && o.Status == item);
+                posts.AddRange(post);
+            }
             return res.Succeed(this.ConvertRespositoryPost(posts));
         }
         [HttpPost]
@@ -71,6 +77,28 @@ namespace PostWebApi.Controllers
         public async Task<JsonResponseL> GetPostListByUser()
         {
             var res = new JsonResponseL();
+            var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
+            var posts = await postService.QueryPostListByUserAsync(userId);
+            return res.Succeed(this.ConvertRespositoryPost(posts));
+        }
+        public async Task<JsonResponseL> GetPostListByUser(PostQueryRequest postQueryRequest)
+        {
+            var res = new JsonResponseL();
+            Enum.TryParse<PostQueryOrderByEnum>(postQueryRequest.OrderBy, out PostQueryOrderByEnum queryType);
+
+            switch (queryType)
+            {
+                case PostQueryOrderByEnum.ByCreateTime:
+                    break;
+                case PostQueryOrderByEnum.ByUser:
+                    break;
+                case PostQueryOrderByEnum.ByTitle:
+                    break;
+                case PostQueryOrderByEnum.ByTags:
+                    break;
+                default:
+                    break;
+            }
             var userId = Guid.Parse(this.User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
             var posts = await postService.QueryPostListByUserAsync(userId);
             return res.Succeed(this.ConvertRespositoryPost(posts));

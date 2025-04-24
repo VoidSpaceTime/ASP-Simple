@@ -65,7 +65,7 @@ namespace PostServicInfrastructure.Repository
         /// <param name="pageSize"></param>
         /// <param name="orderbyWhere"></param>
         /// <returns></returns>
-        public async Task<(List<T>, int)> QueryListAsync(Expression<Func<T, bool>> whereLambda, int pageIndex, int pageSize, Expression<Func<T, object>> orderbyWhere)
+        public async Task<(List<T>, int)> QueryListAsync(Expression<Func<T, bool>> whereLambda, int pageIndex, int pageSize, Expression<Func<T, object>> orderbyWhere, bool isAscending = true)
         {
             int count = await dbContext.Set<T>()
                    .Where(whereLambda)

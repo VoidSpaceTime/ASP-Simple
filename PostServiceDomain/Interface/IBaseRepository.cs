@@ -45,7 +45,7 @@ namespace PostServiceDomain.Interface
             /// <param name="pageSize"></param>
             /// <param name="totalCount"></param>
             /// <returns></returns>
-            Task<(List<T>, int)> QueryListAsync(Expression<Func<T, bool>> whereLambda, int pageIndex, int pageSize, Expression<Func<T, object>> orderbyWhere);
+            Task<(List<T>, int)> QueryListAsync(Expression<Func<T, bool>> whereLambda, int pageIndex, int pageSize, Expression<Func<T, object>> orderbyWhere, bool isAscending);
 
 
             /// <summary>
