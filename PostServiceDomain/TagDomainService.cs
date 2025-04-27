@@ -21,9 +21,9 @@ namespace PostServiceDomain
         {
             return await repositoryTag.QueryListAsync(o => o.Name.Contains(name));
         }
-        public async Task<(List<Tag>, int)> QueryTagListByNameAsync(string name, int pageIndex, int pageSize, Expression<Func<Tag, object>> orderbyWhere)
+        public async Task<(List<Tag>, int)> QueryTagListByNameAsync(string name, int pageIndex, int pageSize, Expression<Func<Tag, object>> orderbyWhere, bool isAscending)
         {
-            return await repositoryTag.QueryListAsync(o => o.Name.Contains(name), pageIndex, pageSize, orderbyWhere);
+            return await repositoryTag.QueryListAsync(o => o.Name.Contains(name), pageIndex, pageSize, orderbyWhere, isAscending);
         }
         public async Task CareteTag(string name, Guid ownerPostId)
         {
