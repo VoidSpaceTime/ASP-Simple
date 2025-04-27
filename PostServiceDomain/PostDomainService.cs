@@ -7,9 +7,9 @@ namespace PostServiceDomain
 {
     public class PostDomainService
     {
-        private readonly IPostRepository repositoryPost;
+        private readonly IBaseRepository<Post> repositoryPost;
 
-        public PostDomainService(IPostRepository repositoryPost)
+        public PostDomainService(IBaseRepository<Post> repositoryPost)
         {
             this.repositoryPost = repositoryPost;
         }

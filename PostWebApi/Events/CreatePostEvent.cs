@@ -6,7 +6,7 @@ using PostServiceDomain.Interface;
 
 namespace PostWebApi.Events
 {
-    public class CreatePostEvent : IConsumer<CreatePostEto>
+/*    public class CreatePostEvent : IConsumer<CreatePostEto>
     {
         private readonly TagDomainService tagDomainService;
         private readonly CategoryDomainService categoryDomainService;
@@ -22,5 +22,5 @@ namespace PostWebApi.Events
             await tagDomainService.AddTag(context.Message.Tags, context.Message.Id);
             await categoryDomainService.AddCategoryAsync(context.Message.Categories, context.Message.Id);
         }
-    }
+    }*/
 }

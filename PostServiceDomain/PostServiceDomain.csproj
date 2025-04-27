@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+
   <ItemGroup>
     <ProjectReference Include="..\CommonsDomain\CommonsDomain.csproj" />
     <ProjectReference Include="..\Commons\Commons.csproj" />

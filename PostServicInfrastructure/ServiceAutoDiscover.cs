@@ -24,13 +24,13 @@ namespace PostServicInfrastructure
             //services.AddScoped(typeof(IBaseRepository<>), typeof(CommentRepository<>));
 
 
-            services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IBaseRepository<Post>, PostRepository>();
+            services.AddScoped<IBaseRepository<Comment>, CommentRepository>();
             //services.AddDbContext<PostDbContext>();
             services.AddScoped<PostDomainService>();
             services.AddScoped<CommentDomainService>();
-            services.AddScoped<CategoryDomainService>();
-            services.AddScoped<TagDomainService>();
+            //services.AddScoped<CategoryDomainService>();
+            //services.AddScoped<TagDomainService>();
         }
     }
 }

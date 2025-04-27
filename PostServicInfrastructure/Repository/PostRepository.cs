@@ -3,11 +3,13 @@ using PostServiceDomain.Interface;
 
 namespace PostServicInfrastructure.Repository
 {
-    public class PostRepository : BaseRepository<Post> , IPostRepository
+    public class PostRepository : BaseRepository<Post>
 
     {
         public PostRepository(PostDbContext dbContext) : base(dbContext)
         {
         }
     }
+
+
 }

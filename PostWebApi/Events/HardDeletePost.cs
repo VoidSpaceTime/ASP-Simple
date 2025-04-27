@@ -6,7 +6,7 @@ using CommonsDomain.ETO;
 namespace PostWebApi.Events
 {
 
-    public class HardDeletePost : IConsumer<HardDeletePostEto>
+/*    public class HardDeletePost : IConsumer<HardDeletePostEto>
     {
         private readonly TagDomainService tagDomainService;
         private readonly CategoryDomainService categoryDomainService;
@@ -22,5 +22,5 @@ namespace PostWebApi.Events
             await tagDomainService.HardDeleteAsync(context.Message.Id);
             await categoryDomainService.DeletePostAsync(context.Message.Categories, context.Message.Id);
         }
-    }
+    }*/
 }

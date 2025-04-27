@@ -11,6 +11,7 @@ using PostServicInfrastructure;
 using PostWebApi.DTO;
 using System;
 using static MassTransit.ValidationResultExtensions;
+using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostWebApi.Controllers
 {
@@ -20,10 +21,10 @@ namespace PostWebApi.Controllers
     public class CommentController : ControllerBase
     {
         private readonly CommentDomainService commentService;
-        private readonly ICommentRepository commentRepository;
+        private readonly IBaseRepository<Comment> commentRepository;
         private readonly IRequestClient<UserIdResponse> requestClient;
 
-        public CommentController(CommentDomainService commentService, ICommentRepository commentRepository, IRequestClient<UserIdResponse> requestClient)
+        public CommentController(CommentDomainService commentService, IBaseRepository<Comment> commentRepository, IRequestClient<UserIdResponse> requestClient)
         {
             this.commentService = commentService;
             this.commentRepository = commentRepository;

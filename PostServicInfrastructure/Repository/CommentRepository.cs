@@ -3,7 +3,7 @@ using PostServiceDomain.Interface;
 
 namespace PostServicInfrastructure.Repository
 {
-    public class CommentRepository : BaseRepository<Comment> , ICommentRepository
+    public class CommentRepository : BaseRepository<Comment>
     {
         public CommentRepository(PostDbContext dbContext) : base(dbContext)
         {

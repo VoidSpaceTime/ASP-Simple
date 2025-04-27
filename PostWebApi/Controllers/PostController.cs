@@ -1,21 +1,16 @@
 ﻿using ASPNETCore;
 using CommonsDomain.DTO;
 using CommonsDomain.DTO.Identity;
-using CommonsDomain.Entities;
-using CommonsDomain.Enum;
 using CommonsDomain.ETO;
 using MassTransit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PostServiceDomain;
 using PostServiceDomain.Entity;
-using PostServiceDomain.Interface;
 using PostServicInfrastructure;
 using PostWebApi.DTO;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Security.Claims;
-using System.Threading;
+using static PostServiceDomain.Interface.IBaseRepository;
 
 namespace PostWebApi.Controllers
 {
@@ -27,10 +22,10 @@ namespace PostWebApi.Controllers
     {
         private readonly IBus pubushBus;
         private readonly PostDomainService postService;
-        private readonly IPostRepository postRepository;
+        private readonly IBaseRepository<Post> postRepository;
         private readonly IRequestClient<UserIdResponse> requestClient;
 
-        public PostController(PostDomainService postService, IPostRepository postRepository, IRequestClient<UserIdResponse> requestClient, IBus pubushBus)
+        public PostController(PostDomainService postService, IBaseRepository<Post> postRepository, IRequestClient<UserIdResponse> requestClient, IBus pubushBus)
         {
             this.postService = postService;
             this.postRepository = postRepository;
@@ -135,7 +130,7 @@ namespace PostWebApi.Controllers
             var post = Post.Create(postSubmitRequest.Title, postSubmitRequest.Content, userId, postSubmitRequest.Categories, postSubmitRequest.Tags, postSubmitRequest.ConvertUri, postSubmitRequest.Files);
 
             await postService.CreatePostAsync(post);
-            await pubushBus.Publish(new CreatePostEto(post.Id, post.Title, post.Tags, post.Categories));
+            //await pubushBus.Publish(new CreatePostEto(post.Id, post.Title, post.Tags, post.Categories));
             return res.Succeed(post.Id);
 
         }
@@ -153,9 +148,10 @@ namespace PostWebApi.Controllers
         public async Task<JsonResponseL> DeletePost(string postId)
         {
             var res = new JsonResponseL();
-            var post = await postRepository.FindAsync(Guid.Parse(postId));
+            var guid = Guid.Parse(postId);
+            var post = await postRepository.FindAsync(guid);
             await postRepository.HardDeleteAsync(post);
-            await pubushBus.Publish(new HardDeletePostEto(post.Id, post.Title, post.Categories));
+            //await pubushBus.Publish(new HardDeletePostEto(post.Id, post.Title, post.Categories));
             return res.Succeed();
         }
     }
