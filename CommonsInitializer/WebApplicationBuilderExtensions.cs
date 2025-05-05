@@ -94,7 +94,10 @@ namespace CommonsInitializer
 
                 x.UsingRabbitMq((context, config) =>
                 {
-
+                    if (configOpt.RabbitMQConnection == null)
+                    {
+                        throw new Exception("RabbitMQ Config is null");
+                    }
                     config.Host($"rabbitmq://{configOpt.RabbitMQConnection.HostName}", hostconfig =>
                     {
                         hostconfig.Username(configOpt.RabbitMQConnection.UserName);
@@ -117,6 +120,10 @@ namespace CommonsInitializer
             //JWTOptions jwtOpt = configuration.Get<JWTOptions>()!;
             //JWTOptions jwtOpt = builder.Configuration.GetSection(nameof(JWTOptions));
             builder.Services.Configure<JWTOptions>(builder.Configuration.GetSection("EntityConfigurationOptions:JWTOptions"));
+            if (configOpt.JWTOptions == null)
+            {
+                throw new Exception($"未配置JWT配置:{nameof(configOpt.JWTOptions)}");
+            }
             builder.Services.AddJWTAuthentication(configOpt.JWTOptions);
 
             #endregion
